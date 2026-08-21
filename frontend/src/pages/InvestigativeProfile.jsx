@@ -1,27 +1,56 @@
 ﻿import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { exportAuditDossier } from '../utils/auditDossier';
+import { useInvestigator } from '../context/InvestigatorContext';
 
 export default function InvestigativeProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { homeCountryName } = useInvestigator();
 
   const [actionDone, setActionDone] = useState(null);
   const [submittingAction, setSubmittingAction] = useState(false);
 
-  // Persists the decision to the backend audit trail and surfaces the ticket ID
+  // Persists the decision to the backend audit trail (rendered live on the
+  // Dashboard's Compliance Audit Ledger) and surfaces the ticket ID here.
+  const postAction = async (action) => {
+    const res = await fetch('/api/audit-actions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ entityId: id, entityName: data?.entity?.name, action }),
+    });
+    queryClient.invalidateQueries({ queryKey: ['audit-actions'] });
+    return res.json();
+  };
+
   const recordAction = async (action, confirmation) => {
     setSubmittingAction(true);
     try {
-      const res = await fetch('/api/audit-actions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ entityId: id, action }),
-      });
-      const data = await res.json();
-      setActionDone(data?.ticket ? `${confirmation} Ticket #${data.ticket} logged.` : confirmation);
+      const ticketData = await postAction(action);
+      setActionDone(
+        ticketData?.ticket
+          ? `${confirmation} Ticket #${ticketData.ticket} logged to the Audit Ledger.`
+          : confirmation
+      );
     } catch {
       setActionDone(confirmation);
+    } finally {
+      setSubmittingAction(false);
+    }
+  };
+
+  // Downloads the full audit ledger as a PDF dossier, then records that fact.
+  const handleExportDossier = async () => {
+    setSubmittingAction(true);
+    try {
+      const trail = await fetch('/api/audit-actions?limit=100').then((r) => r.json());
+      exportAuditDossier(trail?.actions || [], { homeCountryName });
+      await postAction('EXPORT_AUDIT_DOSSIER');
+      setActionDone('AUDIT DOSSIER DOWNLOADED AND LOGGED TO THE LEDGER.');
+    } catch {
+      setActionDone('DOSSIER DOWNLOAD FAILED.');
     } finally {
       setSubmittingAction(false);
     }
@@ -337,10 +366,7 @@ export default function InvestigativeProfile() {
                 </button>
 
                 <button
-                  onClick={() => {
-                    window.print();
-                    recordAction('EXPORT_AUDIT_DOSSIER', 'INVESTIGATIVE AUDIT DOSSIER EXPORTED.');
-                  }}
+                  onClick={handleExportDossier}
                   disabled={submittingAction}
                   className="w-full py-2.5 rounded-xl bg-transparent hover:bg-surface-container text-primary font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 disabled:opacity-60 disabled:cursor-wait"
                 >

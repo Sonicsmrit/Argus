@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import GlobeWidget from '../components/GlobeWidget';
+import AuditLedgerPanel from '../components/AuditLedgerPanel';
 import { COUNTRY_NAMES, getShortName } from '../data/bilateralRules';
 import { useInvestigator } from '../context/InvestigatorContext';
 
@@ -240,6 +241,9 @@ export default function Dashboard() {
               <GlobeWidget />
             </div>
           </div>
+
+          {/* Compliance Audit Ledger — persistent record of enforcement decisions */}
+          <AuditLedgerPanel />
         </div>
 
         {/* Right: AI Insights Sidebar & Dynamic Checklist (4 Cols) */}

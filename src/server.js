@@ -801,13 +801,14 @@ app.post('/api/audit-actions', (req, res) => {
 app.get('/api/audit-actions', (req, res) => {
     try {
         const limit = Math.min(parseInt(req.query.limit || '20', 10), 100);
+        const total = db.prepare(`SELECT COUNT(*) as c FROM audit_actions`).get().c;
         const actions = db.prepare(`
             SELECT id, entity_id, entity_name, action, created_at
             FROM audit_actions
             ORDER BY id DESC
             LIMIT ?
         `).all(limit);
-        res.json({ actions });
+        res.json({ total, actions });
     } catch (err) {
         console.error('Audit Actions Error:', err);
         res.status(500).json({ error: 'Failed to fetch audit actions' });
