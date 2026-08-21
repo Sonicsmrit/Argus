@@ -4,3 +4,4 @@ frontend/dist/
 *.db
 data/opensanctions_targets.csv
 scratch/temp_*.json
+data/country-stats.json

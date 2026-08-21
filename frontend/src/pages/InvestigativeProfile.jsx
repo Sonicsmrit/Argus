@@ -1,52 +1,50 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
 export default function InvestigativeProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [data, setData] = useState(null);
-  const [aiData, setAiData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [loadingAi, setLoadingAi] = useState(true);
   const [actionDone, setActionDone] = useState(null);
+  const [submittingAction, setSubmittingAction] = useState(false);
 
-  useEffect(() => {
-    let isMounted = true;
-    setLoading(true);
-
-    fetch(`/api/entities/${id}/articles`)
-      .then((res) => res.json())
-      .then((resData) => {
-        if (isMounted) {
-          setData(resData);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.error('Failed to load entity articles:', err);
-        if (isMounted) setLoading(false);
+  // Persists the decision to the backend audit trail and surfaces the ticket ID
+  const recordAction = async (action, confirmation) => {
+    setSubmittingAction(true);
+    try {
+      const res = await fetch('/api/audit-actions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ entityId: id, action }),
       });
+      const data = await res.json();
+      setActionDone(data?.ticket ? `${confirmation} Ticket #${data.ticket} logged.` : confirmation);
+    } catch {
+      setActionDone(confirmation);
+    } finally {
+      setSubmittingAction(false);
+    }
+  };
 
-    setLoadingAi(true);
-    fetch(`/api/ai/entity-analysis/${id}`)
-      .then((res) => res.json())
-      .then((aiRes) => {
-        if (isMounted) {
-          const analysis = aiRes?.analysis || aiRes;
-          setAiData(analysis);
-          setLoadingAi(false);
-        }
-      })
-      .catch((err) => {
-        console.error('Failed to load AI entity analysis:', err);
-        if (isMounted) setLoadingAi(false);
-      });
+  // Cached dossier + AI synthesis (instant on revisit of a previously viewed entity)
+  const {
+    data,
+    isLoading: loading,
+  } = useQuery({
+    queryKey: ['entity-articles', id],
+    queryFn: () => fetch(`/api/entities/${id}/articles`).then((res) => res.json()),
+    enabled: !!id,
+  });
 
-    return () => {
-      isMounted = false;
-    };
-  }, [id]);
+  const { data: aiData, isLoading: loadingAi } = useQuery({
+    queryKey: ['entity-ai', id],
+    queryFn: () =>
+      fetch(`/api/ai/entity-analysis/${id}`)
+        .then((res) => res.json())
+        .then((aiRes) => aiRes?.analysis || aiRes),
+    enabled: !!id,
+  });
 
   if (loading) {
     return (
@@ -321,27 +319,30 @@ export default function InvestigativeProfile() {
             ) : (
               <div className="space-y-3">
                 <button
-                  onClick={() => setActionDone('TRANSACTION REJECTED & ASSETS FROZEN. Logged in audit registry.')}
-                  className="w-full py-3.5 rounded-xl bg-error hover:bg-error/90 text-white font-button text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2"
+                  onClick={() => recordAction('REJECT_FREEZE_TRANSACTION', 'TRANSACTION REJECTED & ASSETS FROZEN.')}
+                  disabled={submittingAction}
+                  className="w-full py-3.5 rounded-xl bg-error hover:bg-error/90 text-white font-button text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-wait"
                 >
                   <span className="material-symbols-outlined text-[18px]">block</span>
-                  Reject &amp; Freeze Transaction
+                  {submittingAction ? 'Recording decision...' : 'Reject & Freeze Transaction'}
                 </button>
 
                 <button
-                  onClick={() => setActionDone('ESCALATED TO COMPLIANCE COMMITTEE. Case ticket #SV-9942 created.')}
-                  className="w-full py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-button text-sm font-bold transition-all flex items-center justify-center gap-2 border border-outline-variant/20"
+                  onClick={() => recordAction('ESCALATE_TO_COMMITTEE', 'ESCALATED TO COMPLIANCE COMMITTEE.')}
+                  disabled={submittingAction}
+                  className="w-full py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-button text-sm font-bold transition-all flex items-center justify-center gap-2 border border-outline-variant/20 disabled:opacity-60 disabled:cursor-wait"
                 >
                   <span className="material-symbols-outlined text-[18px]">gavel</span>
-                  Escalate to Committee
+                  {submittingAction ? 'Recording decision...' : 'Escalate to Committee'}
                 </button>
 
                 <button
                   onClick={() => {
                     window.print();
-                    setActionDone('INVESTIGATIVE AUDIT DOSSIER EXPORTED.');
+                    recordAction('EXPORT_AUDIT_DOSSIER', 'INVESTIGATIVE AUDIT DOSSIER EXPORTED.');
                   }}
-                  className="w-full py-2.5 rounded-xl bg-transparent hover:bg-surface-container text-primary font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+                  disabled={submittingAction}
+                  className="w-full py-2.5 rounded-xl bg-transparent hover:bg-surface-container text-primary font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 disabled:opacity-60 disabled:cursor-wait"
                 >
                   <span className="material-symbols-outlined text-[16px]">download</span>
                   Export Audit Dossier (PDF)

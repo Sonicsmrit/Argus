@@ -1,7 +1,15 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { COUNTRY_NAMES, getBilateralRisk } from '../data/bilateralRules';
 import { useInvestigator } from '../context/InvestigatorContext';
+
+const AI_STAGES = [
+  'Querying OpenSanctions registry...',
+  'Correlating live adverse media signals...',
+  'Applying OFAC / EU / UN program rules...',
+  'Synthesizing Gemini executive assessment...',
+];
 
 export default function ThreatBriefing() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -10,9 +18,6 @@ export default function ThreatBriefing() {
 
   const [fromCountry, setFromCountry] = useState(searchParams.get('from') || profile.homeCountry || 'US');
   const [toCountry, setToCountry] = useState(searchParams.get('to') || 'RU');
-  const [loadingAi, setLoadingAi] = useState(false);
-  const [aiData, setAiData] = useState(null);
-  const [mediaData, setMediaData] = useState(null);
 
   // Search filter for dropdowns
   const [fromSearch, setFromSearch] = useState('');
@@ -33,47 +38,41 @@ export default function ThreatBriefing() {
 
   const ruleAssessment = getBilateralRisk(fromCountry, toCountry);
 
-  // Fetch AI bilateral threat assessment
-  useEffect(() => {
-    let isMounted = true;
-    setLoadingAi(true);
-
-    fetch('/api/ai/bilateral-risk', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        from: fromCountry,
-        to: toCountry,
-        fromName: COUNTRY_NAMES[fromCountry] || fromCountry,
-        toName: COUNTRY_NAMES[toCountry] || toCountry,
-        bilateralRisk: ruleAssessment
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (isMounted) {
-          const analysis = data?.analysis || data;
-          setAiData(analysis);
-          setLoadingAi(false);
-        }
+  // Cached AI bilateral threat assessment (server also memoizes per corridor)
+  const { data: aiData, isLoading: loadingAi } = useQuery({
+    queryKey: ['bilateral-risk', fromCountry, toCountry],
+    queryFn: () =>
+      fetch('/api/ai/bilateral-risk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from: fromCountry,
+          to: toCountry,
+          fromName: COUNTRY_NAMES[fromCountry] || fromCountry,
+          toName: COUNTRY_NAMES[toCountry] || toCountry,
+          bilateralRisk: ruleAssessment,
+        }),
       })
-      .catch((err) => {
-        console.error('AI bilateral risk error:', err);
-        if (isMounted) setLoadingAi(false);
-      });
+        .then((res) => res.json())
+        .then((data) => data?.analysis || data),
+  });
 
-    return () => {
-      isMounted = false;
-    };
-  }, [fromCountry, toCountry]);
+  // Cached adverse media signals for destination
+  const { data: mediaData } = useQuery({
+    queryKey: ['media-signals', toCountry.toLowerCase(), 4],
+    queryFn: () => fetch(`/api/media/signals?country=${toCountry.toLowerCase()}&limit=4`).then((res) => res.json()),
+  });
 
-  // Fetch real adverse media signals for destination
+  // Progress through visible analysis stages while Gemini is generating
+  const [aiStage, setAiStage] = useState(0);
   useEffect(() => {
-    fetch(`/api/media/signals?country=${toCountry.toLowerCase()}&limit=4`)
-      .then((res) => res.json())
-      .then((data) => setMediaData(data))
-      .catch((err) => console.error('Error fetching media signals:', err));
-  }, [toCountry]);
+    if (!loadingAi) return;
+    setAiStage(0);
+    const timer = setInterval(() => {
+      setAiStage((s) => Math.min(s + 1, AI_STAGES.length - 1));
+    }, 2200);
+    return () => clearInterval(timer);
+  }, [loadingAi, fromCountry, toCountry]);
 
   const handleSwap = () => {
     const newFrom = toCountry;
@@ -93,11 +92,22 @@ export default function ThreatBriefing() {
     }
   };
 
-  const numericScore = aiData?.threatScore || (ruleAssessment.overallRisk ? ruleAssessment.overallRisk * 10 : 85);
-  const severityLevel = aiData?.threatRating || (numericScore >= 75 ? 'CRITICAL' : numericScore >= 50 ? 'HIGH' : 'ELEVATED');
-
-  const sparklineData = mediaData?.sparkline || [20, 25, 30, 28, 45, 60, 52, 70, 85, 95, 88, 100];
+  // Honest pre-AI fallback: score derives from actual sanctions program risk.
+  // Corridors with no applicable program start LOW and only rise with real
+  // corroborated adverse-media hits for the destination jurisdiction.
   const realSignals = mediaData?.signals || [];
+  const sparklineData = mediaData?.sparkline || [20, 25, 30, 28, 45, 60, 52, 70, 85, 95, 88, 100];
+  const fallbackScore = ruleAssessment.overallRisk > 0
+    ? Math.min(100, ruleAssessment.overallRisk * 10)
+    : Math.min(60, 12 + realSignals.length * 6);
+  const numericScore = aiData?.threatScore || fallbackScore;
+  const severityLevel = aiData?.threatRating
+    || (numericScore >= 75 ? 'CRITICAL' : numericScore >= 50 ? 'HIGH' : numericScore >= 25 ? 'ELEVATED' : 'LOW');
+  const gaugeStrokeClass = severityLevel === 'CRITICAL' || severityLevel === 'HIGH'
+    ? 'stroke-error'
+    : severityLevel === 'ELEVATED'
+      ? 'stroke-secondary'
+      : 'stroke-emerald-500';
 
   return (
     <div className="flex flex-col w-full relative pb-stack-lg animate-[fade-in_0.4s_ease-out]">
@@ -223,16 +233,44 @@ export default function ThreatBriefing() {
               </div>
 
               <div className="space-y-4 relative z-10">
-                <p className="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
-                  The bilateral trade corridor between <span className="font-bold text-on-surface">{COUNTRY_NAMES[fromCountry] || fromCountry}</span> and <span className="font-bold text-error">{COUNTRY_NAMES[toCountry] || toCountry}</span> exhibits an active compliance exposure posture.
-                  {aiData?.executiveSummary ? (
-                    <span> {aiData.executiveSummary}</span>
-                  ) : (
-                    <span>
-                      {' '}Recent cross-border telemetry highlights elevated risk in transshipment obfuscation and dual-use supply chains. Under applicable OFAC and multilateral frameworks, transactions are subject to rigorous end-user verification and secondary sanctions liabilities.
-                    </span>
-                  )}
-                </p>
+                {loadingAi && !aiData ? (
+                  <div className="flex flex-col gap-4">
+                    <p className="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                      Currently the AI agent is performing an extensive threat summary on{' '}
+                      <span className="font-bold text-on-surface">{COUNTRY_NAMES[fromCountry] || fromCountry}</span>
+                      {' '}&rarr;{' '}
+                      <span className="font-bold text-error">{COUNTRY_NAMES[toCountry] || toCountry}</span>.
+                      It cross-references sanctioned entity records, live adverse media signals, and every
+                      sanctions program applicable to this corridor before synthesizing the executive assessment.
+                    </p>
+                    <ul className="space-y-2.5 pt-1">
+                      {AI_STAGES.map((stage, i) => (
+                        <li
+                          key={stage}
+                          className={`flex items-center gap-3 font-mono text-xs transition-all duration-500 ${
+                            i <= aiStage ? 'text-on-surface opacity-100' : 'text-outline opacity-40'
+                          }`}
+                        >
+                          {i < aiStage ? (
+                            <span className="material-symbols-outlined text-[18px] text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                          ) : i === aiStage ? (
+                            <span className="material-symbols-outlined text-[18px] animate-spin text-primary">progress_activity</span>
+                          ) : (
+                            <span className="material-symbols-outlined text-[18px] text-outline">radio_button_unchecked</span>
+                          )}
+                          {stage}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <p className="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                    The bilateral trade corridor between <span className="font-bold text-on-surface">{COUNTRY_NAMES[fromCountry] || fromCountry}</span> and <span className="font-bold text-error">{COUNTRY_NAMES[toCountry] || toCountry}</span> exhibits an active compliance exposure posture.
+                    {aiData?.executiveSummary && (
+                      <span> {aiData.executiveSummary}</span>
+                    )}
+                  </p>
+                )}
 
                 {aiData?.adverseMediaSignal && (
                   <p className="font-body-md text-body-md text-on-surface-variant/90 border-l-2 border-primary pl-4 my-2 italic">
@@ -337,7 +375,7 @@ export default function ThreatBriefing() {
                 <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
                   <circle className="text-inverse-surface stroke-current opacity-40" cx="50" cy="50" fill="none" r="42" strokeWidth="8"></circle>
                   <circle
-                    className="stroke-error transition-all duration-1000 ease-out"
+                    className={`${gaugeStrokeClass} transition-all duration-1000 ease-out`}
                     cx="50"
                     cy="50"
                     fill="none"

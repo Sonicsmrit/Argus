@@ -1,21 +1,12 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 export default function SystemStatus() {
-  const [status, setStatus] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('/api/system/status')
-      .then((res) => res.json())
-      .then((data) => {
-        setStatus(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Status error:', err);
-        setLoading(false);
-      });
-  }, []);
+  // Shares the ['system-status'] key with Dashboard — one fetch serves both pages
+  const { data: status } = useQuery({
+    queryKey: ['system-status'],
+    queryFn: () => fetch('/api/system/status').then((res) => res.json()),
+  });
 
   const collectors = [
     { name: 'OCCRP (Organized Crime & Corruption)', status: 'ACTIVE', items: 428, lastRun: '2 hours ago' },

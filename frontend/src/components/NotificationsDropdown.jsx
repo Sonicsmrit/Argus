@@ -1,26 +1,27 @@
 ﻿import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { useInvestigator } from '../context/InvestigatorContext';
 
 export default function NotificationsDropdown({ isOpen, onClose }) {
   const navigate = useNavigate();
   const { profile } = useInvestigator();
-  const [notifications, setNotifications] = useState([]);
   const [filter, setFilter] = useState('ALL');
+  const [readIds, setReadIds] = useState(new Set());
   const dropdownRef = useRef(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      fetch(`/api/notifications?homeCountry=${profile.homeCountry}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data?.notifications) {
-            setNotifications(data.notifications);
-          }
-        })
-        .catch((err) => console.error('Failed to load notifications:', err));
-    }
-  }, [isOpen, profile.homeCountry]);
+  // Cached per home country; refetched only when stale (5 min) or country changes
+  const { data } = useQuery({
+    queryKey: ['notifications', profile.homeCountry],
+    queryFn: () =>
+      fetch(`/api/notifications?homeCountry=${profile.homeCountry}`).then((res) => res.json()),
+    enabled: isOpen,
+  });
+
+  const notifications = (data?.notifications || []).map((n) => ({
+    ...n,
+    unread: n.unread && !readIds.has(n.id),
+  }));
 
   // Click outside to close
   useEffect(() => {
@@ -46,13 +47,11 @@ export default function NotificationsDropdown({ isOpen, onClose }) {
   const unreadCount = notifications.filter((n) => n.unread).length;
 
   const markAllRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
+    setReadIds(new Set(notifications.filter((n) => n.unread).map((n) => n.id)));
   };
 
   const handleNotificationClick = (notif) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === notif.id ? { ...n, unread: false } : n))
-    );
+    setReadIds((prev) => new Set(prev).add(notif.id));
     onClose();
     if (notif.link) {
       navigate(notif.link);

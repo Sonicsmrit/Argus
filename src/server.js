@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const Database = require('better-sqlite3');
 const path = require('path');
-const { DB_PATH, DIST_DIR } = require('./lib/paths');
+const fs = require('fs');
+const { DB_PATH, DIST_DIR, DATA_DIR } = require('./lib/paths');
 
 const app = express();
 const port = 3001;
@@ -25,72 +26,121 @@ try {
     process.exit(1);
 }
 
-// In-memory cache for country stats
+// Compliance action audit trail (created on demand for existing databases)
+db.exec(`
+    CREATE TABLE IF NOT EXISTS audit_actions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        entity_id TEXT,
+        entity_name TEXT,
+        action TEXT NOT NULL,
+        created_at TEXT DEFAULT (datetime('now'))
+    )
+`);
+
+// Country stats: in-memory cache over a disk-persisted snapshot.
+// The full aggregation scans 1.1M+ rows, so it must never run per-request.
+// The snapshot is invalidated when new media matches arrive (watermark check
+// on the tiny entity_matches table) or after MAX_AGE, whichever comes first.
+const COUNTRY_STATS_FILE = path.join(DATA_DIR, 'country-stats.json');
+const COUNTRY_STATS_TTL = 5 * 60 * 1000; // serve-from-memory window
+const COUNTRY_STATS_MAX_AGE = 6 * 60 * 60 * 1000; // disk snapshot validity
+
 let countryStatsCache = {
     data: null,
     timestamp: 0,
-    TTL: 5 * 60 * 1000 // 5 minutes
 };
+
+function currentMediaWatermark() {
+    return db.prepare('SELECT MAX(created_at) as wm FROM entity_matches').get().wm || '';
+}
+
+function loadCountryStatsFromDisk(watermark) {
+    try {
+        const raw = JSON.parse(fs.readFileSync(COUNTRY_STATS_FILE, 'utf8'));
+        const ageOk = Date.now() - raw.computedAt < COUNTRY_STATS_MAX_AGE;
+        if (ageOk && raw.watermark === watermark && raw.stats) {
+            return raw.stats;
+        }
+    } catch (_) { /* no snapshot yet */ }
+    return null;
+}
+
+function computeCountryStats() {
+    const matchCountsMap = new Map();
+    for (const row of db.prepare(`
+        SELECT entity_id, COUNT(*) as matchCount
+        FROM entity_matches
+        GROUP BY entity_id
+    `).all()) {
+        matchCountsMap.set(row.entity_id, row.matchCount);
+    }
+
+    const stats = {};
+    const iter = db.prepare(`
+        SELECT id, countries 
+        FROM sanctioned_entities 
+        WHERE countries IS NOT NULL AND countries != ''
+    `).iterate();
+
+    for (const entity of iter) {
+        const hasHit = matchCountsMap.has(entity.id) ? 1 : 0;
+        const mc = matchCountsMap.get(entity.id) || 0;
+        const codes = entity.countries.toLowerCase().split(';');
+        for (let i = 0; i < codes.length; i++) codes[i] = codes[i].trim();
+        for (let i = 0; i < codes.length; i++) {
+            const code = codes[i];
+            if (!code || codes.indexOf(code) !== i) continue; // skip empties and duplicates
+            let bucket = stats[code];
+            if (!bucket) {
+                bucket = stats[code] = { entityCount: 0, mediaHitEntities: 0, mediaHitCount: 0 };
+            }
+            bucket.entityCount += 1;
+            bucket.mediaHitEntities += hasHit;
+            bucket.mediaHitCount += mc;
+        }
+    }
+
+    return stats;
+}
+
+// Returns { stats, fromCache } — fromCache is false only when the heavy
+// computation actually ran.
+function getCountryStats() {
+    const now = Date.now();
+    if (countryStatsCache.data && now - countryStatsCache.timestamp < COUNTRY_STATS_TTL) {
+        return { stats: countryStatsCache.data, fromCache: true };
+    }
+
+    const watermark = currentMediaWatermark();
+    const fromDisk = loadCountryStatsFromDisk(watermark);
+    if (fromDisk) {
+        countryStatsCache.data = fromDisk;
+        countryStatsCache.timestamp = now;
+        return { stats: fromDisk, fromCache: true };
+    }
+
+    const stats = computeCountryStats();
+    countryStatsCache.data = stats;
+    countryStatsCache.timestamp = now;
+
+    try {
+        fs.mkdirSync(DATA_DIR, { recursive: true });
+        fs.writeFileSync(
+            COUNTRY_STATS_FILE,
+            JSON.stringify({ computedAt: now, watermark, stats })
+        );
+    } catch (err) {
+        console.error('Failed to persist country stats:', err.message);
+    }
+
+    return { stats, fromCache: false };
+}
 
 // GET /api/countries/stats
 app.get('/api/countries/stats', (req, res) => {
     try {
-        const now = Date.now();
-        if (countryStatsCache.data && (now - countryStatsCache.timestamp < countryStatsCache.TTL)) {
-            return res.json({ stats: countryStatsCache.data, cached: true });
-        }
-
-        // Fetch all countries to calculate stats
-        const entitiesQuery = `
-            SELECT id, countries 
-            FROM sanctioned_entities 
-            WHERE countries IS NOT NULL AND countries != ''
-        `;
-        
-        const entities = db.prepare(entitiesQuery).all();
-        
-        // Fetch match counts per entity in a single query
-        const matchCountsQuery = `
-            SELECT entity_id, COUNT(*) as matchCount
-            FROM entity_matches
-            GROUP BY entity_id
-        `;
-        
-        const matchCountsRow = db.prepare(matchCountsQuery).all();
-        const matchCountsMap = new Map();
-        for (const row of matchCountsRow) {
-            matchCountsMap.set(row.entity_id, row.matchCount);
-        }
-        
-        const stats = {};
-        
-        for (const entity of entities) {
-            const countryCodes = entity.countries.toLowerCase().split(';');
-            const matchCount = matchCountsMap.get(entity.id) || 0;
-            const hasHit = matchCount > 0 ? 1 : 0;
-            
-            // Deduplicate country codes for a single entity
-            const uniqueCodes = [...new Set(countryCodes.map(c => c.trim()).filter(c => c))];
-            
-            for (const code of uniqueCodes) {
-                if (!stats[code]) {
-                    stats[code] = {
-                        entityCount: 0,
-                        mediaHitEntities: 0,
-                        mediaHitCount: 0
-                    };
-                }
-                
-                stats[code].entityCount += 1;
-                stats[code].mediaHitEntities += hasHit;
-                stats[code].mediaHitCount += matchCount;
-            }
-        }
-        
-        countryStatsCache.data = stats;
-        countryStatsCache.timestamp = now;
-        
-        res.json({ stats });
+        const { stats, fromCache } = getCountryStats();
+        res.json({ stats, cached: fromCache });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -359,26 +409,113 @@ app.get('/api/media/signals', (req, res) => {
             params = [country, `${country};%`, `%;${country};%`, `%;${country}`];
         }
 
-        query += ` ORDER BY em.score DESC, em.id DESC LIMIT ?`;
+        query += ` ORDER BY em.score DESC, em.created_at DESC LIMIT ?`;
         params.push(limit);
 
         const signals = db.prepare(query).all(...params);
 
-        // Compute 12-bar real activity histogram from database
-        const matchCountsBySource = db.prepare(`
-            SELECT article_source, COUNT(*) as count 
-            FROM entity_matches 
-            GROUP BY article_source 
-            ORDER BY count DESC
-        `).all();
+        // Real 12-month publication histogram, normalized to peak activity.
+        // When a country is provided, only articles corroborating entities from
+        // that jurisdiction are counted.
+        const countryMatchClause = `(LOWER(em.entity_countries) = ? OR LOWER(em.entity_countries) LIKE ? OR LOWER(em.entity_countries) LIKE ? OR LOWER(em.entity_countries) LIKE ?)`;
+        const countryMatchParams = (c) => [c, `${c};%`, `%;${c};%`, `%;${c}`];
 
-        // Calculate distribution
-        const totalMatches = db.prepare(`SELECT COUNT(*) as c FROM entity_matches`).get().c;
-        const sparkline = [22, 35, 28, 42, 58, 65, 72, 68, 84, 92, 88, 100];
+        let histogramRows;
+        if (country) {
+            histogramRows = db.prepare(`
+                SELECT strftime('%Y-%m', a.publish_date) as ym, COUNT(DISTINCT a.id) as c
+                FROM articles a
+                JOIN entity_matches em ON em.article_id = a.id
+                WHERE a.publish_date IS NOT NULL AND ${countryMatchClause}
+                GROUP BY ym
+                ORDER BY ym ASC
+            `).all(...countryMatchParams(country));
+        } else {
+            histogramRows = db.prepare(`
+                SELECT strftime('%Y-%m', publish_date) as ym, COUNT(*) as c
+                FROM articles
+                WHERE publish_date IS NOT NULL
+                GROUP BY ym
+                ORDER BY ym ASC
+            `).all();
+        }
+        const last12Months = histogramRows.slice(-12);
+        const peak = Math.max(...last12Months.map((r) => r.c), 1);
+        const sparkline = last12Months.map((r) => Math.max(4, Math.round((r.c / peak) * 100)));
+
+        // Adverse velocity: publications in last 30 days vs previous 30 days,
+        // scoped the same way as the histogram.
+        let recentCount, priorCount;
+        if (country) {
+            recentCount = db.prepare(`
+                SELECT COUNT(DISTINCT a.id) as c
+                FROM articles a
+                JOIN entity_matches em ON em.article_id = a.id
+                WHERE ${countryMatchClause}
+                  AND a.publish_date >= datetime('now', '-30 days')
+            `).get(...countryMatchParams(country)).c;
+            priorCount = db.prepare(`
+                SELECT COUNT(DISTINCT a.id) as c
+                FROM articles a
+                JOIN entity_matches em ON em.article_id = a.id
+                WHERE ${countryMatchClause}
+                  AND a.publish_date >= datetime('now', '-60 days')
+                  AND a.publish_date < datetime('now', '-30 days')
+            `).get(...countryMatchParams(country)).c;
+        } else {
+            recentCount = db.prepare(`SELECT COUNT(*) as c FROM articles WHERE publish_date >= datetime('now', '-30 days')`).get().c;
+            priorCount = db.prepare(`SELECT COUNT(*) as c FROM articles WHERE publish_date >= datetime('now', '-60 days') AND publish_date < datetime('now', '-30 days')`).get().c;
+        }
+
+        let velocityPct = 0;
+        if (priorCount > 0) {
+            velocityPct = Math.round(((recentCount - priorCount) / priorCount) * 100);
+        } else if (recentCount > 0) {
+            velocityPct = 100;
+        }
+        velocityPct = Math.max(-999, Math.min(999, velocityPct));
+
+        let adverseVelocity;
+        if (last12Months.length === 0) {
+            adverseVelocity = 'NO SIGNAL DATA';
+        } else {
+            adverseVelocity = `${velocityPct >= 0 ? '+' : ''}${velocityPct}% ${velocityPct >= 0 ? 'ADVERSE SPIKE' : 'COOLING'}`;
+        }
+
+        // Totals and per-source breakdown follow the same country scope as
+        // the histogram/velocity above.
+        let totalMatches;
+        let matchCountsBySource;
+        if (country) {
+            const scopeParams = countryMatchParams(country);
+            totalMatches = db.prepare(`
+                SELECT COUNT(*) as c
+                FROM entity_matches em
+                WHERE ${countryMatchClause}
+            `).get(...scopeParams).c;
+            matchCountsBySource = db.prepare(`
+                SELECT em.article_source as source, COUNT(*) as count
+                FROM entity_matches em
+                WHERE ${countryMatchClause}
+                GROUP BY em.article_source
+                ORDER BY count DESC
+            `).all(...scopeParams);
+        } else {
+            totalMatches = db.prepare(`SELECT COUNT(*) as c FROM entity_matches`).get().c;
+            matchCountsBySource = db.prepare(`
+                SELECT article_source as source, COUNT(*) as count
+                FROM entity_matches
+                GROUP BY article_source
+                ORDER BY count DESC
+            `).all();
+        }
 
         res.json({
             country: country || 'GLOBAL',
-            adverseVelocity: '+52% ADVERSE SPIKE',
+            adverseVelocity,
+            velocityPct,
+            recentCount,
+            priorCount,
             totalCorroborations: totalMatches,
             sparkline,
             sourceBreakdown: matchCountsBySource,
@@ -390,65 +527,120 @@ app.get('/api/media/signals', (req, res) => {
     }
 });
 
-// GET /api/checklists/:country
+// GET /api/checklists/:country — compliance tasks generated from live database
+// state for the selected target jurisdiction, framed for the investigator's
+// home regime (?home=XX). Nothing is ever pre-completed.
 app.get('/api/checklists/:country', (req, res) => {
     try {
-        const country = (req.params.country || 'RU').toLowerCase();
-        const stats = db.prepare(`
-            SELECT COUNT(*) as entityCount 
-            FROM sanctioned_entities 
-            WHERE LOWER(countries) = ? OR LOWER(countries) LIKE ? OR LOWER(countries) LIKE ? OR LOWER(countries) LIKE ?
-        `).get(country, `${country};%`, `%;${country};%`, `%;${country}`);
-
-        const topCorroborated = db.prepare(`
-            SELECT se.name, COUNT(em.id) as matchCount
-            FROM sanctioned_entities se
-            JOIN entity_matches em ON em.entity_id = se.id
-            WHERE LOWER(se.countries) = ? OR LOWER(se.countries) LIKE ? OR LOWER(se.countries) LIKE ? OR LOWER(se.countries) LIKE ?
-            GROUP BY se.id
-            ORDER BY matchCount DESC
-            LIMIT 3
-        `).all(country, `${country};%`, `%;${country};%`, `%;${country}`);
-
+        const country = (req.params.country || 'ru').toLowerCase();
+        const home = (req.query.home || 'us').toLowerCase();
         const countryUpper = country.toUpperCase();
+        const homeUpper = home.toUpperCase();
+
+        const buildWhere = (column, c) =>
+            ['=', 'LIKE', 'LIKE', 'LIKE'].map((op, i) => {
+                const pattern = [c, `${c};%`, `%;${c};%`, `%;${c}`][i];
+                return op === '=' ? `LOWER(${column}) = ?` : `LOWER(${column}) LIKE ?`;
+            }).join(' OR ');
+
+        // entityCount comes from the shared 5-min country-stats snapshot
+        // (no per-request scan of sanctioned_entities). Corroboration figures
+        // come from entity_matches alone — it stores denormalized
+        // entity_countries/entity_name, so no join is needed.
+        const { stats: allStats } = getCountryStats();
+        const entityCount = allStats[country]?.entityCount || 0;
+
+        const whereMatches = buildWhere('em.entity_countries', country);
+        const matchArgs = [country, `${country};%`, `%;${country};%`, `%;${country}`];
+        const matches = db.prepare(`
+            SELECT em.article_id, em.entity_id, em.entity_name
+            FROM entity_matches em
+            WHERE ${whereMatches}
+        `).all(...matchArgs);
+
+        const articleIds = new Set();
+        const perEntity = new Map();
+        for (const m of matches) {
+            articleIds.add(m.article_id);
+            const cur = perEntity.get(m.entity_id);
+            if (cur) {
+                cur.matchCount += 1;
+            } else {
+                perEntity.set(m.entity_id, { id: m.entity_id, name: m.entity_name, matchCount: 1 });
+            }
+        }
+        let topCorroborated = null;
+        for (const cand of perEntity.values()) {
+            if (!topCorroborated || cand.matchCount > topCorroborated.matchCount) {
+                topCorroborated = cand;
+            }
+        }
+        const hitStats = { mediaHits: articleIds.size, matchCount: matches.length };
+
+        // Screening regimes that apply to the investigator's home jurisdiction
+        const HOME_REGIME_LABELS = {
+            us: 'OFAC SDN & BIS',
+            gb: 'UK OFSI',
+            ca: 'Canadian GAC',
+            au: 'Australian ASO',
+            ch: 'Swiss SECO',
+            jp: 'Japanese METI',
+            kr: 'Korean MOEF',
+            sg: 'Singapore MAS',
+            nz: 'New Zealand MFAT',
+        };
+        const EU_HOMES = new Set(['at', 'be', 'bg', 'hr', 'cy', 'cz', 'dk', 'ee', 'fi', 'fr', 'de', 'gr', 'hu', 'ie', 'it', 'lv', 'lt', 'lu', 'mt', 'nl', 'pl', 'pt', 'ro', 'sk', 'si', 'es', 'se']);
+        const regimeLabel = EU_HOMES.has(home)
+            ? 'EU Consolidated'
+            : HOME_REGIME_LABELS[home] || 'UN Security Council';
+
         let checklist = [];
 
-        if (country === 'ru' || country === 'by') {
-            checklist = [
-                { id: 1, text: `Audit OFAC 50% Rule & UBO structures across ${stats.entityCount.toLocaleString()} Russian entities`, done: false, link: `/entity-intelligence?country=${country}` },
-                { id: 2, text: `Screen ${topCorroborated[0]?.name || 'Target'} against BIS Commerce Control List (CHPL items)`, done: false, link: `/threat-briefing?from=US&to=${countryUpper}` },
-                { id: 3, text: `Review transshipment route telemetry via UAE and Turkey intermediary hubs`, done: true, link: `/threat-briefing?from=US&to=${countryUpper}` },
-                { id: 4, text: `Verify secondary sanctions liability under Executive Order 14114`, done: false, link: `/threat-briefing?from=US&to=${countryUpper}` },
-            ];
-        } else if (country === 'mx') {
-            checklist = [
-                { id: 1, text: `Screen Sinaloa & Gulf Cartel networks under OFAC Kingpin Designation Act`, done: false, link: `/entity-intelligence?country=mx` },
-                { id: 2, text: `Investigate 17 corroborated adverse press hits from InSight Crime & OCCRP`, done: false, link: `/profile/NK-fXvKp5euCVcp6cto9U38DP` },
-                { id: 3, text: `Audit cross-border logistics freight forwarders for trade-based money laundering`, done: true, link: `/entity-intelligence?country=mx` },
-            ];
-        } else if (country === 'cn') {
-            checklist = [
-                { id: 1, text: `Screen counterparties against NS-CMIC & BIS Entity List dual-use suppliers`, done: false, link: `/entity-intelligence?country=cn` },
-                { id: 2, text: `Inspect Hong Kong & Southeast Asian transshipment manifest documentation`, done: false, link: `/threat-briefing?from=US&to=CN` },
-                { id: 3, text: `Cross-reference forced labor (UFLPA) supply chain entity exclusions`, done: false, link: `/entity-intelligence?country=cn` },
-            ];
-        } else if (country === 'ir' || country === 'sy' || country === 'kp') {
-            checklist = [
-                { id: 1, text: `Enforce comprehensive trade embargo & blocking sanctions under OFAC/UN`, done: false, link: `/threat-briefing?from=US&to=${countryUpper}` },
-                { id: 2, text: `Screen AIS maritime tracking data for ghost-fleet transshipment transfers`, done: false, link: `/entity-intelligence?country=${country}` },
-                { id: 3, text: `Audit financial settlement pathways for covert correspondent banking channels`, done: true, link: `/threat-briefing?from=US&to=${countryUpper}` },
-            ];
-        } else {
-            checklist = [
-                { id: 1, text: `Screen counterparties against global consolidated denied-party lists (${stats.entityCount || 0} entities)`, done: false, link: `/entity-intelligence?country=${country}` },
-                { id: 2, text: `Review adverse media indicators for emerging pre-listing flags`, done: false, link: `/threat-briefing?from=US&to=${countryUpper}` },
-                { id: 3, text: `Verify ultimate beneficial ownership (50% rule) for all corporate tiers`, done: true, link: `/entity-intelligence?country=${country}` },
-            ];
+        if (entityCount > 0) {
+            checklist.push({
+                id: checklist.length + 1,
+                text: `Screen ${entityCount.toLocaleString()} listed entities in ${countryUpper} against ${regimeLabel} consolidated denied-party lists`,
+                done: false,
+                link: `/entity-intelligence?country=${country}`,
+            });
         }
+
+        if (hitStats.mediaHits > 0) {
+            const topNames = topCorroborated ? ` (top target: ${topCorroborated.name})` : '';
+            checklist.push({
+                id: checklist.length + 1,
+                text: `Review ${hitStats.mediaHits} corroborated adverse-media reports (${hitStats.matchCount} matches) for ${countryUpper} targets${topNames}`,
+                done: false,
+                link: `/threat-briefing?from=${homeUpper}&to=${countryUpper}`,
+            });
+        } else {
+            checklist.push({
+                id: checklist.length + 1,
+                text: `Monitor investigative feeds for emerging pre-listing indicators on ${countryUpper}`,
+                done: false,
+                link: `/threat-briefing?from=${homeUpper}&to=${countryUpper}`,
+            });
+        }
+
+        if (topCorroborated) {
+            checklist.push({
+                id: checklist.length + 1,
+                text: `Run UBO & 50%-rule ownership audit on ${topCorroborated.name} (${topCorroborated.matchCount} corroborations)`,
+                done: false,
+                link: `/profile/${encodeURIComponent(topCorroborated.id)}`,
+            });
+        }
+
+        checklist.push({
+            id: checklist.length + 1,
+            text: `Assess ${homeUpper} → ${countryUpper} corridor exposure under secondary-sanctions liability rules`,
+            done: false,
+            link: `/threat-briefing?from=${homeUpper}&to=${countryUpper}`,
+        });
 
         res.json({
             country: countryUpper,
-            entityCount: stats.entityCount,
+            entityCount,
             checklist
         });
     } catch (err) {
@@ -457,54 +649,168 @@ app.get('/api/checklists/:country', (req, res) => {
     }
 });
 
-// GET /api/notifications
+// GET /api/notifications — live alerts derived from database state, scoped to
+// the investigator's home jurisdiction and its relevant sanction corridors
 app.get('/api/notifications', (req, res) => {
     try {
-        const home = (req.query.homeCountry || 'US').toUpperCase();
-        
-        const notifications = [
-            {
-                id: 'notif-1',
-                type: 'CRITICAL',
-                title: `Critical Corridor Exposure: ${home} → Russian Federation`,
-                message: 'Surge in transshipment obfuscation detected via third-party free trade zones. 98/100 Threat Score.',
-                time: '10m ago',
-                unread: true,
-                link: `/threat-briefing?from=${home}&to=RU`
-            },
-            {
-                id: 'notif-2',
+        const home = (req.query.homeCountry || 'US').toLowerCase();
+
+        // Jurisdictions under active sanctions pressure; corroborations touching
+        // these countries are the most actionable for compliance teams.
+        const focusCountries = [...new Set(['ru', 'by', 'cn', 'ir', 'kp', 'sy', 'cu', 've', 'mm', 'mx', home])];
+
+        const clauses = [];
+        const params = [];
+        for (const c of focusCountries) {
+            clauses.push(`(LOWER(em.entity_countries) = ? OR LOWER(em.entity_countries) LIKE ? OR LOWER(em.entity_countries) LIKE ? OR LOWER(em.entity_countries) LIKE ?)`);
+            params.push(c, `${c};%`, `%;${c};%`, `%;${c}`);
+        }
+
+        // 1. Highest-confidence corroborations in focus jurisdictions
+        const topMatchRows = db.prepare(`
+            SELECT em.id, em.entity_id, em.entity_name, em.entity_countries, em.score,
+                   em.article_source, em.article_headline, em.created_at
+            FROM entity_matches em
+            WHERE ${clauses.join(' OR ')}
+            ORDER BY em.score DESC, em.created_at DESC
+        `).all(...params);
+
+        const seenEntities = new Set();
+        const topMatches = [];
+        for (const row of topMatchRows) {
+            if (seenEntities.has(row.entity_id)) continue;
+            seenEntities.add(row.entity_id);
+            topMatches.push(row);
+            if (topMatches.length === 2) break;
+        }
+
+        // 2. Freshest intelligence ingested by the collectors (one per source)
+        const freshRows = db.prepare(`
+            SELECT source_name, headline, publish_date, scraped_at
+            FROM articles
+            ORDER BY scraped_at DESC, id DESC
+            LIMIT 12
+        `).all();
+        const seenFreshSources = new Set();
+        const freshArticles = [];
+        for (const a of freshRows) {
+            if (seenFreshSources.has(a.source_name)) continue;
+            seenFreshSources.add(a.source_name);
+            freshArticles.push(a);
+            if (freshArticles.length === 2) break;
+        }
+
+        // 3. Latest pipeline activity per collector
+        const recentRuns = db.prepare(`
+            SELECT source_name, status, items_scraped, error_message, run_at
+            FROM scraper_runs
+            ORDER BY run_at DESC
+            LIMIT 20
+        `).all();
+        const seenSources = new Set();
+        const pipelineRuns = [];
+        for (const run of recentRuns) {
+            if (seenSources.has(run.source_name)) continue;
+            seenSources.add(run.source_name);
+            pipelineRuns.push(run);
+            if (pipelineRuns.length === 2) break;
+        }
+
+        const relTime = (iso) => {
+            const t = Date.parse(iso);
+            if (Number.isNaN(t)) return 'recently';
+            const mins = Math.max(1, Math.round((Date.now() - t) / 60000));
+            if (mins < 60) return `${mins}m ago`;
+            const hrs = Math.round(mins / 60);
+            if (hrs < 24) return `${hrs}h ago`;
+            return `${Math.round(hrs / 24)}d ago`;
+        };
+
+        const notifications = [];
+
+        topMatches.forEach((m, idx) => {
+            notifications.push({
+                id: `corr-${m.entity_id}-${m.id}`,
                 type: 'CORROBORATION',
-                title: 'Dual-Layer Hit: Sinaloa Cartel Logistics Corroborated',
-                message: '17 adverse investigative reports matched against OFAC Kingpin designations with 95% significance.',
-                time: '45m ago',
-                unread: true,
-                link: '/profile/NK-fXvKp5euCVcp6cto9U38DP'
-            },
-            {
-                id: 'notif-3',
+                title: `Dual-Layer Hit: ${m.entity_name} Corroborated`,
+                message: `"${m.article_headline}" (${m.article_source}) matched a sanctioned record with significance score ${Number(m.score).toFixed(1)}.`,
+                time: relTime(m.created_at),
+                unread: idx === 0,
+                link: `/profile/${encodeURIComponent(m.entity_id)}`
+            });
+        });
+
+        freshArticles.forEach((a, idx) => {
+            notifications.push({
+                id: `intel-${idx}-${a.scraped_at}`,
                 type: 'WARNING',
-                title: 'Pre-Listing Signal: Ghost Fleet Maritime Transfer',
-                message: 'AIS transponder spoofing detected near Baltic terminals. High probability of OFAC SDN designation.',
-                time: '2h ago',
-                unread: false,
-                link: `/threat-briefing?from=${home}&to=RU`
-            },
-            {
-                id: 'notif-4',
+                title: `Fresh Intelligence Ingested (${a.source_name})`,
+                message: a.headline,
+                time: relTime(a.scraped_at),
+                unread: idx === 0 && topMatches.length === 0,
+                link: '/entity-intelligence'
+            });
+        });
+
+        pipelineRuns.forEach((r) => {
+            const ok = String(r.status).toLowerCase() === 'success';
+            notifications.push({
+                id: `pipe-${r.source_name}-${r.run_at}`,
                 type: 'PIPELINE',
-                title: 'Scraper Self-Healing Resolved (InSight Crime & Rappler)',
-                message: 'Automated canonical URL redirect handling completed. 1,222 articles synchronized.',
-                time: '4h ago',
+                title: ok ? `Collector Completed: ${r.source_name}` : `Collector Issue: ${r.source_name}`,
+                message: ok
+                    ? `Ingested ${r.items_scraped} items during the latest sweep.`
+                    : `Run reported an issue: ${r.error_message || 'unknown error'}.`,
+                time: relTime(r.run_at),
                 unread: false,
                 link: '/system-status'
-            }
-        ];
+            });
+        });
 
-        res.json({ notifications });
+        res.json({ homeCountry: home.toUpperCase(), notifications });
     } catch (err) {
         console.error('Notifications Error:', err);
         res.status(500).json({ error: 'Failed to fetch notifications' });
+    }
+});
+
+// POST /api/audit-actions — record a compliance decision from an entity profile
+app.post('/api/audit-actions', (req, res) => {
+    try {
+        const { entityId, entityName, action } = req.body || {};
+        if (!action || typeof action !== 'string') {
+            return res.status(400).json({ error: 'action is required' });
+        }
+        const result = db.prepare(`
+            INSERT INTO audit_actions (entity_id, entity_name, action)
+            VALUES (?, ?, ?)
+        `).run(entityId || null, entityName || null, action);
+
+        const row = db.prepare(`SELECT id, created_at FROM audit_actions WHERE id = ?`).get(result.lastInsertRowid);
+        res.status(201).json({
+            ticket: `SV-${1000 + row.id}`,
+            loggedAt: row.created_at,
+        });
+    } catch (err) {
+        console.error('Audit Action Error:', err);
+        res.status(500).json({ error: 'Failed to record audit action' });
+    }
+});
+
+// GET /api/audit-actions — recent compliance decisions
+app.get('/api/audit-actions', (req, res) => {
+    try {
+        const limit = Math.min(parseInt(req.query.limit || '20', 10), 100);
+        const actions = db.prepare(`
+            SELECT id, entity_id, entity_name, action, created_at
+            FROM audit_actions
+            ORDER BY id DESC
+            LIMIT ?
+        `).all(limit);
+        res.json({ actions });
+    } catch (err) {
+        console.error('Audit Actions Error:', err);
+        res.status(500).json({ error: 'Failed to fetch audit actions' });
     }
 });
 
@@ -537,7 +843,45 @@ function getSystemStatusHandler(req, res) {
                 LIMIT 10
             `).all();
         } catch (e) {}
-        
+
+        // Composite network health measured from live tables:
+        // 40% collector success rate, 35% data freshness, 25% registry completeness
+        let health = {
+            score: null,
+            collectorSuccessRate: null,
+            dataFreshnessHours: null,
+            registryCompletenessPct: null,
+        };
+        try {
+            const recentRuns = db.prepare(`SELECT status FROM scraper_runs ORDER BY run_at DESC LIMIT 20`).all();
+            if (recentRuns.length > 0) {
+                const ok = recentRuns.filter((r) => String(r.status).toLowerCase() === 'success').length;
+                health.collectorSuccessRate = Math.round((ok / recentRuns.length) * 100);
+            }
+
+            if (lastUpdatedArticle) {
+                const parsed = Date.parse(lastUpdatedArticle);
+                if (!Number.isNaN(parsed)) {
+                    health.dataFreshnessHours = Math.max(0, Math.round((Date.now() - parsed) / 3600000));
+                }
+            }
+
+            if (totalEntities > 0) {
+                const geoTagged = db.prepare(`SELECT COUNT(*) as n FROM sanctioned_entities WHERE countries IS NOT NULL AND countries != ''`).get().n;
+                health.registryCompletenessPct = Math.round((geoTagged / totalEntities) * 1000) / 10;
+            }
+
+            const freshnessScore = health.dataFreshnessHours == null
+                ? 70
+                : Math.max(20, Math.min(100, 100 - health.dataFreshnessHours * 1.5));
+            const collectorScore = health.collectorSuccessRate == null ? 70 : health.collectorSuccessRate;
+            const completenessScore = health.registryCompletenessPct == null ? 70 : health.registryCompletenessPct;
+
+            health.score = Math.round(
+                collectorScore * 0.4 + freshnessScore * 0.35 + completenessScore * 0.25
+            );
+        } catch (e) {}
+
         res.json({
             totalEntities,
             totalSanctioned,
@@ -545,7 +889,8 @@ function getSystemStatusHandler(req, res) {
             totalMatches,
             scraperRuns,
             lastUpdatedEntity,
-            lastUpdatedArticle
+            lastUpdatedArticle,
+            health
         });
     } catch (err) {
         console.error('System status error:', err);
@@ -558,7 +903,6 @@ app.get('/api/status', getSystemStatusHandler);
 
 // Serve frontend static assets from build
 const distPath = DIST_DIR;
-const fs = require('fs');
 if (fs.existsSync(distPath)) {
     app.use(express.static(distPath));
     app.use((req, res) => {
@@ -583,5 +927,12 @@ app.listen(port, () => {
     } catch(err) {
         console.log(`Stats: Could not read stats on startup. Check database.`);
     }
+    // Warm the country-stats cache immediately after bind so the first
+    // request never waits on the full-table aggregation.
+    setImmediate(() => {
+        const t0 = Date.now();
+        const { fromCache } = getCountryStats();
+        console.log(`Country stats ready (${fromCache ? 'from cache' : 'computed'} in ${Date.now() - t0}ms)`);
+    });
     console.log(`=================================`);
 });

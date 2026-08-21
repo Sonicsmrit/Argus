@@ -1,5 +1,6 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { COUNTRY_NAMES } from '../data/bilateralRules';
 
 export default function EntityIntelligence() {
@@ -9,23 +10,14 @@ export default function EntityIntelligence() {
   const [selectedCountry, setSelectedCountry] = useState(searchParams.get('country') || 'mx');
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
   const [listFilter, setListFilter] = useState(searchParams.get('list') || '');
-  const [entities, setEntities] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const [countryStats, setCountryStats] = useState({});
 
-  // Fetch stats for all countries
-  useEffect(() => {
-    fetch('/api/countries/stats')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.stats) {
-          setCountryStats(data.stats);
-        }
-      })
-      .catch((err) => console.error('Country stats error:', err));
-  }, []);
+  // Cached country stats (shared with GlobeWidget via queryKey)
+  const { data: statsData } = useQuery({
+    queryKey: ['countries-stats'],
+    queryFn: () => fetch('/api/countries/stats').then((res) => res.json()),
+  });
+  const countryStats = statsData?.stats || {};
 
   // Format all 240+ countries
   const allCountryList = Object.entries(COUNTRY_NAMES).map(([code, name]) => {
@@ -43,34 +35,26 @@ export default function EntityIntelligence() {
     return a.rawName.localeCompare(b.rawName);
   });
 
-  useEffect(() => {
-    let isMounted = true;
-    setLoading(true);
+  // Cached paginated entity list; previous page data stays visible while fetching next
+  const {
+    data: listData,
+    isLoading: loading,
+  } = useQuery({
+    queryKey: ['entities', selectedCountry, searchTerm, listFilter, page],
+    queryFn: () => {
+      const queryParams = new URLSearchParams();
+      if (listFilter) queryParams.set('list', listFilter);
+      if (searchTerm) queryParams.set('search', searchTerm);
+      queryParams.set('page', page);
+      queryParams.set('limit', 25);
 
-    const queryParams = new URLSearchParams();
-    if (listFilter) queryParams.set('list', listFilter);
-    if (searchTerm) queryParams.set('search', searchTerm);
-    queryParams.set('page', page);
-    queryParams.set('limit', 25);
+      return fetch(`/api/countries/${selectedCountry}/entities?${queryParams.toString()}`).then((res) => res.json());
+    },
+    placeholderData: keepPreviousData,
+  });
 
-    fetch(`/api/countries/${selectedCountry}/entities?${queryParams.toString()}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (isMounted) {
-          setEntities(data.entities || []);
-          setTotal(data.total || 0);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.error('Failed to load entities:', err);
-        if (isMounted) setLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [selectedCountry, searchTerm, listFilter, page]);
+  const entities = listData?.entities || [];
+  const total = listData?.total || 0;
 
   const getSignificance = (entity) => {
     if (!entity.matchCount || entity.matchCount === 0) return 50;

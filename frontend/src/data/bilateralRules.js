@@ -1,6 +1,5 @@
 export const COUNTRY_NAMES = {
-  "AF": "Afghanistan",
-  "AL": "Albania",
+  "AF": "Afghanistan",  "AL": "Albania",
   "DZ": "Algeria",
   "AS": "American Samoa",
   "AD": "Andorra",
@@ -271,6 +270,39 @@ Object.keys(COUNTRY_NAMES).forEach(code => {
     COUNTRY_TO_REGIMES[code] = ['UN'];
   }
 });
+
+// Compact display names for tight UI slots (tabs, pills, button labels).
+// Overrides fix UN-style official names; unknown codes fall back to
+// COUNTRY_NAMES with parentheticals stripped, then the raw code.
+const SHORT_NAME_OVERRIDES = {
+  "US": "United States",
+  "GB": "United Kingdom",
+  "RU": "Russia",
+  "SY": "Syria",
+  "IR": "Iran",
+  "KP": "North Korea",
+  "KR": "South Korea",
+  "AE": "UAE",
+  "CD": "DR Congo",
+  "CG": "Congo-Brazzaville",
+  "LA": "Laos",
+  "MK": "North Macedonia",
+  "TZ": "Tanzania",
+  "MD": "Moldova",
+  "VN": "Vietnam",
+  "BO": "Bolivia",
+  "VE": "Venezuela",
+  "BN": "Brunei",
+  "SZ": "Eswatini",
+};
+
+export const getShortName = (code) => {
+  const c = String(code || '').toUpperCase();
+  if (SHORT_NAME_OVERRIDES[c]) return SHORT_NAME_OVERRIDES[c];
+  const full = COUNTRY_NAMES[c];
+  if (!full) return c;
+  return full.replace(/\s*\([^)]*\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+};
 
 export const REGIME_INFO = {
   "US": {

@@ -1,74 +1,99 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import GlobeWidget from '../components/GlobeWidget';
+import { COUNTRY_NAMES, getShortName } from '../data/bilateralRules';
 import { useInvestigator } from '../context/InvestigatorContext';
+
+const DEFAULT_STATS = {
+  entities: '1,176,742',
+  articles: '1,222',
+  matches: '1,416',
+  sanctioned: '46,293',
+};
+
+// Shown only while the live ranking loads; replaced by featuredCountries.
+const CHECKLIST_TAB_FALLBACK = [
+  { code: 'RU', label: 'Russia' },
+  { code: 'MX', label: 'Mexico' },
+  { code: 'CN', label: 'China' },
+  { code: 'IR', label: 'Iran' },
+];
+
+const fetchJson = (url) => fetch(url).then((res) => res.json());
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const { profile, homeCountryName } = useInvestigator();
 
-  const [stats, setStats] = useState({
-    entities: '1,176,742',
-    articles: '1,222',
-    matches: '1,416',
-    sanctioned: '46,293',
-    healthScore: 86,
+  const [checklistCountry, setChecklistCountry] = useState(null);
+  const [doneOverrides, setDoneOverrides] = useState({});
+
+  // Cached queries: survive tab switches, dedupe across pages sharing keys
+  const { data: statusData } = useQuery({
+    queryKey: ['system-status'],
+    queryFn: () => fetchJson('/api/system/status'),
   });
 
-  const [checklistCountry, setChecklistCountry] = useState('RU');
-  const [checklist, setChecklist] = useState([]);
-  const [loadingChecklist, setLoadingChecklist] = useState(true);
-  const [signals, setSignals] = useState([]);
+  const { data: statsData } = useQuery({
+    queryKey: ['countries-stats'],
+    queryFn: () => fetchJson('/api/countries/stats'),
+    staleTime: 5 * 60 * 1000,
+  });
 
-  // Fetch system status
-  useEffect(() => {
-    fetch('/api/system/status')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          setStats((prev) => ({
-            ...prev,
-            entities: data.totalEntities ? data.totalEntities.toLocaleString() : prev.entities,
-            articles: data.totalArticles ? data.totalArticles.toLocaleString() : prev.articles,
-            matches: data.totalMatches ? data.totalMatches.toLocaleString() : prev.matches,
-            sanctioned: data.totalSanctioned ? data.totalSanctioned.toLocaleString() : prev.sanctioned,
-          }));
-        }
-      })
-      .catch((err) => console.error('Failed to load status:', err));
-  }, []);
+  // Featured jurisdictions for the checklist tabs, ranked live by
+  // corroborated adverse-media volume (home country excluded).
+  const homeUpper = profile.homeCountry.toUpperCase();
+  const featuredCountries = useMemo(() => {
+    const s = statsData?.stats;
+    if (!s) return null;
+    return Object.entries(s)
+      .map(([code, v]) => ({
+        code: code.toUpperCase(),
+        label: getShortName(code),
+        fullName: COUNTRY_NAMES[code.toUpperCase()] || code.toUpperCase(),
+        hits: v.mediaHitCount,
+        entities: v.entityCount,
+      }))
+      .filter((c) => c.code !== homeUpper && c.hits > 0)
+      .sort((a, b) => b.hits - a.hits || b.entities - a.entities)
+      .slice(0, 4);
+  }, [statsData, homeUpper]);
 
-  // Fetch dynamic checklist based on active country
-  useEffect(() => {
-    setLoadingChecklist(true);
-    fetch(`/api/checklists/${checklistCountry.toLowerCase()}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.checklist) {
-          setChecklist(data.checklist);
-        }
-        setLoadingChecklist(false);
-      })
-      .catch((err) => {
-        console.error('Checklist error:', err);
-        setLoadingChecklist(false);
-      });
-  }, [checklistCountry]);
+  const checklistTabs = featuredCountries || CHECKLIST_TAB_FALLBACK;
+  const activeCode = checklistCountry ?? checklistTabs[0]?.code ?? 'RU';
 
-  // Fetch real media signals
-  useEffect(() => {
-    fetch('/api/media/signals?limit=3')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.signals) {
-          setSignals(data.signals);
-        }
-      })
-      .catch((err) => console.error('Signals error:', err));
-  }, []);
+  const { data: checklistData, isLoading: loadingChecklist } = useQuery({
+    queryKey: ['checklist', activeCode, profile.homeCountry],
+    queryFn: () => fetchJson(`/api/checklists/${activeCode.toLowerCase()}?home=${profile.homeCountry.toLowerCase()}`),
+  });
+
+  const { data: signalsData } = useQuery({
+    queryKey: ['media-signals', 'dashboard', activeCode],
+    queryFn: () => fetchJson(`/api/media/signals?country=${activeCode.toLowerCase()}&limit=3`),
+  });
+
+  const stats = {
+    entities: statusData?.totalEntities ? statusData.totalEntities.toLocaleString() : DEFAULT_STATS.entities,
+    articles: statusData?.totalArticles ? statusData.totalArticles.toLocaleString() : DEFAULT_STATS.articles,
+    matches: statusData?.totalMatches ? statusData.totalMatches.toLocaleString() : DEFAULT_STATS.matches,
+    sanctioned: statusData?.totalSanctioned ? statusData.totalSanctioned.toLocaleString() : DEFAULT_STATS.sanctioned,
+    healthScore: statusData?.health?.score ?? null,
+  };
+
+  const signals = signalsData?.signals || [];
+
+  const baseChecklist = checklistData?.checklist || [];
+  // Override keys are scoped per country so progress doesn't bleed across tabs
+  const overrideKey = (id) => `${activeCode}:${id}`;
+  const checklist = baseChecklist.map((a) => ({
+    ...a,
+    done: doneOverrides[overrideKey(a.id)] ?? a.done,
+  }));
 
   const toggleAction = (id) => {
-    setChecklist((prev) => prev.map((a) => (a.id === id ? { ...a, done: !a.done } : a)));
+    const item = checklist.find((a) => a.id === id);
+    setDoneOverrides((prev) => ({ ...prev, [overrideKey(id)]: !(item?.done ?? false) }));
   };
 
   const completedCount = checklist.filter((c) => c.done).length;
@@ -115,9 +140,21 @@ export default function Dashboard() {
                   AI Surveillance Active
                 </span>
               </div>
-              <h2 className="font-headline-lg text-headline-lg text-on-surface mb-2 font-bold">Network Health is Optimal</h2>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface mb-2 font-bold">
+                {!stats.healthScore
+                  ? 'Measuring Network Health...'
+                  : stats.healthScore >= 90
+                    ? 'Network Health is Excellent'
+                    : stats.healthScore >= 75
+                      ? 'Network Health is Optimal'
+                      : stats.healthScore >= 60
+                        ? 'Network Health is Stable'
+                        : 'Network Health Needs Attention'}
+              </h2>
               <p className="font-body-md text-body-md text-on-surface-variant mb-5 text-sm">
-                Global compliance score has increased by 4 points since last sweep. High-risk cross-border corridors flagged for mandatory screening under OFAC/EU export controls.
+                {statusData?.health
+                  ? `Computed from live telemetry: ${statusData.health.collectorSuccessRate ?? '—'}% collector success · last sweep ${statusData.health.dataFreshnessHours ?? '—'}h ago · ${statusData.health.registryCompletenessPct ?? '—'}% of registry geo-tagged.`
+                  : 'Health score is computed from collector success rate, data freshness, and registry completeness.'}
               </p>
               <div className="flex flex-wrap gap-3">
                 <div className="bg-surface px-4 py-2 rounded-full shadow-sm flex items-center gap-2 border border-outline-variant/15">
@@ -263,22 +300,18 @@ export default function Dashboard() {
               </span>
             </div>
 
-            {/* Country Selector Tabs for Checklist */}
+            {/* Country Selector Tabs for Checklist — ranked by live adverse-media volume */}
             <div className="flex items-center gap-1 mb-4 p-1 bg-surface-container-low rounded-xl border border-outline-variant/15 text-xs font-mono">
-              {[
-                { code: 'RU', label: 'Russia' },
-                { code: 'MX', label: 'Mexico' },
-                { code: 'CN', label: 'China' },
-                { code: 'IR', label: 'Iran' },
-              ].map((c) => (
+              {checklistTabs.map((c) => (
                 <button
                   key={c.code}
                   onClick={() => setChecklistCountry(c.code)}
-                  className={`flex-1 py-1.5 rounded-lg font-bold transition-all ${
-                    checklistCountry === c.code
+                  className={`flex-1 min-w-0 py-1.5 px-1 rounded-lg font-bold transition-all truncate ${
+                    activeCode === c.code
                       ? 'bg-primary text-white shadow-sm'
                       : 'text-on-surface-variant hover:bg-surface'
                   }`}
+                  title={`${c.fullName || c.label} — ${c.hits ?? 0} corroborated reports`}
                 >
                   {c.label}
                 </button>
