@@ -1,0 +1,34 @@
+{
+  "name": "scrapeverse",
+  "version": "1.0.0",
+  "description": "Bilateral sanctions and adverse media intelligence platform",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "scheduler": "node src/pipeline.js",
+    "pipeline": "node src/pipeline.js --now",
+    "match": "node src/entity_matcher.js",
+    "ingest:sanctions": "node src/ingestion/layer1_opensanctions.js",
+    "db:init": "node scripts/init_db.js",
+    "db:report": "node scripts/query_db.js",
+    "report": "node scripts/sanctions_report.js",
+    "map-sources": "node scripts/map_sources.js",
+    "test:collectors": "node scripts/test_scrapers.js"
+  },
+  "keywords": [
+    "sanctions",
+    "adverse-media",
+    "compliance",
+    "opensanctions",
+    "screening"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "node-cron": "^4.6.0"
+  }
+}

@@ -1,0 +1,24 @@
+name: "Eurasianet"
+url: "https://eurasianet.org"
+region: "Central Asia/Caucasus"
+category: "national-press"
+rss_feed: "https://eurasianet.org/rss"
+sample_article_urls:
+  - "https://eurasianet.org/"
+  - "https://eurasianet.org/news-analysis-kazakhstan-is-in-pickle-created-by-us-china-ai-race"
+  - "https://eurasianet.org/azerbaijan-and-ukraine-working-to-boost-trade-ties"
+  - "https://eurasianet.org/origin-of-recent-central-asian-blackout-pinpointed"
+  - "https://eurasianet.org/magyars-hungary-in-the-organization-of-turkic-states-0"
+structured_data_available: false
+structured_data_type: "none"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(1) > main(1) > article(27) > section(10) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /, /, /, /, /, /, /, /, /, /core/ (+33 more). AI/scraping clauses found (7 lines). Blocked bots: Amazonbot, Applebot-Extended, Bytespider, CCBot, ClaudeBot, CloudflareBrowserRenderingCrawler, Google-Extended, GPTBot, meta-externalagent."
+access_status: "ok"
+last_checked: "2026-08-19"

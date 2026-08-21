@@ -1,0 +1,38 @@
+name: "Al Jazeera"
+url: "https://www.aljazeera.com"
+region: "Global / Middle East"
+category: "national-press"
+rss_feed: "https://www.aljazeera.com/xml/rss/all.xml"
+sample_article_urls:
+  - "https://www.aljazeera.com/news/2026/8/19/pentagon-quizzes-nato-allies-on-political-loyalty-documents-reveal"
+  - "https://www.aljazeera.com/news/2026/8/19/lebanon-hands-former-syrian-army-general-to-damascus-after-arrest-warrant"
+  - "https://www.aljazeera.com/news/2026/8/19/trump-announces-most-crushing-economic-operation-ever-against-iran"
+  - "https://www.aljazeera.com/economy/2026/8/19/what-the-social-media-addiction-lawsuit-could-cost-meta"
+  - "https://www.aljazeera.com/video/newsfeed/2026/8/19/i-get-along-with-him-very-well"
+structured_data_available: true
+structured_data_type: "schema.org/NewsArticle + OpenGraph"
+selectors:
+  headline:
+    primary: "header.article-header h1"
+    fallback: "h1"
+  byline:
+    primary: "a[href*='/author/']"
+    fallback: "script[type='application/ld+json'] → author.name"
+  date:
+    primary: "div.article-dates div.date-simple span[aria-hidden='true']"
+    fallback: "script[type='application/ld+json'] → datePublished"
+  body:
+    primary: "div.wysiwyg.wysiwyg--all-content"
+    fallback: "div[aria-live='polite']"
+  section_tag:
+    primary: "script[type='application/ld+json'] → BreadcrumbList"
+    fallback: "meta[property='og:url'] → path segment"
+structural_fingerprint: "header(2) > nav(3) > main(1) > section(1) > footer(1); article body in div.wysiwyg.wysiwyg--all-content inside main"
+antibot_observed: "none"
+robots_txt_notes: >
+  Disallows: /api, /search/ (but /search/$ allowed), /asset-manifest.json, liveblog update params, tracking params (gb, traffic_source, fbclid, q, playlist).
+  AI/scraping clause: Explicit prohibition on ML/AI/LLM development, text/data mining, caching/archiving, commercial use. Requires prior written permission for automated scraping.
+  Named bot blocks: anthropic-ai, ChatGPT-User, ClaudeBot, Claude-Web, cohere-ai, GPTBot, PerplexityBot, Bytespider — all Disallow: /.
+  Sitemaps exposed: news-sitemap.xml, article-archive.xml, article-new.xml, video-archive.xml, video-new.xml.
+access_status: "ok"
+last_checked: "2026-08-20"

@@ -1,0 +1,24 @@
+name: "Global Witness"
+url: "https://www.globalwitness.org"
+region: "Global"
+category: "investigative-nonprofit"
+rss_feed: null
+sample_article_urls:
+  - "https://www.globalwitness.org/static/images/favicons/favicon.ce0840aeb41e.ico"
+  - "https://www.globalwitness.org/static/images/favicons/site.b9aa277fcfc3.webmanifest"
+  - "https://www.globalwitness.org/static/images/favicons/safari-pinned-tab.24a506fb4d61.svg"
+  - "https://act.globalwitness.org/page/178495/donate/1"
+  - "https://globalwitness.org/en/search/?q=&amp;list_order=date&amp;campaigns=corporate-accountability&amp;campaigns=digital-threats&amp;campaigns=forests&amp;campaigns=fossil-fuels&amp;campaigns=land-and-environmental-defenders&amp;campaigns=transition-minerals#listing"
+structured_data_available: false
+structured_data_type: "none"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: ""
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /, /, /, /, /, /, /, /, /. AI/scraping clauses found (6 lines). Blocked bots: Amazonbot, Applebot-Extended, Bytespider, CCBot, ClaudeBot, CloudflareBrowserRenderingCrawler, Google-Extended, GPTBot, meta-externalagent."
+access_status: "ok"
+last_checked: "2026-08-19"

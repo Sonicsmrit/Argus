@@ -1,0 +1,24 @@
+name: "Arab News"
+url: "https://www.arabnews.com"
+region: "Saudi Arabia"
+category: "national-press"
+rss_feed: "https://www.arabnews.com/rss.xml"
+sample_article_urls:
+  - "https://www.arabnews.com/cat/%2A/rss.xml"
+  - "https://www.arabnews.com/node/2654313/middle-east"
+  - "https://www.arabnews.com/node/2654312/middle-east"
+  - "https://www.arabnews.com/node/2654311/middle-east"
+  - "https://www.arabnews.com/node/2654310/world"
+structured_data_available: false
+structured_data_type: "none"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: ""
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /includes/, /misc/, /modules/, /profiles/, /scripts/, /themes/, /CHANGELOG.txt, /cron.php, /INSTALL.mysql.txt, /INSTALL.pgsql.txt (+35 more). AI/scraping clauses found (2 lines)."
+access_status: "ok"
+last_checked: "2026-08-19"

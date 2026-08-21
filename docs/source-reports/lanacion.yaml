@@ -1,0 +1,24 @@
+name: "La Nación"
+url: "https://www.lanacion.com.ar"
+region: "Argentina"
+category: "national-press"
+rss_feed: "https://www.lanacion.com.ar/arc/outboundfeeds/rss/"
+sample_article_urls:
+  - "https://www.lanacion.com.ar"
+  - "https://www.lanacion.com.ar/deportes/futbol/lionel-messi-en-philadelphia-vs-inter-miami-en-vivo-nid19082026/"
+  - "https://www.lanacion.com.ar/politica/caso-cerimedo-en-vivo-que-se-sabe-de-la-investigacion-al-exasesor-de-milei-que-esta-detenido-en-nid19082026/"
+  - "https://www.lanacion.com.ar/politica/el-parte-medico-de-nadia-beller-dice-que-sufrio-heridas-multiples-por-proyectiles-de-arma-de-fuego-nid19082026/"
+  - "https://www.lanacion.com.ar/deportes/futbol/independiente-santa-fe-vs-river-en-vivo-por-la-copa-sudamericana-nid19082026/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(2) > nav(4) > main(1) > article(156) > section(407) > aside(5) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /, /sinbarreras, /norefresh, /*undefined*, /debugsa, /debugsb, /preview, /herramientas, /Suscripcion, /NewslettersV1 (+21 more). Blocked bots: TestBot."
+access_status: "ok"
+last_checked: "2026-08-19"

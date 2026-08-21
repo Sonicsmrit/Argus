@@ -1,0 +1,24 @@
+name: "The National"
+url: "https://www.thenationalnews.com"
+region: "UAE"
+category: "national-press"
+rss_feed: null
+sample_article_urls:
+  - "https://www.thenationalnews.com/news/2026/08/19/like-living-in-the-desert-syrians-brave-dangers-to-return-home-in-heavily-shelled-neighbourhoods/"
+  - "https://www.thenationalnews.com/business/energy/2026/08/19/abu-dhabis-power-demand-to-double-by-2050-amid-rapid-economic-expansion/"
+  - "https://www.thenationalnews.com/opinion/comment/2026/08/20/west-bank-palestine-israel-us-uk-zionists-arthur-balfour/"
+  - "https://www.thenationalnews.com/news/uae/2026/08/19/uae-air-force-pilots-show-off-skills/"
+  - "https://www.thenationalnews.com/arts-culture/film-tv/2026/08/19/niu-lai-how-a-terrible-chinese-animated-film-became-an-unlikely-box-office-hit/"
+structured_data_available: true
+structured_data_type: "schema.org/NewsArticle + OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "[class*="breadcrumb"]", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(1) > article(1) > section(2)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /uaeprayertimes/, /assets/, /error/, /personalization, /section/, /article/, /blogs/, /events/, /cmlink/, /featured-content/ (+18 more)."
+access_status: "ok"
+last_checked: "2026-08-19"

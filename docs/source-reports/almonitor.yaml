@@ -1,0 +1,24 @@
+name: "Al-Monitor"
+url: "https://www.al-monitor.com"
+region: "Middle East"
+category: "national-press"
+rss_feed: "https://www.al-monitor.com/rss"
+sample_article_urls:
+  - "https://www.al-monitor.com/"
+  - "https://www.al-monitor.com/originals/2026/08/barzani-calls-enhanced-air-defense-kurdistan-region-counter-drone-attacks"
+  - "https://www.al-monitor.com/originals/2026/08/russias-putin-hosts-saddam-hifter-amid-instability-libya-what-know"
+  - "https://www.al-monitor.com/originals/2026/08/russias-putin-hosts-saddam-hifter-amid-instability-libya-what-know"
+  - "https://www.al-monitor.com/originals/2026/08/russias-putin-hosts-saddam-hifter-amid-instability-libya-what-know"
+structured_data_available: false
+structured_data_type: "none"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "time[datetime]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(4) > main(1) > article(62) > section(12) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /core/, /profiles/, /README.md, /composer/Metapackage/README.txt, /composer/Plugin/ProjectMessage/README.md, /composer/Plugin/Scaffold/README.md, /composer/Plugin/VendorHardening/README.txt, /composer/Template/README.txt, /modules/README.txt, /sites/README.txt (+25 more). AI/scraping clauses found (1 lines)."
+access_status: "ok"
+last_checked: "2026-08-19"

@@ -1,0 +1,24 @@
+name: "Global Trade Review"
+url: "https://www.gtreview.com"
+region: "Global trade finance"
+category: "trade-press"
+rss_feed: null
+sample_article_urls:
+  - "https://www.gtreview.com/news/global/"
+  - "https://www.gtreview.com/news/africa/"
+  - "https://www.gtreview.com/news/americas/"
+  - "https://www.gtreview.com/news/asia/"
+  - "https://www.gtreview.com/news/europe/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "time[datetime]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "[class*="post-content"]", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(2) > nav(4) > main(1) > article(20) > footer(2)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: *.pdf."
+access_status: "ok"
+last_checked: "2026-08-19"

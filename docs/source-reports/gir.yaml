@@ -1,0 +1,24 @@
+name: "Global Investigations Review"
+url: "https://globalinvestigationsreview.com"
+region: "Global compliance/legal"
+category: "trade-press"
+rss_feed: "https://globalinvestigationsreview.com/rss"
+sample_article_urls:
+  - "https://globalinvestigationsreview.com/rss"
+  - "https://globalinvestigationsreview.com/rss"
+  - "https://globalinvestigationsreview.com/article/petrofac-defendants-fight-legal-fees-ahead-of-bribery-trial"
+  - "https://globalinvestigationsreview.com/just-sanctions/article/new-york-court-quashes-last-minute-huawei-subpoenas"
+  - "https://globalinvestigationsreview.com/just-anti-corruption/article/doj-rule-chips-away-criminal-division-portfolio"
+structured_data_available: false
+structured_data_type: "none"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: ""
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /, /, /, /, /, /, /, /, /, / (+10 more). AI/scraping clauses found (2 lines). Blocked bots: GPTBot, CCBot, ChatGPT-User, Google-Extended, anthropic-ai, Omgilibot, Omgili, FacebookBot, FacebookBot, Amazonbot, AwarioRssBot, AwarioSmartBot, ClaudeBot, Claude-Web, cohere-ai, DataForSeoBot, magpie-crawler (brandwatch), peer39_crawler, peer39_crawler/1.0, PerplexityBot."
+access_status: "ok"
+last_checked: "2026-08-19"

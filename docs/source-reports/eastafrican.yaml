@@ -1,0 +1,24 @@
+name: "The East African"
+url: "https://www.theeastafrican.co.ke"
+region: "East Africa"
+category: "national-press"
+rss_feed: "https://www.theeastafrican.co.ke/rss.xml"
+sample_article_urls:
+  - "https://www.theeastafrican.co.ke"
+  - "https://www.theeastafrican.co.ke/tea/business-tech/ugandan-truckers-stranded-as-south-sudan-army-seizes-vehicles-5563480"
+  - "https://www.theeastafrican.co.ke/tea/opinion/guest-blogs/east-africa-next-chapter-depends-on-mutual-investment-5563450"
+  - "https://www.theeastafrican.co.ke/tea/news/east-africa/tanzania-dr-congo-strengthen-ties-on-trade-5563216"
+  - "https://www.theeastafrican.co.ke/tea/opinion/guest-blogs/how-jubaland-can-drive-somalia-s-regional-integration-agenda-5562786"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(8) > nav(6) > article(35) > section(18) > aside(58) > footer(7)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /, /, /, /, /, /, /, /, /. AI/scraping clauses found (6 lines). Blocked bots: Amazonbot, Applebot-Extended, Bytespider, CCBot, ClaudeBot, CloudflareBrowserRenderingCrawler, Google-Extended, GPTBot, meta-externalagent."
+access_status: "ok"
+last_checked: "2026-08-19"

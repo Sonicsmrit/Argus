@@ -1,0 +1,24 @@
+name: "Tempo"
+url: "https://en.tempo.co"
+region: "Indonesia"
+category: "national-press"
+rss_feed: "https://rss.tempo.co/en"
+sample_article_urls:
+  - "https://rss.tempo.co/en"
+  - "https://en.tempo.co/read/2117891/helicopter-crash-kills-7-in-kenya-including-ecuador-spy-boss"
+  - "https://en.tempo.co/read/2117890/icc-slams-us-sanctions-on-court-as-flagrant-attack"
+  - "https://en.tempo.co/read/2117886/the-obstacles-ui-students-faced-before-their-latest-jakarta-protest"
+  - "https://en.tempo.co/read/2117883/israeli-military-to-open-criminal-probes-into-2-gaza-attacks"
+structured_data_available: false
+structured_data_type: "none"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: ""
+antibot_observed: "none"
+robots_txt_notes: "Disallows: */search, */others, */terms_of_use, /, /, /, /, /, /, / (+14 more). AI/scraping clauses found (4 lines). Blocked bots: ChatGPT-User, OpenAI, Amazonbot, anthropic-ai, Applebot-Extended, Bytespider, CCBot, Claude-Web, ClaudeBot, cohere-ai, Diffbot, FacebookBot, FriendlyCrawler, GPTBot, ImagesiftBot, meta-externalagent, Meta-ExternalAgent, OAI-SearchBot, omgili, omgilibot, PerplexityBot."
+access_status: "ok"
+last_checked: "2026-08-19"

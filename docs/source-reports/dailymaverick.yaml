@@ -1,0 +1,24 @@
+name: "Daily Maverick"
+url: "https://www.dailymaverick.co.za"
+region: "South Africa"
+category: "national-press"
+rss_feed: null
+sample_article_urls:
+  - "https://www.dailymaverick.co.za/section/politics/?dm_source=top-menu&amp;dm_medium=link&amp;dm_campaign=navigation"
+  - "https://www.dailymaverick.co.za/section/world/?dm_source=top-menu&amp;dm_medium=link&amp;dm_campaign=navigation"
+  - "https://www.dailymaverick.co.za/section/analysis/?dm_source=top-menu&amp;dm_medium=link&amp;dm_campaign=navigation"
+  - "https://www.dailymaverick.co.za/article/2026-08-19-da-finance-chief-steps-aside-over-conflict-of-interest-concerns-in-r4bn-forex-probe/?dm_source=blocks-grid-wide&amp;dm_medium=card-link&amp;dm_campaign=inform&amp;dm_position=1"
+  - "https://www.dailymaverick.co.za/article/2026-08-19-adams-puts-idac-s-evidence-under-scrutiny-while-affidavit-dispute-deepens/?dm_source=blocks-list-item&amp;dm_medium=card-link&amp;dm_campaign=inform&amp;dm_position=2"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(2) > main(1) > article(21) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "robots.txt fetch failed: ERROR: The remote server returned an error: (403) Forbidden."
+access_status: "ok"
+last_checked: "2026-08-19"

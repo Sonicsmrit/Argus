@@ -1,0 +1,24 @@
+name: "Balkan Insight"
+url: "https://balkaninsight.com"
+region: "Balkans/SE Europe"
+category: "national-press"
+rss_feed: "https://balkaninsight.com//balkaninsight.com/feed/"
+sample_article_urls:
+  - "https://balkaninsight.com/2026/08/19/serbian-economy-braces-for-ripple-effect-of-danube-cargo-slowdown/bi/"
+  - "https://balkaninsight.com/2026/08/19/can-a-new-european-confederation-reconnect-the-uk-with-the-eu/bi/"
+  - "https://balkaninsight.com/2026/08/19/terror-free-turkey-process-could-boost-ankaras-international-status/bi/"
+  - "https://balkaninsight.com/2026/08/19/suspend-officers-suspected-of-beating-serb-kosovo-police-inspectorate-says/bi/"
+  - "https://balkaninsight.com/2026/08/18/serbian-media-outlets-management-change-sparks-suspicion-ahead-of-elections/bi/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "[class*="breadcrumb"]", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(4) > nav(2) > article(1) > section(6) > footer(2)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /, /wp-admin/, /plus_pdf/, /wp-content/uploads/2011/04/digging-deeper-a-guide-for-investigative-journalists-in-the-balkans.pdf."
+access_status: "ok"
+last_checked: "2026-08-19"

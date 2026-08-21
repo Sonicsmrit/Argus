@@ -1,0 +1,24 @@
+name: "The Economic Times"
+url: "https://economictimes.indiatimes.com"
+region: "India"
+category: "national-press"
+rss_feed: null
+sample_article_urls:
+  - "https://economictimes.indiatimes.com/news/politics"
+  - "https://economictimes.indiatimes.com/news/newsblogs"
+  - "https://economictimes.indiatimes.com/news/defence/new-rung-on-irans-escalation-ladder-a-smart-tactic-or-nato-war/articleshow/133352988.cms"
+  - "https://economictimes.indiatimes.com/news/india/pakistan-summons-top-us-diplomat-after-envoy-sergio-gor-calls-jammu-kashmir-important-part-of-india/articleshow/133354267.cms"
+  - "https://economictimes.indiatimes.com/news/defence/trump-says-north-korea-has-57-very-powerful-nuclear-weapons-plans-meeting-with-kim-jong-un/articleshow/133353600.cms"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "time[datetime]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "[class*="breadcrumb"]", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(3) > main(1) > section(8) > aside(1) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /PDAET/, /7176/, */notify.htm?*, /default1.cms, /default.cms, /*rssarticleshow*, /*cms.dll*, /*/opinions/, /pmcomment/, /logtopickeywords.cms (+189 more). Blocked bots: meta-externalagent."
+access_status: "ok"
+last_checked: "2026-08-19"

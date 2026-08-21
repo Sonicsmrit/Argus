@@ -1,0 +1,24 @@
+name: "Africa Confidential"
+url: "https://www.africa-confidential.com"
+region: "Africa"
+category: "investigative-nonprofit"
+rss_feed: null
+sample_article_urls:
+  - "https://www.africa-confidential.com/article/id/16137/al-shabaab-tests-hassan-sheikhs-resolve-as-troop-drawdown-nears"
+  - "https://www.africa-confidential.com/article/id/16124/cheaper-robots--revolutionary-consequences"
+  - "https://www.africa-confidential.com/article/id/16126/data-centre-boom-hits-power-shortages"
+  - "https://www.africa-confidential.com/article/id/16127/who-governs-africas-algorithms"
+  - "https://www.africa-confidential.com/article/id/16125/anti-corruption-drive-tests-judiciary"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1[class*="article"]", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "time[datetime]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(6) > main(1) > section(4) > aside(1) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /, /, /, /, /, /, /, /, /, / (+7 more). Blocked bots: TurnitinBot, AhrefsBot, TosCrawler, Yandex, Riddler, SurdotlyBot, SemrushBot, DataForSeoBot, PetalBot, OpenindexSpider, MJ12bot, dotbot, SeekportBot."
+access_status: "ok"
+last_checked: "2026-08-19"

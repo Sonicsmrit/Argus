@@ -1,0 +1,24 @@
+name: "The Business Standard (Bangladesh)"
+url: "https://www.tbsnews.net"
+region: "Bangladesh"
+category: "national-press"
+rss_feed: "https://www.tbsnews.net/rss.xml"
+sample_article_urls:
+  - "https://www.tbsnews.net"
+  - "https://www.tbsnews.net/economy/bazaar/commodities-continue-be-dearer-328855"
+  - "https://www.tbsnews.net/sports/mithun-mushfiqur-fifties-guide-tigers-win-warm"
+  - "https://www.tbsnews.net/sports/jesus-takes-centre-stage-brazil-win-copa-america"
+  - "https://www.tbsnews.net/sports/south-africa-and-pakistan-battle-survival"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > main(1) > section(4) > aside(1) > footer(3)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /includes/, /misc/, /modules/, /profiles/, /scripts/, /themes/, /CHANGELOG.txt, /cron.php, /INSTALL.mysql.txt, /INSTALL.pgsql.txt (+26 more). AI/scraping clauses found (2 lines)."
+access_status: "ok"
+last_checked: "2026-08-19"

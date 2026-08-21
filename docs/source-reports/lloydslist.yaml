@@ -1,0 +1,24 @@
+name: "Lloyd's List"
+url: "https://www.lloydslist.com"
+region: "Global maritime trade"
+category: "trade-press"
+rss_feed: null
+sample_article_urls:
+  - "https://www.lloydslist.com/articles/2026/07/18/from-inspection-to-intelligence-building-trust-in-maritime-digitalisation"
+  - "https://www.lloydslist.com/articles/2026/08/10/is-the-container-the-most-important-invention-of-the-past-100-years"
+  - "https://lli.my.site.com/lloydslistintelligence/services/apexrest/identity/LOLS/services/oauth2/authorize?response_type=code&amp;client_id=3MVG9DREgiBqN9WmQ3pKhTXZg1L1v6_WMCU9Z2_px9K7UQQ3SzBHhitLhl5hEQBbMjKpzCuxrd2yawWYGyWiA&amp;redirect_uri=https://www.lloydslist.com/User/ProcessUserRequest&amp;state=%2f%3fvid%3dMaritime%26processId%3d967bc476-1313-46b6-b5fc-25c21ef19c7a"
+  - "https://lli.my.site.com/lloydslistintelligence/services/apexrest/identity/LOLS/services/oauth2/authorize?response_type=code&client_id=3MVG9DREgiBqN9WmQ3pKhTXZg1L1v6_WMCU9Z2_px9K7UQQ3SzBHhitLhl5hEQBbMjKpzCuxrd2yawWYGyWiA&redirect_uri=https://www.lloydslist.com/User/ProcessUserRequest&state=%2f%3fvid%3dMaritime%26processId%3d0b2d362e-e946-44a1-9f41-61bcbe280c14"
+  - "https://lli.my.site.com/lloydslistintelligence/services/apexrest/identity/LOLS/services/oauth2/authorize?response_type=code&amp;client_id=3MVG9DREgiBqN9WmQ3pKhTXZg1L1v6_WMCU9Z2_px9K7UQQ3SzBHhitLhl5hEQBbMjKpzCuxrd2yawWYGyWiA&amp;redirect_uri=https://www.lloydslist.com/User/ProcessUserRequest&amp;state=%2f%3fvid%3dMaritime%26processId%3d0b89324c-077d-4d45-bb09-c23815eb9032"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "time[datetime]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "[class*="article-body"]", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "[class*="article-tag"]", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > main(1) > section(2) > aside(1) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "robots.txt fetch failed: ERROR: The remote server returned an error: (403) Forbidden."
+access_status: "ok"
+last_checked: "2026-08-19"

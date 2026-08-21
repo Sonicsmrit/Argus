@@ -1,0 +1,24 @@
+name: "Gulf News"
+url: "https://gulfnews.com"
+region: "UAE/Gulf"
+category: "national-press"
+rss_feed: "https://gulfnews.com/feed"
+sample_article_urls:
+  - "https://gulfnews.com"
+  - "https://gulfnews.com/world/americas/us-iran-conflict-gargash-rejects-visa-aid-rumours-as-gulf-warning-grows-1.500645251"
+  - "https://gulfnews.com/world/americas/trump-says-us-has-draconian-sanctions-ready-for-iran-claims-hormuz-naval-blockade-100-successful-1.500646225"
+  - "https://gulfnews.com/world/americas/trump-threatens-economic-punishment-on-any-country-helping-iran-1.500646223"
+  - "https://gulfnews.com/world/asia/india/5-bangladeshi-nationals-among-nine-killed-in-kolkata-hotel-fire-four-from-same-family-deputy-high-commission-1.500646184"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(6) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /ajaxservlet, /*gulfnews.AjaxPageLayout.ot, /*gulfnews.FormPageLayout.ot, /advanced-search*, /sport/football/match-centre, /sport/data/match, /sport/data/league, /sport/data/team, /sport/data/player, /sport/cricket/match-centre (+52 more)."
+access_status: "ok"
+last_checked: "2026-08-19"

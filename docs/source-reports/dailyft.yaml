@@ -1,0 +1,24 @@
+name: "Daily FT"
+url: "https://www.ft.lk"
+region: "Sri Lanka"
+category: "national-press"
+rss_feed: null
+sample_article_urls:
+  - "https://www.ft.lk/business/34"
+  - "https://www.ft.lk/news/56"
+  - "https://www.ft.lk/business/JAT-Holdings-records-34-revenue-growth-in-1Q-FY26-27-led-by-international-operations-revenue-increased-34-YoY-to-Rs-3-04-b/34-796229"
+  - "https://www.ft.lk/business/Banks-see-slower-lending-growth-amid-tighter-monetary-conditions/34-796185"
+  - "https://www.ft.lk/business/Jaffna-s-tallest-residential-building-project-gets-BOI-nod/34-796184"
+structured_data_available: false
+structured_data_type: "none"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(9) > nav(1) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Standard robots.txt, no AI-specific restrictions."
+access_status: "ok"
+last_checked: "2026-08-19"

@@ -1,0 +1,24 @@
+name: "ICIJ"
+url: "https://www.icij.org"
+region: "Global"
+category: "investigative-nonprofit"
+rss_feed: "https://www.icij.org/rss"
+sample_article_urls:
+  - "https://www.icij.org"
+  - "https://www.icij.org"
+  - "https://www.icij.org/investigations/caspian-cabals/kazakhstan-alleges-big-oil-corruption-tainted-10-7-billion-in-contracts-delayed-key-oil-project/"
+  - "https://www.icij.org/news/2026/08/alleged-cartel-boss-daniel-kinahan-charged-in-ireland-following-high-security-extradition/"
+  - "https://www.icij.org/investigations/coin-laundry/the-200-billion-company-you-cant-look-inside/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(1) > main(1) > article(36) > section(1) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /wp-admin/."
+access_status: "ok"
+last_checked: "2026-08-19"

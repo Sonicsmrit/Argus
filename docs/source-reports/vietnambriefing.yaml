@@ -1,0 +1,24 @@
+name: "Vietnam Briefing"
+url: "https://www.vietnam-briefing.com"
+region: "Vietnam"
+category: "national-press"
+rss_feed: null
+sample_article_urls:
+  - "https://www.china-briefing.com/news/us-china-relations-in-the-trump-2-0-implications/"
+  - "https://www.vietnam-briefing.com/news/us-section-301-forced-labor-investigation-new-trade-compliance-risks-for-vietnam-exporters.html/"
+  - "https://www.china-briefing.com/news/us-china-tariff-rates-2025/"
+  - "https://www.china-briefing.com/news/xi-trump-beijing-summit-what-was-agreed/"
+  - "https://www.vietnam-briefing.com/news/understanding-vietnams-middle-class-size-spending-patterns-and-opportunities-for-businesses.html/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1[class*="article"]", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "[class*="article-body"]", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(2) > nav(6) > main(1) > article(1) > section(3) > aside(1) > footer(4)"
+antibot_observed: "none"
+robots_txt_notes: "Standard robots.txt, no AI-specific restrictions."
+access_status: "ok"
+last_checked: "2026-08-19"

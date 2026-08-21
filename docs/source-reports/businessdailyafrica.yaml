@@ -1,0 +1,24 @@
+name: "Business Daily Africa"
+url: "https://www.businessdailyafrica.com"
+region: "Kenya"
+category: "national-press"
+rss_feed: "https://www.businessdailyafrica.com/bd/rss.xml"
+sample_article_urls:
+  - "https://www.businessdailyafrica.com"
+  - "https://www.businessdailyafrica.com/bd/corporate/companies/absa-s-minority-investors-reject-sh24bn-share-offer-5563938"
+  - "https://www.businessdailyafrica.com/bd/corporate/shipping-logistics/kenya-shipped-sh12bn-condemned-fuel-to-drc-south-sudan-5564036"
+  - "https://www.businessdailyafrica.com/bd/markets/investors-raise-average-share-buys-via-ziidi-mobile-platform-5564080"
+  - "https://www.businessdailyafrica.com/bd/corporate/companies/stanchart-interim-dividend-up-despite-17pc-profit-drop-5563840"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(12) > nav(6) > article(65) > section(32) > aside(108) > footer(8)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /, /, /, /, /, /, /, /, /, /kenya/ (+13 more). AI/scraping clauses found (8 lines). Blocked bots: Amazonbot, Applebot-Extended, Bytespider, CCBot, ClaudeBot, CloudflareBrowserRenderingCrawler, Google-Extended, GPTBot, meta-externalagent."
+access_status: "ok"
+last_checked: "2026-08-19"

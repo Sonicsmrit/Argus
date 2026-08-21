@@ -1,0 +1,24 @@
+name: "Meduza"
+url: "https://meduza.io"
+region: "Russia (exiled)"
+category: "national-press"
+rss_feed: "https://meduza.io/rss/all"
+sample_article_urls:
+  - "https://meduza.io"
+  - "https://meduza.io"
+  - "https://meduza.io/news/2026/08/19/openai-zamedlila-obuchenie-peredovyh-modeley-posle-togo-kak-ee-ii-agenty-vyshli-iz-pod-kontrolya-i-ustroili-hakerskuyu-ataku"
+  - "https://meduza.io/news/2026/08/19/edinaya-rossiya-poluchila-pervyy-nomer-v-byulletenyah-21-iz-39-regionov-na-vyborah-v-regionalnye-parlamenty-pri-sluchaynoy-zherebievke-eto-prakticheski-nevozmozhno"
+  - "https://meduza.io/news/2026/08/19/lider-yabloka-nikolay-rybakov-potreboval-ot-glavy-mvd-prekratit-presledovanie-lyudey-podderzhivavshih-partiyu-u-zdaniya-verhovnogo-suda"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "time[datetime]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(2) > nav(2) > main(1) > article(42) > section(1) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /insite/, /embed/."
+access_status: "ok"
+last_checked: "2026-08-19"

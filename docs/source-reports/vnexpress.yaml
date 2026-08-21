@@ -1,0 +1,24 @@
+name: "VnExpress International"
+url: "https://e.vnexpress.net"
+region: "Vietnam"
+category: "national-press"
+rss_feed: null
+sample_article_urls:
+  - "https://e.vnexpress.net/news/news/politics"
+  - "https://e.vnexpress.net/news/news/education"
+  - "https://e.vnexpress.net/news/news/environment"
+  - "https://e.vnexpress.net/news/news/traffic"
+  - "https://e.vnexpress.net/news/news/crime"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(1) > section(2) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /, /, /, /, /, /, /, /, /, / (+29 more). AI/scraping clauses found (5 lines). Blocked bots: GPTBot, ClaudeBot, Claude-Web, Google-Extended, Google-CloudVertexBot, Applebot-Extended, CCBot, Bytespider, cohere-ai, ImagesiftBot, MyCentralAIScraperBot, SeekrBot, omgilibot, news-please, anthropic-ai, AliyunSecBot, AmazonBot, archive.org_bot, AudigentAdBot, AwarioSmartBot, BLEXBot, DataForSeoBot, Diffbot, EchoboxBot, FriendlyCrawler, Jetslide, magpie-crawler, NewsNow, peer39_crawler/1.0, Poseidon Research Crawler, quillbot.com, Quora-Bot, Scrapy, SeznamHomepageCrawler, TaraGroup Intelligent Bot, Timpibot, TurnitinBot, ViennaTinyBot, YouBot."
+access_status: "ok"
+last_checked: "2026-08-19"

@@ -1,0 +1,24 @@
+name: "Kyiv Independent"
+url: "https://kyivindependent.com"
+region: "Ukraine"
+category: "national-press"
+rss_feed: "https://kyivindependent.com/news-archive/rss/"
+sample_article_urls:
+  - "https://kyivindependent.com/"
+  - "https://kyivindependent.com/"
+  - "https://kyivindependent.com/russian-ballistic-missile-attack-rocks-kyiv-damages-childrens-hospital/"
+  - "https://kyivindependent.com/russian-jet-powered-drones-strike-a-police-headquarters-in-zhytomyr/"
+  - "https://kyivindependent.com/im-skeptical-ukrainian-soldiers-react-to-fedorovs-bombshell-election-video/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "time[datetime]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(1) > main(1) > article(44) > section(1) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /ghost/, /p/, /preview/, /email/, /members/, /r/, /crowdfunding/, /?*, /?ref=*, /?fbclid=* (+38 more). AI/scraping clauses found (4 lines)."
+access_status: "ok"
+last_checked: "2026-08-19"

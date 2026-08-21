@@ -1,0 +1,24 @@
+name: "El Universal"
+url: "https://www.eluniversal.com.mx"
+region: "Mexico"
+category: "national-press"
+rss_feed: null
+sample_article_urls:
+  - "https://www.elgrafico.mx/la-roja/2026/08/19/sicario-a-los-15-anos-kevin-joshua-persigue-a-biker-hasta-matarlo-en-iztapalapa/"
+  - "https://www.elgrafico.mx/la-roja/2026/08/19/lo-amenazaron-y-cumplieron-matan-a-comisario-que-defendia-terrenos-en-naucalpan/"
+  - "https://www.elgrafico.mx/la-roja/2026/08/19/chava-presencia-la-ejecucion-de-su-novio-en-tepito-estaba-ligado-a-los-fortis/"
+  - "https://www.elgrafico.mx/espectaculos/2026/08/19/sandra-cuevas-sera-sometida-a-cirugia-de-mas-de-diez-horas-se-hara-nuevo-arreglito/"
+  - "https://www.elgrafico.mx/la-roja/2026/08/19/rafaga-mortal-contra-un-bmw-uno-murio-y-otro-recibio-balazos-en-el-cuello-y-el-brazo/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(3) > section(1) > aside(1) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /files/, /descuentos/, /, /, /, /, /, /, /, / (+20 more). AI/scraping clauses found (1 lines). Blocked bots: UbiCrawler, DOC, Zao, sitecheck.internetseer.com, Zealbot, MSIECrawler, SiteSnagger, WebStripper, WebCopier, Fetch, Offline Explorer, Teleport, TeleportPro, WebZIP, linko, HTTrack, Microsoft.URL.Control, Xenu, larbin, libwww, ZyBORG, Download Ninja, wget, grub-client, k2spider, NPBot, WebReaper, Bytespider."
+access_status: "ok"
+last_checked: "2026-08-19"

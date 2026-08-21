@@ -1,0 +1,887 @@
+<USER_REQUEST>
+<!-- Dashboard | ScrapeVerse -->
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}@font-face{font-family:'Plus Jakarta Sans';src:url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap');}@font-face{font-family:'Inter';src:url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');}@font-face{font-family:'JetBrains Mono';src:url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap');}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary":"#ffffff","tertiary-fixed":"#e1e0ff","on-secondary-fixed":"#2a1700","background":"#faf8ff","error":"#ba1a1a","tertiary-container":"#6063ee","on-tertiary-container":"#fffbff","on-background":"#131b2e","primary-container":"#2170e4","surface-dim":"#d2d9f4","inverse-primary":"#adc6ff","on-primary":"#ffffff","on-secondary-container":"#684000","primary-fixed":"#d8e2ff","on-surface":"#131b2e","tertiary":"#4648d4","surface":"#faf8ff","primary":"#0058be","on-primary-container":"#fefcff","tertiary-fixed-dim":"#c0c1ff","surface-container":"#eaedff","surface-variant":"#dae2fd","surface-container-low":"#f2f3ff","secondary":"#855300","surface-container-high":"#e2e7ff","on-error-container":"#93000a","on-secondary-fixed-variant":"#653e00","outline":"#727785","on-tertiary-fixed-variant":"#2f2ebe","inverse-surface":"#283044","surface-tint":"#005ac2","surface-container-highest":"#dae2fd","inverse-on-surface":"#eef0ff","on-error":"#ffffff","secondary-container":"#fea619","primary-fixed-dim":"#adc6ff","surface-bright":"#faf8ff","on-tertiary-fixed":"#07006c","outline-variant":"#c2c6d6","on-primary-fixed":"#001a42","error-container":"#ffdad6","secondary-fixed-dim":"#ffb95f","on-surface-variant":"#424754","on-secondary":"#ffffff","surface-container-lowest":"#ffffff","on-primary-fixed-variant":"#004395","secondary-fixed":"#ffddb8"},"borderRadius":{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},"spacing":{"stack-sm":"0.5rem","container-padding-desktop":"2.5rem","stack-lg":"2rem","base":"8px","stack-md":"1rem","container-padding-mobile":"1.25rem","gutter":"1.5rem"},"fontFamily":{"headline-lg-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"body-sm":["Inter"],"label-md":["JetBrains Mono"],"body-lg":["Inter"],"button":["Plus Jakarta Sans"]},"fontSize":{"headline-lg-mobile":["24px",{"lineHeight":"1.2","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"display-lg":["48px",{"lineHeight":"1.1","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["32px",{"lineHeight":"1.2","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["14px",{"lineHeight":"1.5","fontWeight":"400"}],"label-md":["13px",{"lineHeight":"1.0","letterSpacing":"0.05em","fontWeight":"500"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"button":["15px",{"lineHeight":"1.0","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-background"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col border-r border-outline-variant/30"><div class="p-stack-lg flex items-center gap-3"><img alt="ScrapeVerse Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTFd0Ppn6Q8c82f8bbL64qxvgRw8S3vPwq0D7qszLS7MCP-5dSTqUho-WW11tRpDvB5hY9ByXO6u-9rqVcTaxlXbdqrAzshblL54nRDWj51eDiCTFcJnBlAJfNwlY-f8-YzTcDfWe0t7LsPkDjyXGyDXD0vDq3PzaEoJD7lJXxhUjihj2HxGEbhxOdjZdtaOuC53Lb2a16ytdqso6lYjNCa2Ugv2a4bPhQAYnXQ5YP0Y2RUnp6MS3o"><span class="font-headline-md text-headline-md tracking-tight text-primary">ScrapeVerse</span></div><nav class="flex-1 px-4 mt-4 space-y-2" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a aria-current="page" class="flex items-center px-4 py-3 rounded-xl transition-all bg-primary-container text-on-primary-container font-semibold" data-path="dashboard" href="#"><span class="material-symbols-outlined mr-4">dashboard</span><span class="font-button text-button">Dashboard</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="threat-briefing" href="#"><span class="material-symbols-outlined mr-4">security</span><span class="font-button text-button">Threat Briefing</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="entity-intelligence" href="#"><span class="material-symbols-outlined mr-4">travel_explore</span><span class="font-button text-button">Entity Intelligence</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="system-status" href="#"><span class="material-symbols-outlined mr-4">sensors</span><span class="font-button text-button">System Status</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined mr-4">settings</span><span class="font-button text-button">Settings</span></a></nav><div class="p-6 border-t border-outline-variant/20 flex items-center gap-3"><img alt="Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary-container/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjfGZ-3V5GodVOsE6mVQZB2vP_P42M2Uyqhs_6wcw92RvyrIhImLT1UMJX3axtjgYy3p2AEKh1PmjmmYhiTlMIpzUX2NT9hCNKp9A8kDIwDtyoser2_-DMx3niBdWbnc8RpSo7InLoNTehB09UPnT8ckN8Hxacwk3OzQVvzBdo6naLmwsCWzhv288EcGYbGvp3eYDVWwSw66VApzDOADNJIiAD5IIWxgvVLSnFmIXRfbrzDnAFjcRn"><div class="flex flex-col"><span class="text-body-sm font-semibold text-on-surface">Alex Rivet</span><span class="text-[12px] text-on-surface-variant">Lead Investigator</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-20 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-container-padding-desktop border-b border-outline-variant/10"><div class="flex-1 max-w-xl"><div class="relative flex items-center group"><span class="material-symbols-outlined absolute left-4 text-outline group-focus-within:text-primary transition-colors">search</span><input class="w-full h-12 pl-12 pr-4 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary/20 text-body-md outline-none transition-all" placeholder="Search entities, threats, or nodes..." type="text"></div></div><div class="flex items-center gap-stack-md"><button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest transition-colors relative"><span class="material-symbols-outlined text-on-surface-variant">notifications</span><span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span></button><button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined text-on-surface-variant">help</span></button></div></header><main class="relative pt-20 bg-background min-h-screen px-container-padding-desktop py-stack-lg"><div class="flex flex-col w-full gap-stack-lg animate-[fade-in_0.5s_ease-out]">
+<div class="grid grid-cols-12 gap-gutter">
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-gutter">
+<div class="bg-surface-container rounded-xl shadow-sm p-stack-lg relative overflow-hidden flex flex-col lg:flex-row items-center gap-stack-lg">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary-container opacity-10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+<div class="relative w-48 h-48 flex-shrink-0">
+<svg class="w-full h-full transform -rotate-90 drop-shadow-md" viewBox="0 0 100 100">
+<circle class="text-surface-variant" cx="50" cy="50" fill="none" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-tertiary-container" cx="50" cy="50" fill="none" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="35" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-display-lg text-on-surface tracking-tight">86</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mt-1">Health</span>
+</div>
+</div>
+<div class="flex flex-col flex-1">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Network Health is Optimal</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Global compliance score has increased by 4 points since last week's automated sweep. 3 minor anomalies detected.</p>
+<div class="flex flex-wrap gap-3">
+<div class="bg-surface px-4 py-2 rounded-full shadow-sm flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-surface">Screening Active</span>
+</div>
+<div class="bg-surface px-4 py-2 rounded-full shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-[16px]">verified_user</span>
+<span class="font-label-md text-label-md text-on-surface">ISO 27001</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="bg-surface-container rounded-xl shadow-sm p-stack-md flex flex-col relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[120px]">group</span>
+</div>
+<span class="font-label-md text-label-md text-outline mb-2">Entities Screened</span>
+<span class="font-headline-lg text-headline-lg text-on-surface mb-1">1.2M</span>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span class="font-label-md text-label-md text-on-surface-variant">+12% this month</span>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl shadow-sm p-stack-md flex flex-col relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[120px]">article</span>
+</div>
+<span class="font-label-md text-label-md text-outline mb-2">Adverse Media</span>
+<span class="font-headline-lg text-headline-lg text-on-surface mb-1">428</span>
+<div class="flex items-center gap-1 text-secondary-container">
+<span class="material-symbols-outlined text-[16px]">trending_flat</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Stable volume</span>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl shadow-sm p-stack-md flex flex-col relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[120px]">gavel</span>
+</div>
+<span class="font-label-md text-label-md text-outline mb-2">Active Sanctions</span>
+<span class="font-headline-lg text-headline-lg text-error mb-1">14</span>
+<div class="flex items-center gap-1 text-error">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Requires action</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl shadow-sm overflow-hidden flex flex-col h-[400px]">
+<div class="p-stack-md flex justify-between items-center bg-surface-container-low">
+<h3 class="font-headline-md text-headline-md text-on-surface">Global Monitor</h3>
+<button class="bg-primary-container text-on-primary-container font-button text-button px-4 py-2 rounded-lg hover:bg-primary transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">explore</span>
+                        Explore Map
+                    </button>
+</div>
+<div id="globe-container" class="flex-1 w-full relative bg-[#0a0f1e] overflow-hidden">
+  <canvas id="globe-canvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    (function() {
+      const container = document.getElementById('globe-container');
+      const canvas = document.getElementById('globe-canvas');
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+
+      // Globe Geometry
+      const geometry = new THREE.SphereGeometry(5, 64, 64);
+      const material = new THREE.MeshPhongMaterial({
+        color: 0x1a237e,
+        transparent: true,
+        opacity: 0.9,
+        shininess: 50
+      });
+      const globe = new THREE.Mesh(geometry, material);
+      scene.add(globe);
+
+      // Wireframe overlay for tech look
+      const wireframe = new THREE.Mesh(
+        new THREE.SphereGeometry(5.05, 32, 32),
+        new THREE.MeshBasicMaterial({ color: 0x304ffe, wireframe: true, transparent: true, opacity: 0.1 })
+      );
+      scene.add(wireframe);
+
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+      const pointLight = new THREE.PointLight(0x2196f3, 1.5);
+      pointLight.position.set(10, 10, 10);
+      scene.add(pointLight);
+
+      camera.position.z = 15;
+
+      // Simple rotation
+      function animate() {
+        requestAnimationFrame(animate);
+        globe.rotation.y += 0.002;
+        wireframe.rotation.y += 0.002;
+        renderer.render(scene, camera);
+      }
+
+      // Handle Resize
+      window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+      });
+
+      animate();
+    })();
+  </script>
+</div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<div class="bg-surface-container rounded-xl shadow-sm p-stack-md flex flex-col h-[350px]">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">AI Insights</h3>
+<span class="material-symbols-outlined text-primary-container">psychology</span>
+</div>
+<div class="flex-1 overflow-y-auto space-y-4 pr-2 custom-scrollbar">
+<div class="bg-surface p-4 rounded-lg shadow-sm border border-outline-variant/10">
+<div class="flex items-center justify-between mb-2">
+<span class="bg-error-container text-on-error-container font-label-md text-label-md px-2 py-1 rounded-md">High Priority</span>
+<span class="font-body-sm text-body-sm text-outline">10m ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface line-clamp-3">
+                            Neural network flagged significant shift in corporate structure for Entity #492 (Triton Logistics). Shell company creation pattern matches known sanction evasion typologies in Baltic states.
+                        </p>
+</div>
+<div class="bg-surface p-4 rounded-lg shadow-sm border border-outline-variant/10">
+<div class="flex items-center justify-between mb-2">
+<span class="bg-surface-variant text-on-surface-variant font-label-md text-label-md px-2 py-1 rounded-md">Media Scan</span>
+<span class="font-body-sm text-body-sm text-outline">1h ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface line-clamp-3">
+                            Aggregated Layer 2 media hits indicate potential environmental regulatory breaches linked to secondary suppliers of Apex Holdings in South East Asia.
+                        </p>
+</div>
+<div class="bg-surface p-4 rounded-lg shadow-sm border border-outline-variant/10">
+<div class="flex items-center justify-between mb-2">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md px-2 py-1 rounded-md">Summary</span>
+<span class="font-body-sm text-body-sm text-outline">3h ago</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface line-clamp-3">
+                            Weekly screening completed. 98.4% of portfolio remains within acceptable risk thresholds. Recommend manual review for 14 entities flagged with PEP associations.
+                        </p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl shadow-sm p-stack-md flex flex-col flex-1">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Next Actions</h3>
+<span class="material-symbols-outlined text-outline">checklist</span>
+</div>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 p-3 bg-surface rounded-lg shadow-sm group hover:bg-surface-variant transition-colors cursor-pointer">
+<div class="w-6 h-6 rounded-full border-2 border-primary-container flex items-center justify-center mt-0.5 group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[14px] text-surface opacity-0 group-hover:opacity-100">check</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Review Triton Logistics</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Due to AI structure flag</p>
+</div>
+</li>
+<li class="flex items-start gap-3 p-3 bg-surface rounded-lg shadow-sm group hover:bg-surface-variant transition-colors cursor-pointer">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center mt-0.5 group-hover:border-primary-container group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[14px] text-surface opacity-0 group-hover:opacity-100">check</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Approve Monthly Report</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Due in 2 days</p>
+</div>
+</li>
+<li class="flex items-start gap-3 p-3 bg-surface rounded-lg shadow-sm group hover:bg-surface-variant transition-colors cursor-pointer">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center mt-0.5 group-hover:border-primary-container group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[14px] text-surface opacity-0 group-hover:opacity-100">check</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Update Sanction Lists</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">OFAC update available</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<style>
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+        display: block;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(114, 119, 133, 0.2);
+        border-radius: 4px;
+    }
+    .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+        background: rgba(114, 119, 133, 0.4);
+    }
+</style></main></div>
+
+</body></html>
+
+<!-- Bilateral Risk Briefing | ScrapeVerse -->
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}@font-face{font-family:'Plus Jakarta Sans';src:url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap');}@font-face{font-family:'Inter';src:url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');}@font-face{font-family:'JetBrains Mono';src:url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap');}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary":"#ffffff","tertiary-fixed":"#e1e0ff","on-secondary-fixed":"#2a1700","background":"#faf8ff","error":"#ba1a1a","tertiary-container":"#6063ee","on-tertiary-container":"#fffbff","on-background":"#131b2e","primary-container":"#2170e4","surface-dim":"#d2d9f4","inverse-primary":"#adc6ff","on-primary":"#ffffff","on-secondary-container":"#684000","primary-fixed":"#d8e2ff","on-surface":"#131b2e","tertiary":"#4648d4","surface":"#faf8ff","primary":"#0058be","on-primary-container":"#fefcff","tertiary-fixed-dim":"#c0c1ff","surface-container":"#eaedff","surface-variant":"#dae2fd","surface-container-low":"#f2f3ff","secondary":"#855300","surface-container-high":"#e2e7ff","on-error-container":"#93000a","on-secondary-fixed-variant":"#653e00","outline":"#727785","on-tertiary-fixed-variant":"#2f2ebe","inverse-surface":"#283044","surface-tint":"#005ac2","surface-container-highest":"#dae2fd","inverse-on-surface":"#eef0ff","on-error":"#ffffff","secondary-container":"#fea619","primary-fixed-dim":"#adc6ff","surface-bright":"#faf8ff","on-tertiary-fixed":"#07006c","outline-variant":"#c2c6d6","on-primary-fixed":"#001a42","error-container":"#ffdad6","secondary-fixed-dim":"#ffb95f","on-surface-variant":"#424754","on-secondary":"#ffffff","surface-container-lowest":"#ffffff","on-primary-fixed-variant":"#004395","secondary-fixed":"#ffddb8"},"borderRadius":{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},"spacing":{"stack-sm":"0.5rem","container-padding-desktop":"2.5rem","stack-lg":"2rem","base":"8px","stack-md":"1rem","container-padding-mobile":"1.25rem","gutter":"1.5rem"},"fontFamily":{"headline-lg-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"body-sm":["Inter"],"label-md":["JetBrains Mono"],"body-lg":["Inter"],"button":["Plus Jakarta Sans"]},"fontSize":{"headline-lg-mobile":["24px",{"lineHeight":"1.2","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"display-lg":["48px",{"lineHeight":"1.1","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["32px",{"lineHeight":"1.2","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["14px",{"lineHeight":"1.5","fontWeight":"400"}],"label-md":["13px",{"lineHeight":"1.0","letterSpacing":"0.05em","fontWeight":"500"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"button":["15px",{"lineHeight":"1.0","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-background"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col border-r border-outline-variant/30"><div class="p-stack-lg flex items-center gap-3"><img alt="ScrapeVerse Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTFd0Ppn6Q8c82f8bbL64qxvgRw8S3vPwq0D7qszLS7MCP-5dSTqUho-WW11tRpDvB5hY9ByXO6u-9rqVcTaxlXbdqrAzshblL54nRDWj51eDiCTFcJnBlAJfNwlY-f8-YzTcDfWe0t7LsPkDjyXGyDXD0vDq3PzaEoJD7lJXxhUjihj2HxGEbhxOdjZdtaOuC53Lb2a16ytdqso6lYjNCa2Ugv2a4bPhQAYnXQ5YP0Y2RUnp6MS3o"/><span class="font-headline-md text-headline-md tracking-tight text-primary">ScrapeVerse</span></div><nav class="flex-1 px-4 mt-4 space-y-2" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="dashboard" href="#"><span class="material-symbols-outlined mr-4">dashboard</span><span class="font-button text-button">Dashboard</span></a><a aria-current="page" class="flex items-center px-4 py-3 rounded-xl transition-all bg-primary-container text-on-primary-container font-semibold" data-path="threat-briefing" href="#"><span class="material-symbols-outlined mr-4">security</span><span class="font-button text-button">Threat Briefing</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="entity-intelligence" href="#"><span class="material-symbols-outlined mr-4">travel_explore</span><span class="font-button text-button">Entity Intelligence</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="system-status" href="#"><span class="material-symbols-outlined mr-4">sensors</span><span class="font-button text-button">System Status</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined mr-4">settings</span><span class="font-button text-button">Settings</span></a></nav><div class="p-6 border-t border-outline-variant/20 flex items-center gap-3"><img alt="Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary-container/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjfGZ-3V5GodVOsE6mVQZB2vP_P42M2Uyqhs_6wcw92RvyrIhImLT1UMJX3axtjgYy3p2AEKh1PmjmmYhiTlMIpzUX2NT9hCNKp9A8kDIwDtyoser2_-DMx3niBdWbnc8RpSo7InLoNTehB09UPnT8ckN8Hxacwk3OzQVvzBdo6naLmwsCWzhv288EcGYbGvp3eYDVWwSw66VApzDOADNJIiAD5IIWxgvVLSnFmIXRfbrzDnAFjcRn"/><div class="flex flex-col"><span class="text-body-sm font-semibold text-on-surface">Alex Rivet</span><span class="text-[12px] text-on-surface-variant">Lead Investigator</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-20 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-container-padding-desktop border-b border-outline-variant/10"><div class="flex-1 max-w-xl"><div class="relative flex items-center group"><span class="material-symbols-outlined absolute left-4 text-outline group-focus-within:text-primary transition-colors">search</span><input class="w-full h-12 pl-12 pr-4 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary/20 text-body-md outline-none transition-all" placeholder="Search entities, threats, or nodes..." type="text"/></div></div><div class="flex items-center gap-stack-md"><button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest transition-colors relative"><span class="material-symbols-outlined text-on-surface-variant">notifications</span><span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span></button><button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined text-on-surface-variant">help</span></button></div></header><main class="relative pt-20 bg-background min-h-screen px-container-padding-desktop py-stack-lg"><div class="flex flex-col w-full relative pb-stack-lg">
+<!-- Atmospheric Background Elements -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden mix-blend-multiply opacity-50 dark:opacity-20 z-0">
+<div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-error/10 via-surface to-transparent blur-[120px]"></div>
+<div class="absolute top-[20%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-gradient-to-bl from-secondary-container/10 via-surface to-transparent blur-[100px]"></div>
+</div>
+<div class="relative z-10 w-full flex flex-col gap-stack-lg">
+<!-- Page Header & Country Selection -->
+<section class="flex flex-col gap-stack-md">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<p class="font-label-md text-label-md text-primary uppercase tracking-widest mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">public</span>
+            Strategic Bilateral Analysis
+          </p>
+<h1 class="font-display-lg text-display-lg text-on-background">Threat Briefing</h1>
+</div>
+<div class="hidden md:flex gap-4">
+<button class="bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors px-6 py-3 rounded-full font-button text-button flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">download</span>
+            Export PDF
+          </button>
+<button class="bg-primary hover:bg-surface-tint text-on-primary transition-colors px-6 py-3 rounded-full font-button text-button flex items-center gap-2 shadow-md">
+<span class="material-symbols-outlined text-[18px]">share</span>
+            Share Report
+          </button>
+</div>
+</div>
+<!-- Bilateral Selectors -->
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-md flex flex-col md:flex-row items-center gap-4 relative mt-4">
+<!-- Source Country -->
+<div class="flex-1 w-full flex flex-col relative group">
+<label class="font-label-md text-label-md text-on-surface-variant mb-2 ml-4">Origin Entity / State</label>
+<div class="relative flex items-center bg-surface-container rounded-2xl p-2 transition-all group-focus-within:bg-surface-container-high group-focus-within:shadow-[0_0_0_3px_rgba(33,112,228,0.2)]">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center mr-3 shrink-0">
+<span class="material-symbols-outlined text-primary">flag</span>
+</div>
+<input class="w-full bg-transparent border-none focus:outline-none font-headline-md text-headline-md text-on-surface h-12" placeholder="Search Origin..." type="text" value="United States"/>
+<span class="material-symbols-outlined text-outline-variant mr-2">arrow_drop_down</span>
+</div>
+</div>
+<!-- Directional Arrow -->
+<div class="flex shrink-0 items-center justify-center w-12 h-12 bg-surface-variant rounded-full text-on-surface-variant z-10 md:-mx-4 md:mt-8 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">east</span>
+</div>
+<!-- Target Country -->
+<div class="flex-1 w-full flex flex-col relative group">
+<label class="font-label-md text-label-md text-on-surface-variant mb-2 ml-4">Destination Entity / State</label>
+<div class="relative flex items-center bg-surface-container rounded-2xl p-2 transition-all group-focus-within:bg-surface-container-high group-focus-within:shadow-[0_0_0_3px_rgba(186,26,26,0.2)]">
+<div class="w-10 h-10 rounded-full bg-error-container/50 flex items-center justify-center mr-3 shrink-0">
+<span class="material-symbols-outlined text-error">flag</span>
+</div>
+<input class="w-full bg-transparent border-none focus:outline-none font-headline-md text-headline-md text-on-surface h-12" placeholder="Search Destination..." type="text" value="Russian Federation"/>
+<span class="material-symbols-outlined text-outline-variant mr-2">arrow_drop_down</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Top Summary Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg items-start">
+<!-- AI Executive Summary -->
+<div class="lg:col-span-8 flex flex-col gap-4">
+<div class="relative overflow-hidden bg-surface-container-lowest/80 backdrop-blur-xl rounded-3xl p-8 shadow-lg">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+<div class="flex items-center gap-3 mb-6 relative z-10">
+<div class="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-tertiary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[16px] text-white" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">AI Executive Threat Summary</h2>
+</div>
+<div class="space-y-4 relative z-10">
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+               The bilateral corridor between the <span class="font-semibold text-on-surface">United States</span> and the <span class="font-semibold text-on-surface">Russian Federation</span> exhibits a highly complex risk profile dominated by aggressive evasion tactics. Recent telemetry indicates a surge in obfuscated supply chain routing specifically targeting microelectronics and aerospace components.
+             </p>
+<p class="font-body-md text-body-md text-on-surface-variant/80">
+               Primary concern centers on multi-node transshipment via third-party jurisdictions (predominantly UAE, Turkey, and Central Asian states) designed to bypass current OFAC/BIS multilateral export control regimes. Dual-use technologies masquerading as civilian telecom infrastructure remain the most frequent vector of interdiction failure.
+             </p>
+</div>
+</div>
+<!-- Primary Threat Vectors -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 shadow-md">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">troubleshoot</span>
+             Dominant Threat Vectors
+           </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Vector Card 1 -->
+<div class="bg-surface rounded-2xl p-5 hover:-translate-y-1 transition-transform cursor-pointer shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-error"></div>
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-button text-button text-on-surface">Transshipment Obfuscation</span>
+</div>
+<span class="bg-error-container text-on-error-container font-label-md text-label-md px-3 py-1 rounded-full text-[11px]">RED FLAG</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">High incidence of front companies utilizing free trade zones in third-party jurisdictions to strip origin data.</p>
+<div class="mt-4 flex items-center justify-between text-on-surface-variant text-[12px]">
+<span>92% Confidence</span>
+<span class="flex items-center gap-1 group-hover:text-primary transition-colors">Details <span class="material-symbols-outlined text-[14px]">arrow_forward</span></span>
+</div>
+</div>
+<!-- Vector Card 2 -->
+<div class="bg-surface rounded-2xl p-5 hover:-translate-y-1 transition-transform cursor-pointer shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary-container"></div>
+<div class="flex justify-between items-start mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+<span class="font-button text-button text-on-surface">Dual-Use Technology</span>
+</div>
+<span class="bg-secondary-container/20 text-on-secondary-container font-label-md text-label-md px-3 py-1 rounded-full text-[11px]">HIGH RISK</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Civilian-grade drones and telecom routing equipment frequently repurposed for uncrewed aerial systems (UAS).</p>
+<div class="mt-4 flex items-center justify-between text-on-surface-variant text-[12px]">
+<span>88% Confidence</span>
+<span class="flex items-center gap-1 group-hover:text-primary transition-colors">Details <span class="material-symbols-outlined text-[14px]">arrow_forward</span></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Threat Rating Gauge (Sidebar) -->
+<div class="lg:col-span-4 flex flex-col gap-stack-md">
+<div class="bg-inverse-surface rounded-3xl p-8 text-inverse-on-surface shadow-xl flex flex-col items-center justify-center relative overflow-hidden h-full min-h-[300px]">
+<!-- Decorative radar rings -->
+<div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+<div class="w-48 h-48 rounded-full bg-transparent shadow-[0_0_0_1px_#ffffff]"></div>
+<div class="absolute w-64 h-64 rounded-full bg-transparent shadow-[0_0_0_1px_#ffffff]"></div>
+<div class="absolute w-80 h-80 rounded-full bg-transparent shadow-[0_0_0_1px_#ffffff]"></div>
+</div>
+<span class="font-label-md text-label-md text-inverse-primary uppercase tracking-widest mb-6 relative z-10">Overall Threat Rating</span>
+<!-- Gauge Visualization (CSS/SVG) -->
+<div class="relative w-48 h-48 flex items-center justify-center mb-4 z-10">
+<!-- Background track -->
+<svg class="absolute inset-0 w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="text-white/10" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-linecap="round" stroke-width="8"></circle>
+<!-- Progress track (Critical - Red) -->
+<circle class="text-error transition-all duration-1000 ease-out" cx="50" cy="50" fill="none" r="45" stroke="#ba1a1a" stroke-dasharray="283" stroke-dashoffset="42.45" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="flex flex-col items-center text-center">
+<span class="font-display-lg text-[64px] leading-none font-bold text-error-container mb-1">85</span>
+<span class="font-label-md text-label-md text-inverse-on-surface/70">/ 100</span>
+</div>
+</div>
+<div class="flex flex-col items-center z-10 text-center">
+<span class="font-headline-md text-headline-md text-error-container tracking-tight mb-2">CRITICAL RISK</span>
+<p class="font-body-sm text-body-sm text-inverse-on-surface/80 max-w-[200px]">Enhanced due diligence legally required for all transactions in this corridor.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Grids: Guardrails & Early Warning -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-start">
+<!-- Compliance Guardrails -->
+<div class="bg-surface-container-lowest rounded-3xl p-8 shadow-md">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline-md text-headline-md text-on-surface">Compliance Guardrails</h3>
+<span class="material-symbols-outlined text-primary bg-primary-container/20 p-2 rounded-full">gavel</span>
+</div>
+<div class="space-y-4">
+<!-- Checklist Item 1 -->
+<label class="flex items-start gap-4 p-4 rounded-2xl bg-surface hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="relative flex items-center justify-center mt-1">
+<input class="peer sr-only" type="checkbox"/>
+<div class="w-6 h-6 rounded-md bg-surface-variant peer-checked:bg-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[18px] opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-button text-button text-on-surface group-hover:text-primary transition-colors">Mandatory End-User Certification (EUC)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Verify cryptographically signed EUC documents for all Tier 1 and Tier 2 electronic components prior to shipment clearance.</span>
+</div>
+</label>
+<!-- Checklist Item 2 -->
+<label class="flex items-start gap-4 p-4 rounded-2xl bg-surface hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="relative flex items-center justify-center mt-1">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="w-6 h-6 rounded-md bg-surface-variant peer-checked:bg-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[18px] opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-button text-button text-on-surface group-hover:text-primary transition-colors">Freight Forwarder Network Screening</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Cross-reference all intermediary logistics providers against the specialized Evasion Typology Database (ETD-4).</span>
+</div>
+</label>
+<!-- Checklist Item 3 -->
+<label class="flex items-start gap-4 p-4 rounded-2xl bg-surface hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="relative flex items-center justify-center mt-1">
+<input class="peer sr-only" type="checkbox"/>
+<div class="w-6 h-6 rounded-md bg-surface-variant peer-checked:bg-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[18px] opacity-0 peer-checked:opacity-100 transition-opacity">check</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-button text-button text-on-surface group-hover:text-primary transition-colors">Vessel Tracking Anomaly Review</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Require historical AIS (Automatic Identification System) logs for the past 90 days to detect dark activity or unusual loitering.</span>
+</div>
+</label>
+</div>
+<div class="mt-6 pt-6 border-t border-outline-variant/20 flex justify-end">
+<button class="text-primary hover:text-surface-tint font-button text-button flex items-center gap-1 transition-colors">
+              View Full Protocol <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Pre-Listing Early Warning -->
+<div class="bg-surface-container-lowest rounded-3xl p-8 shadow-md flex flex-col h-full">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-error animate-pulse"></div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Early Warning Intel</h3>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Adverse Media &amp; OSINT</span>
+</div>
+<!-- Signal Graph visualization placeholder -->
+<div class="w-full h-32 mb-6 rounded-2xl bg-surface flex items-end p-4 relative overflow-hidden">
+<!-- Decorative sparkline -->
+<svg class="absolute inset-0 w-full h-full text-primary opacity-20" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0 100 C 20 80, 30 90, 50 40 C 70 10, 80 60, 100 20 L 100 100 Z" fill="currentColor"></path>
+<path class="opacity-100" d="M0 100 L 0 100 C 20 80, 30 90, 50 40 C 70 10, 80 60, 100 20" fill="none" stroke="currentColor" stroke-width="2"></path>
+</svg>
+<div class="relative z-10 w-full flex justify-between items-end h-full">
+<!-- Bar chart representation -->
+<div class="w-[8%] bg-primary/40 rounded-t-sm h-[20%] hover:bg-primary transition-colors"></div>
+<div class="w-[8%] bg-primary/40 rounded-t-sm h-[35%] hover:bg-primary transition-colors"></div>
+<div class="w-[8%] bg-primary/40 rounded-t-sm h-[15%] hover:bg-primary transition-colors"></div>
+<div class="w-[8%] bg-primary/40 rounded-t-sm h-[45%] hover:bg-primary transition-colors"></div>
+<div class="w-[8%] bg-primary/40 rounded-t-sm h-[30%] hover:bg-primary transition-colors"></div>
+<div class="w-[8%] bg-primary/40 rounded-t-sm h-[60%] hover:bg-primary transition-colors"></div>
+<div class="w-[8%] bg-error/70 rounded-t-sm h-[85%] hover:bg-error transition-colors relative group">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Spike Detected</div>
+</div>
+<div class="w-[8%] bg-error/90 rounded-t-sm h-[95%] hover:bg-error transition-colors"></div>
+</div>
+</div>
+<!-- Intelligence Feed -->
+<div class="flex-1 flex flex-col gap-4 overflow-y-auto pr-2" style="scrollbar-width: thin;">
+<div class="flex gap-4 p-3 hover:bg-surface rounded-xl transition-colors">
+<div class="shrink-0 w-12 h-12 rounded-lg bg-cover bg-center overflow-hidden relative" data-alt="A macro shot of generic semiconductor microchips and circuit boards under moody blue and red lighting, symbolizing illicit tech transfer in a corporate espionage style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBt-5zgmnOy8hl4hPtuxdUAQosVpjPR3gBQ6JAzLW6kdDyc5FpculidSQVlpbPUMk2_J9eYU6r4dt6ykzP-ii5n09JQ4Yne3jOux6oRTXOAUnWNREiLAmu86-pRgvKOYtMt15IT2wUt_WCCxX3uk9Psyb8lxLgAgEaejOupbGI-b5wtE09pL-sCn2QVM68rbrHoJpdQAzXaflYZVNAX9bdCwNQPLjCnVcOF6GibY1xk2WseWHELgPOg')"></div>
+<div class="flex flex-col justify-center">
+<span class="font-label-md text-[10px] text-error font-bold uppercase tracking-wider mb-1">Imminent Designation Risk</span>
+<p class="font-button text-button text-on-surface line-clamp-2 leading-tight">Investigation launched into 3 HK-based electronics distributors linked to defense procurement.</p>
+<span class="font-body-sm text-[12px] text-on-surface-variant mt-1">Source: Financial Times • 2 hours ago</span>
+</div>
+</div>
+<div class="flex gap-4 p-3 hover:bg-surface rounded-xl transition-colors">
+<div class="shrink-0 w-12 h-12 rounded-lg bg-cover bg-center overflow-hidden relative" data-alt="A wide angle view of an industrial shipping port at night, with towering cranes and cargo containers bathed in stark white floodlights and deep shadows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDUpuYXfRJfBhT3odyeZCMhzWapgDmVEPkh2uWzJ_N_DDtEccfScLOgonNmg_PI62IB2HY0TzaUXzt6YXvXOtY6qkBF99gZB8otGKf27glOOB-TQ-20FNRcBesIntpvf7XLwKIgH-l6xnAeETqUDmSqUtuPi4YWrszT6cjog75iTbf27DrdWjb_RJZNsUV6CG6gddqTapWNbsjxHMb31KKnQ7I6wUCPkOZs7SN6MjAmrXHvAW9rvvzI')"></div>
+<div class="flex flex-col justify-center">
+<span class="font-label-md text-[10px] text-secondary font-bold uppercase tracking-wider mb-1">Typology Shift</span>
+<p class="font-button text-button text-on-surface line-clamp-2 leading-tight">New maritime evasion pattern detected involving ship-to-ship transfers in the Black Sea.</p>
+<span class="font-body-sm text-[12px] text-on-surface-variant mt-1">Source: Lloyd's Intelligence • 14 hours ago</span>
+</div>
+</div>
+<div class="flex gap-4 p-3 hover:bg-surface rounded-xl transition-colors opacity-70">
+<div class="shrink-0 w-12 h-12 rounded-lg bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="flex flex-col justify-center">
+<span class="font-label-md text-[10px] text-outline font-bold uppercase tracking-wider mb-1">Regulatory Update</span>
+<p class="font-button text-button text-on-surface line-clamp-2 leading-tight">BIS issues new guidance on Common High Priority Items list expansion.</p>
+<span class="font-body-sm text-[12px] text-on-surface-variant mt-1">Source: US Federal Register • 2 days ago</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div></main></div></body></html>
+
+<!-- Entity Intelligence | ScrapeVerse -->
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}@font-face{font-family:'Plus Jakarta Sans';src:url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap');}@font-face{font-family:'Inter';src:url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');}@font-face{font-family:'JetBrains Mono';src:url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap');}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary":"#ffffff","tertiary-fixed":"#e1e0ff","on-secondary-fixed":"#2a1700","background":"#faf8ff","error":"#ba1a1a","tertiary-container":"#6063ee","on-tertiary-container":"#fffbff","on-background":"#131b2e","primary-container":"#2170e4","surface-dim":"#d2d9f4","inverse-primary":"#adc6ff","on-primary":"#ffffff","on-secondary-container":"#684000","primary-fixed":"#d8e2ff","on-surface":"#131b2e","tertiary":"#4648d4","surface":"#faf8ff","primary":"#0058be","on-primary-container":"#fefcff","tertiary-fixed-dim":"#c0c1ff","surface-container":"#eaedff","surface-variant":"#dae2fd","surface-container-low":"#f2f3ff","secondary":"#855300","surface-container-high":"#e2e7ff","on-error-container":"#93000a","on-secondary-fixed-variant":"#653e00","outline":"#727785","on-tertiary-fixed-variant":"#2f2ebe","inverse-surface":"#283044","surface-tint":"#005ac2","surface-container-highest":"#dae2fd","inverse-on-surface":"#eef0ff","on-error":"#ffffff","secondary-container":"#fea619","primary-fixed-dim":"#adc6ff","surface-bright":"#faf8ff","on-tertiary-fixed":"#07006c","outline-variant":"#c2c6d6","on-primary-fixed":"#001a42","error-container":"#ffdad6","secondary-fixed-dim":"#ffb95f","on-surface-variant":"#424754","on-secondary":"#ffffff","surface-container-lowest":"#ffffff","on-primary-fixed-variant":"#004395","secondary-fixed":"#ffddb8"},"borderRadius":{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},"spacing":{"stack-sm":"0.5rem","container-padding-desktop":"2.5rem","stack-lg":"2rem","base":"8px","stack-md":"1rem","container-padding-mobile":"1.25rem","gutter":"1.5rem"},"fontFamily":{"headline-lg-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"body-sm":["Inter"],"label-md":["JetBrains Mono"],"body-lg":["Inter"],"button":["Plus Jakarta Sans"]},"fontSize":{"headline-lg-mobile":["24px",{"lineHeight":"1.2","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"display-lg":["48px",{"lineHeight":"1.1","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["32px",{"lineHeight":"1.2","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["14px",{"lineHeight":"1.5","fontWeight":"400"}],"label-md":["13px",{"lineHeight":"1.0","letterSpacing":"0.05em","fontWeight":"500"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"button":["15px",{"lineHeight":"1.0","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-background"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col border-r border-outline-variant/30"><div class="p-stack-lg flex items-center gap-3"><img alt="ScrapeVerse Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTFd0Ppn6Q8c82f8bbL64qxvgRw8S3vPwq0D7qszLS7MCP-5dSTqUho-WW11tRpDvB5hY9ByXO6u-9rqVcTaxlXbdqrAzshblL54nRDWj51eDiCTFcJnBlAJfNwlY-f8-YzTcDfWe0t7LsPkDjyXGyDXD0vDq3PzaEoJD7lJXxhUjihj2HxGEbhxOdjZdtaOuC53Lb2a16ytdqso6lYjNCa2Ugv2a4bPhQAYnXQ5YP0Y2RUnp6MS3o"/><span class="font-headline-md text-headline-md tracking-tight text-primary">ScrapeVerse</span></div><nav class="flex-1 px-4 mt-4 space-y-2" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="dashboard" href="#"><span class="material-symbols-outlined mr-4">dashboard</span><span class="font-button text-button">Dashboard</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="threat-briefing" href="#"><span class="material-symbols-outlined mr-4">security</span><span class="font-button text-button">Threat Briefing</span></a><a aria-current="page" class="flex items-center px-4 py-3 rounded-xl transition-all bg-primary-container text-on-primary-container font-semibold" data-path="entity-intelligence" href="#"><span class="material-symbols-outlined mr-4">travel_explore</span><span class="font-button text-button">Entity Intelligence</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="system-status" href="#"><span class="material-symbols-outlined mr-4">sensors</span><span class="font-button text-button">System Status</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined mr-4">settings</span><span class="font-button text-button">Settings</span></a></nav><div class="p-6 border-t border-outline-variant/20 flex items-center gap-3"><img alt="Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary-container/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjfGZ-3V5GodVOsE6mVQZB2vP_P42M2Uyqhs_6wcw92RvyrIhImLT1UMJX3axtjgYy3p2AEKh1PmjmmYhiTlMIpzUX2NT9hCNKp9A8kDIwDtyoser2_-DMx3niBdWbnc8RpSo7InLoNTehB09UPnT8ckN8Hxacwk3OzQVvzBdo6naLmwsCWzhv288EcGYbGvp3eYDVWwSw66VApzDOADNJIiAD5IIWxgvVLSnFmIXRfbrzDnAFjcRn"/><div class="flex flex-col"><span class="text-body-sm font-semibold text-on-surface">Alex Rivet</span><span class="text-[12px] text-on-surface-variant">Lead Investigator</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-20 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-container-padding-desktop border-b border-outline-variant/10"><div class="flex-1 max-w-xl"><div class="relative flex items-center group"><span class="material-symbols-outlined absolute left-4 text-outline group-focus-within:text-primary transition-colors">search</span><input class="w-full h-12 pl-12 pr-4 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary/20 text-body-md outline-none transition-all" placeholder="Search entities, threats, or nodes..." type="text"/></div></div><div class="flex items-center gap-stack-md"><button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest transition-colors relative"><span class="material-symbols-outlined text-on-surface-variant">notifications</span><span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span></button><button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined text-on-surface-variant">help</span></button></div></header><main class="relative pt-20 bg-background min-h-screen px-container-padding-desktop py-stack-lg"><div class="flex flex-col w-full relative">
+<!-- Hero / Header Section -->
+<section class="w-full flex flex-col gap-stack-lg relative z-10 mb-stack-lg">
+<div class="flex flex-col gap-stack-md w-full max-w-4xl">
+<h1 class="font-display-lg text-display-lg text-on-background leading-tight">
+                Entity Intelligence
+                <span class="block text-outline-variant font-headline-lg text-headline-lg mt-2">Active Screening Protocol</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                Real-time corroboration of entity mentions across heterogeneous data sources. Dual-layer verification prioritizes high-confidence intelligence targets.
+            </p>
+</div>
+<!-- Controls Toolbar -->
+<div class="flex flex-wrap items-center gap-gutter w-full bg-surface-container-low p-stack-md rounded-2xl shadow-sm border border-outline-variant/20">
+<!-- Country Selector -->
+<div class="relative min-w-[240px] flex-grow md:flex-grow-0 group">
+<label class="absolute -top-2.5 left-3 px-1 bg-surface-container-low font-label-md text-label-md text-primary z-10 uppercase">Region Scope</label>
+<div class="flex items-center w-full h-14 bg-surface-container rounded-xl px-4 cursor-pointer hover:bg-surface-container-high transition-colors">
+<img alt="Mexico Flag" class="w-6 h-auto rounded-sm object-cover mr-3 shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzL0NKRyi-57WfHexszBQwHZX6nEKV3d4Y0dYKa5aaYEkddfzerUQCKfCh4XF7TTkEc7XsOYVKLQbK5qr9HbZc4LzDZNmLw5YJUg1w6gLdoRIUPwooFQxFR6im_qVclRXZ7AVSGhWJ9FrYRC9r3ZWDi9kXRc0kYeIoBP5CWz-tTK74MapWM3g5i4c4Hz2kYs6rxs8jO5Kt_1OEX81WANn5LDVdrG-vz7S9yQtXbTHDnl-OiHjWPhGj"/>
+<span class="font-body-md text-body-md text-on-surface font-semibold flex-1">Mexico (MX)</span>
+<span class="material-symbols-outlined text-on-surface-variant">arrow_drop_down</span>
+</div>
+</div>
+<!-- Search -->
+<div class="relative flex-grow min-w-[280px]">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full h-14 pl-12 pr-4 bg-surface rounded-xl border border-outline-variant/40 focus:outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/10 font-body-md text-body-md text-on-surface transition-all placeholder:text-outline-variant" placeholder="Filter by entity alias or exact phrase..." type="text"/>
+</div>
+<!-- Filters -->
+<div class="flex items-center gap-3">
+<button class="h-14 px-5 flex items-center justify-center gap-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-button text-button transition-colors">
+<span class="material-symbols-outlined text-outline">tune</span>
+                    Parameters
+                </button>
+<button class="h-14 w-14 flex items-center justify-center rounded-xl bg-primary text-on-primary shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all hover:-translate-y-0.5">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">download</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Main Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter w-full relative z-20">
+<!-- Left Panel: Entity List (Spans 8 cols on desktop) -->
+<div class="xl:col-span-8 flex flex-col gap-stack-md">
+<div class="flex items-center justify-between px-2 mb-2">
+<h2 class="font-label-md text-label-md text-outline font-semibold uppercase tracking-wider">Identified Entities (12)</h2>
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sort:</span>
+<button class="font-button text-button text-primary flex items-center hover:opacity-80 transition-opacity">
+                        Significance Score <span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</button>
+</div>
+</div>
+<!-- Entity Card 1 -->
+<div class="w-full bg-surface-container-lowest rounded-2xl shadow-md flex flex-col hover:shadow-lg transition-shadow border border-outline-variant/10 overflow-hidden relative group">
+<!-- Status Strip -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-error-container"></div>
+<div class="p-6 pl-8 flex flex-col md:flex-row md:items-start justify-between gap-6">
+<div class="flex flex-col gap-4 flex-1 min-w-0">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<h3 class="font-headline-md text-headline-md text-on-surface truncate">Sinaloa Cartel</h3>
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-tertiary-container text-on-tertiary-container text-[11px] font-bold tracking-wide uppercase shadow-sm shadow-tertiary/20">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                                        Dual-Layer Corroborated
+                                    </div>
+</div>
+<span class="font-label-md text-label-md text-outline">Aliases: Cártel del Pacífico, CDP</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-display-lg text-display-lg text-error-container leading-none">94<span class="text-2xl">%</span></span>
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Significance</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 max-w-2xl">
+                            High-confidence match across 17 distinct sources. Primary entity mentioned in 12 headlines and extensively detailed in 5 body contents regarding recent border operations.
+                        </p>
+<div class="flex flex-wrap items-center gap-3 mt-2">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-error-container/20 text-on-surface">
+<span class="material-symbols-outlined text-error-container text-[18px]">warning</span>
+<span class="font-label-md text-label-md font-semibold text-error-container">CRITICAL RISK</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">article</span>
+<span class="font-label-md text-label-md">17 Matches</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">dataset</span>
+<span class="font-label-md text-label-md">3 Media Sources</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="w-full bg-surface-container-low px-6 py-4 border-t border-outline-variant/10 flex items-center justify-end gap-3">
+<button class="px-5 py-2.5 rounded-xl bg-transparent hover:bg-surface-container-high text-primary font-button text-button transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+                        AI Profile
+                    </button>
+<button class="px-5 py-2.5 rounded-xl bg-primary text-on-primary font-button text-button hover:bg-surface-tint shadow-sm hover:shadow-md transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">troubleshoot</span>
+                        Inspect Details
+                    </button>
+</div>
+</div>
+<!-- Entity Card 2 -->
+<div class="w-full bg-surface-container-lowest rounded-2xl shadow-md flex flex-col hover:shadow-lg transition-shadow border border-outline-variant/10 overflow-hidden relative group opacity-90">
+<!-- Status Strip -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary-container"></div>
+<div class="p-6 pl-8 flex flex-col md:flex-row md:items-start justify-between gap-6">
+<div class="flex flex-col gap-4 flex-1 min-w-0">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<h3 class="font-headline-md text-headline-md text-on-surface truncate">Gulf Cartel</h3>
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-variant text-on-surface-variant text-[11px] font-bold tracking-wide uppercase">
+<span class="material-symbols-outlined text-[14px]">pending</span>
+                                        Single Source Pending
+                                    </div>
+</div>
+<span class="font-label-md text-label-md text-outline">Aliases: Cártel del Golfo, CDG</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-headline-lg text-headline-lg text-secondary-container leading-none">68<span class="text-xl">%</span></span>
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider">Significance</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 max-w-2xl">
+                            Moderate corroboration. Mentioned primarily in regional news aggregators. Body content references sporadic activity without headline emphasis.
+                        </p>
+<div class="flex flex-wrap items-center gap-3 mt-2">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-secondary-container/20 text-on-surface">
+<span class="material-symbols-outlined text-secondary-container text-[18px]">gavel</span>
+<span class="font-label-md text-label-md font-semibold text-secondary-container">ELEVATED RISK</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">article</span>
+<span class="font-label-md text-label-md">5 Matches</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="w-full bg-surface-container-low px-6 py-4 border-t border-outline-variant/10 flex items-center justify-end gap-3">
+<button class="px-5 py-2.5 rounded-xl bg-transparent hover:bg-surface-container-high text-primary font-button text-button transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+                        AI Profile
+                    </button>
+<button class="px-5 py-2.5 rounded-xl bg-primary text-on-primary font-button text-button hover:bg-surface-tint shadow-sm hover:shadow-md transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">troubleshoot</span>
+                        Inspect Details
+                    </button>
+</div>
+</div>
+<!-- Load More -->
+<div class="w-full flex justify-center mt-4">
+<button class="px-6 py-3 rounded-full border-2 border-outline-variant/30 text-on-surface-variant hover:border-primary/50 hover:text-primary transition-colors font-button text-button flex items-center gap-2">
+                     Load More Entities
+                     <span class="material-symbols-outlined text-[18px]">autorenew</span>
+</button>
+</div>
+</div>
+<!-- Right Panel: Intelligence Summary (Spans 4 cols on desktop) -->
+<div class="xl:col-span-4 flex flex-col gap-stack-md">
+<div class="w-full bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/10 p-6 relative overflow-hidden">
+<!-- Decorative Blur -->
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                    Match Significance
+                </h3>
+<div class="flex flex-col gap-6">
+<!-- Metric 1 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-md text-label-md text-outline uppercase">Headline Matches</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">42% Weight</span>
+</div>
+<div class="w-full h-2.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 78%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-right">78% average extraction confidence.</p>
+</div>
+<!-- Metric 2 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-md text-label-md text-outline uppercase">Body Context Context</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">58% Weight</span>
+</div>
+<div class="w-full h-2.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 91%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-right">91% NLP corroboration rate.</p>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant/20 flex flex-col items-center">
+<div class="w-24 h-24 rounded-full border-4 border-surface-container flex items-center justify-center relative shadow-inner">
+<svg class="absolute inset-0 w-full h-full -rotate-90" viewbox="0 0 36 36">
+<path class="text-primary-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="85, 100" stroke-linecap="round" stroke-width="4"></path>
+</svg>
+<span class="font-headline-lg text-headline-lg text-on-surface z-10 block mt-1">8.4</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant mt-3 uppercase tracking-wide">Avg Regional Threat Index</span>
+</div>
+</div>
+<!-- Heatmap / Visual Placeholder -->
+<div class="w-full bg-surface-container-lowest rounded-2xl shadow-sm border border-outline-variant/10 p-4 relative overflow-hidden group">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4 px-2">Regional Heatmap</h3>
+<div class="w-full h-48 rounded-xl overflow-hidden relative" data-location="Sinaloa, Mexico" style="">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A stylized, dark-mode satellite map of Mexico with glowing red and amber heat points indicating high-risk zones. The map uses a minimalist aesthetic, integrating deep blues and sharp neon accents, highly polished and suitable for a cyber-intelligence dashboard. No text or labels on the map itself." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDGe6JH85eiaqj_cs4svC-z-nicnYgMvHPdL-Fpd-zKFxpHNTXH21a1NM2mCdKYN7LqwGOcvPaAv3q-pQiIG6TF5eR4nk4PcBrIgx8SHGDdumdEeUDIpTWeST4xihlvQhLeoBrLwBvVsYpzpOAonDaZwTnIT9cmix1e-TYsfhgHMlOkgIZ1Vg1bwCAcCxDhm2AqmjgpTBqqZ1eE8k9gtQH8n-KjVWpEzKAeCWYvXZp1LfJ-uIPvEvWR')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent pointer-events-none"></div>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>
+
+<!-- Investigative Profile | ScrapeVerse -->
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}@font-face{font-family:'Plus Jakarta Sans';src:url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap');}@font-face{font-family:'Inter';src:url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');}@font-face{font-family:'JetBrains Mono';src:url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap');}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-tertiary":"#ffffff","tertiary-fixed":"#e1e0ff","on-secondary-fixed":"#2a1700","background":"#faf8ff","error":"#ba1a1a","tertiary-container":"#6063ee","on-tertiary-container":"#fffbff","on-background":"#131b2e","primary-container":"#2170e4","surface-dim":"#d2d9f4","inverse-primary":"#adc6ff","on-primary":"#ffffff","on-secondary-container":"#684000","primary-fixed":"#d8e2ff","on-surface":"#131b2e","tertiary":"#4648d4","surface":"#faf8ff","primary":"#0058be","on-primary-container":"#fefcff","tertiary-fixed-dim":"#c0c1ff","surface-container":"#eaedff","surface-variant":"#dae2fd","surface-container-low":"#f2f3ff","secondary":"#855300","surface-container-high":"#e2e7ff","on-error-container":"#93000a","on-secondary-fixed-variant":"#653e00","outline":"#727785","on-tertiary-fixed-variant":"#2f2ebe","inverse-surface":"#283044","surface-tint":"#005ac2","surface-container-highest":"#dae2fd","inverse-on-surface":"#eef0ff","on-error":"#ffffff","secondary-container":"#fea619","primary-fixed-dim":"#adc6ff","surface-bright":"#faf8ff","on-tertiary-fixed":"#07006c","outline-variant":"#c2c6d6","on-primary-fixed":"#001a42","error-container":"#ffdad6","secondary-fixed-dim":"#ffb95f","on-surface-variant":"#424754","on-secondary":"#ffffff","surface-container-lowest":"#ffffff","on-primary-fixed-variant":"#004395","secondary-fixed":"#ffddb8"},"borderRadius":{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},"spacing":{"stack-sm":"0.5rem","container-padding-desktop":"2.5rem","stack-lg":"2rem","base":"8px","stack-md":"1rem","container-padding-mobile":"1.25rem","gutter":"1.5rem"},"fontFamily":{"headline-lg-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"body-sm":["Inter"],"label-md":["JetBrains Mono"],"body-lg":["Inter"],"button":["Plus Jakarta Sans"]},"fontSize":{"headline-lg-mobile":["24px",{"lineHeight":"1.2","fontWeight":"600"}],"body-md":["16px",{"lineHeight":"1.5","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"1.3","fontWeight":"600"}],"display-lg":["48px",{"lineHeight":"1.1","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["32px",{"lineHeight":"1.2","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["14px",{"lineHeight":"1.5","fontWeight":"400"}],"label-md":["13px",{"lineHeight":"1.0","letterSpacing":"0.05em","fontWeight":"500"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"button":["15px",{"lineHeight":"1.0","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-background"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col border-r border-outline-variant/30"><div class="p-stack-lg flex items-center gap-3"><img alt="ScrapeVerse Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTFd0Ppn6Q8c82f8bbL64qxvgRw8S3vPwq0D7qszLS7MCP-5dSTqUho-WW11tRpDvB5hY9ByXO6u-9rqVcTaxlXbdqrAzshblL54nRDWj51eDiCTFcJnBlAJfNwlY-f8-YzTcDfWe0t7LsPkDjyXGyDXD0vDq3PzaEoJD7lJXxhUjihj2HxGEbhxOdjZdtaOuC53Lb2a16ytdqso6lYjNCa2Ugv2a4bPhQAYnXQ5YP0Y2RUnp6MS3o"/><span class="font-headline-md text-headline-md tracking-tight text-primary">ScrapeVerse</span></div><nav class="flex-1 px-4 mt-4 space-y-2" data-active-classes="bg-primary-container text-on-primary-container font-semibold"><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="dashboard" href="#"><span class="material-symbols-outlined mr-4">dashboard</span><span class="font-button text-button">Dashboard</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="threat-briefing" href="#"><span class="material-symbols-outlined mr-4">security</span><span class="font-button text-button">Threat Briefing</span></a><a aria-current="page" class="flex items-center px-4 py-3 rounded-xl transition-all bg-primary-container text-on-primary-container font-semibold" data-path="entity-intelligence" href="#"><span class="material-symbols-outlined mr-4">travel_explore</span><span class="font-button text-button">Entity Intelligence</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="system-status" href="#"><span class="material-symbols-outlined mr-4">sensors</span><span class="font-button text-button">System Status</span></a><a class="flex items-center px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all" data-path="settings" href="#"><span class="material-symbols-outlined mr-4">settings</span><span class="font-button text-button">Settings</span></a></nav><div class="p-6 border-t border-outline-variant/20 flex items-center gap-3"><img alt="Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary-container/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjfGZ-3V5GodVOsE6mVQZB2vP_P42M2Uyqhs_6wcw92RvyrIhImLT1UMJX3axtjgYy3p2AEKh1PmjmmYhiTlMIpzUX2NT9hCNKp9A8kDIwDtyoser2_-DMx3niBdWbnc8RpSo7InLoNTehB09UPnT8ckN8Hxacwk3OzQVvzBdo6naLmwsCWzhv288EcGYbGvp3eYDVWwSw66VApzDOADNJIiAD5IIWxgvVLSnFmIXRfbrzDnAFjcRn"/><div class="flex flex-col"><span class="text-body-sm font-semibold text-on-surface">Alex Rivet</span><span class="text-[12px] text-on-surface-variant">Lead Investigator</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-20 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-container-padding-desktop border-b border-outline-variant/10"><div class="flex-1 max-w-xl"><div class="relative flex items-center group"><span class="material-symbols-outlined absolute left-4 text-outline group-focus-within:text-primary transition-colors">search</span><input class="w-full h-12 pl-12 pr-4 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary/20 text-body-md outline-none transition-all" placeholder="Search entities, threats, or nodes..." type="text"/></div></div><div class="flex items-center gap-stack-md"><button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest transition-colors relative"><span class="material-symbols-outlined text-on-surface-variant">notifications</span><span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span></button><button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest transition-colors"><span class="material-symbols-outlined text-on-surface-variant">help</span></button></div></header><main class="relative pt-20 bg-background min-h-screen px-container-padding-desktop py-stack-lg"><div class="flex flex-col w-full font-body-md text-on-background relative overflow-hidden">
+<!-- Subtle Background Gradient for Depth -->
+<div class="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-primary/5 via-surface to-background pointer-events-none -z-10"></div>
+<!-- Hero Section -->
+<div class="relative w-full rounded-[2.5rem] bg-surface-container overflow-hidden p-stack-lg shadow-sm flex flex-col md:flex-row gap-stack-lg justify-between items-start md:items-center mt-stack-md mx-auto max-w-7xl">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+<div class="absolute bottom-0 left-0 w-48 h-48 bg-error/10 rounded-full blur-2xl translate-y-1/3 -translate-x-1/4"></div>
+<div class="flex flex-col z-10">
+<div class="flex items-center gap-3 mb-4">
+<span class="px-3 py-1 rounded-full bg-error-container text-on-error-container font-label-md text-label-md tracking-wider">CRITICAL RISK ALIAS</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-md text-label-md">ID: EN-992-XC</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-2">Sinaloa Cartel</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Transnational organized crime syndicate based in Culiacán, Sinaloa, Mexico. Principal operations include illicit narcotics trafficking, money laundering, and extensive arms procurement.</p>
+</div>
+<!-- Risk Score Radial -->
+<div class="relative flex-shrink-0 w-48 h-48 bg-surface rounded-full shadow-md flex items-center justify-center z-10 group">
+<div class="absolute inset-2 rounded-full border-8 border-surface-container-highest"></div>
+<!-- Simulated SVG Progress Ring -->
+<svg class="absolute inset-0 w-full h-full -rotate-90" viewbox="0 0 100 100">
+<circle class="stroke-error drop-shadow-[0_0_8px_rgba(186,26,26,0.5)] transition-all duration-1000 ease-out" cx="50" cy="50" fill="none" r="46" stroke-dasharray="289" stroke-dashoffset="5.78" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="flex flex-col items-center text-center">
+<span class="font-display-lg text-display-lg text-error leading-none mb-1 group-hover:scale-110 transition-transform">98</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Risk Score</span>
+</div>
+</div>
+</div>
+<!-- Main Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-stack-lg max-w-7xl mx-auto w-full mt-stack-lg relative z-10 pb-stack-lg">
+<!-- Left Column: Media & Intel (8 Cols) -->
+<div class="lg:col-span-8 flex flex-col gap-stack-lg">
+<!-- Threat Intelligence Brief (Gemini) -->
+<div class="bg-surface p-stack-lg rounded-[2rem] shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-tertiary-container/20 to-transparent blur-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-xl bg-tertiary-container text-on-tertiary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">AI Intelligence Synthesis</h2>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-container-lowest p-4 rounded-xl">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">Primary Threat Category</span>
+<span class="font-body-lg text-body-lg text-on-surface font-medium flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-error"></span> Illicit Narcotics</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">Secondary Vectors</span>
+<span class="font-body-lg text-body-lg text-on-surface font-medium">Money Laundering, Arms</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Comprehensive analysis of recent intelligence streams indicates a high probability of structural realignment following recent leadership interdictions. Financial flows associated with the entity show increased sophistication, leveraging shell networks in Southeast Asia and real estate holdings in European jurisdictions to obfuscate illicit proceeds. Operational capacity remains formidable despite targeted sanctions.
+        </p>
+</div>
+<!-- Adverse Media -->
+<div class="bg-surface p-stack-lg rounded-[2rem] shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">newspaper</span>
+             Adverse Media Nexus
+           </h2>
+<span class="px-3 py-1 bg-surface-container rounded-full font-label-md text-label-md text-on-surface-variant">42 Recent Hits</span>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Article 1 -->
+<div class="group bg-surface-container-lowest p-4 rounded-2xl flex gap-4 items-start hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="w-24 h-24 rounded-xl flex-shrink-0 overflow-hidden bg-surface-variant" data-alt="A gritty, high-contrast editorial photograph of seized narcotics and bulk cash arranged on a metal table, illuminated by harsh fluorescent lighting, conveying a sense of law enforcement interdiction. Deep shadows, desaturated colors with pops of the organization's 'cute' blue palette for contrast." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCiLLCHEoVbJu0vZsIBROgWsGS31Y1pVPmqK6rfHzqXzxr5bcizN89QWszHCpRqFKC6LyJxe2AIYmAcJxgzktwXydVxylPiF7xOUL8mqqfXZbxXlUJUGJ7-hniM0iQLTKpUCkOFZiY5967dZ2J7rubU-18ee_7LhrI1q239BT6B2XpMpMlJtBmaXXKZpHUg88ytqdbfgacxYkFwQeQDxZA4Ef-pUAWSDrbZev0qFgREBw5tSLwT5z0T')"></div>
+<div class="flex flex-col flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-md text-label-md text-primary font-bold">OCCRP</span>
+<span class="text-on-surface-variant text-[12px]">• 2 Days Ago</span>
+</div>
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold mb-2 group-hover:text-primary transition-colors">Ghost Ships and Shell Companies: The New European Cocaine Route</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Investigative report linking front companies operating in the port of Antwerp to high-level cartel operatives coordinating multi-ton shipments concealed in agricultural imports.</p>
+</div>
+</div>
+<!-- Article 2 -->
+<div class="group bg-surface-container-lowest p-4 rounded-2xl flex gap-4 items-start hover:bg-surface-container-low transition-colors cursor-pointer">
+<div class="w-24 h-24 rounded-xl flex-shrink-0 overflow-hidden bg-surface-variant" data-alt="Abstract visualization of financial data streams resembling a glowing map of global transactions. Nodes connecting Mexico to Europe and Asia. Soft modernism style, predominantly deep blues and soft whites, with red danger nodes indicating illicit money laundering routes." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsd6FhC__nw4f3qd0s0ZDeF42mS_1mZop06imsEWXfLC1A-KuxuhlB57Qid6IEzXPCw12-PiPvyINUCNTRvLgxRXDqnXLpaq6Gcrro4Q4ingd9HWw-qgElCwmMkCpIrlPzYL3bF9b6mo-onobkk34GXEEfyjEanIaQmNsJpHamt4XdwoXXZaSIhhRp9fgL8tOvfiZByxsQ9Ge80Mo0o1BpAJ1S-gNG2d-gd--wBlmJ6CyxQkTkkM4F')"></div>
+<div class="flex flex-col flex-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-md text-label-md text-primary font-bold">New York Times</span>
+<span class="text-on-surface-variant text-[12px]">• 1 Week Ago</span>
+</div>
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold mb-2 group-hover:text-primary transition-colors">Treasury Designates Key Facilitator Network in Sinaloa Faction</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">OFAC sanctions target a sophisticated network of money brokers using phantom businesses to launder fentanyl proceeds back to cartel leadership in Culiacán.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Networks & Actions (4 Cols) -->
+<div class="lg:col-span-4 flex flex-col gap-stack-lg">
+<!-- Corporate Network / 50% Rule -->
+<div class="bg-surface p-stack-lg rounded-[2rem] shadow-sm flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Network Risk Analysis</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">OFAC 50% Rule &amp; Ultimate Beneficial Ownership (UBO) tracing.</p>
+<!-- Minimalist Org Chart Visualization -->
+<div class="flex flex-col items-center w-full relative pt-4 pb-8">
+<!-- Parent -->
+<div class="bg-error p-3 rounded-xl shadow-md text-on-error w-full text-center z-10 relative">
+<span class="font-button text-button block">Sinaloa Cartel</span>
+<span class="font-label-md text-label-md opacity-80">Designated Entity</span>
+</div>
+<!-- Lines -->
+<div class="w-px h-8 bg-outline-variant"></div>
+<div class="w-3/4 h-px bg-outline-variant"></div>
+<!-- Children -->
+<div class="w-full flex justify-between pt-8 relative">
+<div class="w-px h-8 bg-outline-variant absolute top-0 left-[12.5%]"></div>
+<div class="w-px h-8 bg-outline-variant absolute top-0 right-[12.5%]"></div>
+<!-- Child 1 -->
+<div class="w-[45%] bg-error-container p-3 rounded-xl shadow-sm text-center relative group">
+<div class="absolute -top-3 -right-3 w-6 h-6 bg-error text-on-error rounded-full flex items-center justify-center font-label-md text-[10px] shadow-sm">60%</div>
+<span class="font-button text-button text-on-error-container block truncate">Agro Pacifico S.A.</span>
+<span class="font-label-md text-label-md text-on-error-container opacity-80 block truncate">Tainted by 50% Rule</span>
+</div>
+<!-- Child 2 -->
+<div class="w-[45%] bg-surface-container-high p-3 rounded-xl shadow-sm text-center relative group">
+<div class="absolute -top-3 -right-3 w-6 h-6 bg-secondary text-on-secondary rounded-full flex items-center justify-center font-label-md text-[10px] shadow-sm">30%</div>
+<span class="font-button text-button text-on-surface block truncate">Logistica Norte</span>
+<span class="font-label-md text-label-md text-on-surface-variant opacity-80 block truncate">High Risk Nexus</span>
+</div>
+</div>
+</div>
+<button class="w-full py-3 bg-surface-container-lowest text-primary font-button text-button rounded-xl hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+          Expand Full Network Graph
+        </button>
+</div>
+<!-- Action Card -->
+<div class="bg-error p-stack-lg rounded-[2rem] shadow-md text-on-error mt-auto relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
+<h2 class="font-headline-md text-headline-md mb-2">Screening Recommendation</h2>
+<p class="font-body-md text-body-md opacity-90 mb-6">Based on cumulative risk factors, critical media hits, and definitive OFAC presence, automated models mandate immediate defensive action.</p>
+<div class="flex flex-col gap-3">
+<button class="w-full py-4 bg-on-error text-error font-button text-button rounded-xl hover:bg-on-error/90 transition-all shadow-sm flex items-center justify-center gap-2 transform hover:scale-[1.02]">
+<span class="material-symbols-outlined text-[20px]">block</span>
+            Reject &amp; Freeze Assets
+          </button>
+<button class="w-full py-3 bg-transparent text-on-error border-2 border-on-error/20 font-button text-button rounded-xl hover:bg-on-error/10 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">escalator_warning</span>
+            Escalate to AML Director
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>
+
+heres the design i want you to copy to make the program more dynamic, better looking, better functioning, and a winner for the hackathon. Also i accidently deleted the .env while trying to create a gitignore. si please fix that too. if you need anything else just ask
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-08-21T18:56:29+05:45.
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from Gemini 3.7 Flash (Medium) to Claude Opus 4.6 (Thinking). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>

@@ -1,0 +1,24 @@
+name: "Compliance Week"
+url: "https://www.complianceweek.com"
+region: "Global compliance"
+category: "trade-press"
+rss_feed: "https://www.complianceweek.com/feed/"
+sample_article_urls:
+  - "https://www.complianceweek.com/"
+  - "https://www.complianceweek.com/"
+  - "https://www.complianceweek.com/best-practices/navigating-the-supply-chains-new-normal/"
+  - "https://www.complianceweek.com/artificial-intelligence/californias-ai-labeling-law-takes-effect-testing-compliance-with-missing-detection-tools/"
+  - "https://www.complianceweek.com/best-practices/fincen-record-setting-aml-penalty-against-ubs-was-years-in-the-making/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "time[datetime]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "[class*="entry-content"]", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(4) > nav(6) > main(1) > article(21) > section(5) > aside(3) > footer(2)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /wp-content/uploads/wc-logs/, /wp-content/uploads/woocommerce_transient_files/, /wp-content/uploads/woocommerce_uploads/, /*?add-to-cart=, /*?*add-to-cart=, /wp-admin/."
+access_status: "ok"
+last_checked: "2026-08-19"

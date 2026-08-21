@@ -1,0 +1,24 @@
+name: "Zawya"
+url: "https://www.zawya.com"
+region: "MENA"
+category: "trade-press"
+rss_feed: null
+sample_article_urls:
+  - "https://www.zawya.com/en/business/aviation"
+  - "https://www.zawya.com/en/business/banking-and-insurance"
+  - "https://www.zawya.com/en/business/commodities"
+  - "https://www.zawya.com/en/business/currencies"
+  - "https://www.zawya.com/en/business/digital-assets"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(2) > nav(1) > main(1) > section(2) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /api/, /account/, /access-denied, /error-4xx, /error-5xx, /preview/, /en/login, /ar/login, /en/register, /ar/register (+147 more). AI/scraping clauses found (19 lines). Blocked bots: GPTBot, ChatGPT-User, OAI-SearchBot, Claude-Web, ClaudeBot, anthropic-ai, CCBot, PerplexityBot, YouBot, Google-Extended, Applebot-Extended, cohere-ai, AI2Bot, Timpibot, iaskspider, Meta-ExternalAgent, FacebookBot, MistralBot, Google-Apps, Google-Apps-Script, AppEngine-Google, Google-Cloud, Google-CloudVertexBot, AmazonBot, AmazonAdBot, ByteSpider, Bytedance, MWFeedParser, Diffbot, Spinn3r, Omgilibot, Omgili, Netvibes, MJ12bot, PetalBot, YisouSpider, 360Spider, Qwantify, ToutiaoSpider, Screaming Frog SEO Spider, rogerbot, linkdexbot, AudistoBot, WebCEO, AhrefsBot, DotBot, Peer39_Crawler, NTENT, AndersPinkBot, IndeedBot, PRTG, FreshpingBot, Panopta, DatadogSynthetics, Rackspace, censys, burp, Burp, check_http, DotcomMonitor, WatchSumo, WormlyBot, CalibreBot, Hatena, Hatena-Bookmark, EveryoneSocialBot, Postano, RebelMouse, Muck-Rack, InstapaperViewer, Twurly, LivelapBot, DatagnionBot, Linespider, Discourse, Python-urllib, python-requests, Python-http-client, Scrapy, httpx, aiohttp, Go-http-client, Java, Medusa, pingback, WordPress, wp_ping, MauiBot, ltx71, WeSEE, halebot, BrightBot."
+access_status: "ok"
+last_checked: "2026-08-19"

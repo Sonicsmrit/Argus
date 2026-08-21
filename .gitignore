@@ -1,0 +1,6 @@
+.env
+node_modules/
+frontend/dist/
+*.db
+data/opensanctions_targets.csv
+scratch/temp_*.json

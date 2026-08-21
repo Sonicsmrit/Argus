@@ -1,0 +1,24 @@
+name: "InSight Crime"
+url: "https://insightcrime.org"
+region: "Latin America"
+category: "investigative-nonprofit"
+rss_feed: "https://insightcrime.org/feed/"
+sample_article_urls:
+  - "https://insightcrime.org/"
+  - "https://insightcrime.org/"
+  - "https://insightcrime.org/news/the-insight-take-the-shield-of-the-americas-grows-but-does-it-have-a-strategy/"
+  - "https://insightcrime.org/news/families-displaced-by-the-ardillos-return-home-in-guerrero-mexico/"
+  - "https://insightcrime.org/news/why-organized-crime-in-venezuela-wont-die-without-maduro/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "time[datetime]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "[class*="entry-content"]", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(4) > nav(6) > main(1) > article(20) > section(14) > aside(5) > footer(2)"
+antibot_observed: "none"
+robots_txt_notes: "AI/scraping clauses found (2 lines)."
+access_status: "ok"
+last_checked: "2026-08-19"

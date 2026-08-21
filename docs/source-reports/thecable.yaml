@@ -1,0 +1,24 @@
+name: "The Cable"
+url: "https://www.thecable.ng"
+region: "Nigeria"
+category: "national-press"
+rss_feed: "https://www.thecable.ng/feed/"
+sample_article_urls:
+  - "https://www.thecable.ng/"
+  - "https://www.thecable.ng/"
+  - "https://www.thecable.ng/open-letter-to-femi-gbajabiamila/"
+  - "https://www.thecable.ng/fec-moves-to-decriminalise-attempted-suicide-in-nigeria/"
+  - "https://www.thecable.ng/photos-sanwo-olu-gifts-n40m-to-two-lasu-best-graduating-students/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(2) > main(1) > article(126) > section(94) > aside(1) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /, /, /, /, /, /, /, /, /. AI/scraping clauses found (6 lines). Blocked bots: Amazonbot, Applebot-Extended, Bytespider, CCBot, ClaudeBot, CloudflareBrowserRenderingCrawler, Google-Extended, GPTBot, meta-externalagent."
+access_status: "ok"
+last_checked: "2026-08-19"

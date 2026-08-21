@@ -1,0 +1,24 @@
+name: "The Irrawaddy"
+url: "https://www.irrawaddy.com"
+region: "Myanmar"
+category: "national-press"
+rss_feed: "https://www.irrawaddy.com/feed"
+sample_article_urls:
+  - "https://www.irrawaddy.com/opinion/analysis/how-min-aung-hlaing-deceived-asean-over-five-point-consensus.html"
+  - "https://www.irrawaddy.com/news/china-briefing/moving-border-trade-goalposts-going-all-out-for-chinese-investment-and-more.html"
+  - "https://www.irrawaddy.com/business/regime-cronies-join-min-aung-hlaing-on-bangkok-trip.html"
+  - "https://www.irrawaddy.com/opinion/analysis/dirty-money-scams-and-mass-exodus-haunt-min-aung-hlaings-thai-visit.html"
+  - "https://www.irrawaddy.com/opinion/analysis/the-risks-of-thailands-open-door-to-min-aung-hlaing.html"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "[class*="entry-content"]", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "[class*="breadcrumb"]", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "article(11) > section(1)"
+antibot_observed: "none"
+robots_txt_notes: "robots.txt fetch failed: ERROR: The remote server returned an error: (403) Forbidden."
+access_status: "ok"
+last_checked: "2026-08-19"

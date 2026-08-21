@@ -1,0 +1,24 @@
+name: "Premium Times"
+url: "https://www.premiumtimesng.com"
+region: "Nigeria"
+category: "national-press"
+rss_feed: "https://www.premiumtimesng.com/feed"
+sample_article_urls:
+  - "https://premiumtimesng.com"
+  - "https://premiumtimesng.com"
+  - "https://www.premiumtimesng.com/promoted/904148-gov-mbah-appoints-23-new-special-advisers-assistants-to-strengthen-governance.html"
+  - "https://www.premiumtimesng.com/promoted/904135-zamfara-hosts-police-security-summit-as-lawal-vows-no-negotiation-with-bandits.html"
+  - "https://www.premiumtimesng.com/entertainment/naija-fashion/904131-adetshinas-deportation-case-postponed-as-south-african-protesters-demand-her-return-to-nigeria.html"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "article(124)"
+antibot_observed: "none"
+robots_txt_notes: "Standard robots.txt, no AI-specific restrictions."
+access_status: "ok"
+last_checked: "2026-08-19"

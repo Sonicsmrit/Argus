@@ -1,0 +1,24 @@
+name: "The Star"
+url: "https://www.thestar.com.my"
+region: "Malaysia"
+category: "national-press"
+rss_feed: null
+sample_article_urls:
+  - "https://www.thestar.com.my/news/nation/2026/08/20/industry-wants-gst-elements"
+  - "https://www.thestar.com.my/news/nation/2026/08/20/tax-reform-must-not-tie-up-working-capital"
+  - "https://www.thestar.com.my/news/nation/2026/08/20/hybrid-taxation-plan-under-review"
+  - "https://www.thestar.com.my/news/nation/2026/08/20/hybrid-tax-wont-fix-sst-issues"
+  - "https://www.thestar.com.my/news/nation/2026/08/20/nightmare-as-family-break-turns-deadly"
+structured_data_available: true
+structured_data_type: "schema.org/NewsArticle + OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "time[datetime]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(3) > main(1) > article(1) > section(1) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: *utm_source, /bin/, /temp/, /themes/, /dailyalert/, /search?, /news/latest?pgno=*, /subscribe/?tracking_id=*, /, / (+33 more). AI/scraping clauses found (13 lines). Blocked bots: Diffbot, AhrefsBot/6.1, MegaIndex.ru, MegaIndex.ru/2.0, Cutbot;+1.5, Cutbot/1.5, Cutbot/+1.5, Slurp, Yahoo! Slurp, ToutiaoSpider, ToutiaoSpider/1.0, Baiduspider, Baiduspider/2.0, Baiduspider-render, Baiduspider-render/2.0, SemrushBot, SemrushBot/3~bl, YandexBot, YandexBot/3.0, YandexImages, YandexImages/3.0, PaperLiBot, PaperLiBot/2.1, Clickagy Intelligence Bot v2, sogou spider, Sogou web spider/4.0, Cliqzbot, Cliqzbot/2.0, VoluumDSP-content-bot/2.0, DotBot/1.1, AhrefsBot/5.2, AhrefsBot/6.1, Freshbot/4.0, RojakiniReader/1.0, RojakiniBot/1.0."
+access_status: "ok"
+last_checked: "2026-08-19"

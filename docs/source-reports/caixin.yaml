@@ -1,0 +1,24 @@
+name: "Caixin Global"
+url: "https://www.caixinglobal.com"
+region: "China"
+category: "national-press"
+rss_feed: null
+sample_article_urls:
+  - "https://www.cnbc.com/world/?region=world"
+  - "https://www.caixinglobal.com//file.caixin.com/en/web/css/caixin-home-ie8-"
+  - "https://www.caixinglobal.com//www.caixinglobal.com/app/?utm_source=head&utm_medium=button"
+  - "https://www.caixinglobal.com//www.caixinglobal.com/newsletter/?internalReferrer=WhiteSubscribeButton&utm_source=head&utm_medium=buttom"
+  - "https://www.caixinglobal.com//www.caixinglobal.com/2024/china-goes-global/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "time[datetime]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(9) > section(19) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /, /. AI/scraping clauses found (1 lines). Blocked bots: GPTBot, CCBot."
+access_status: "ok"
+last_checked: "2026-08-19"

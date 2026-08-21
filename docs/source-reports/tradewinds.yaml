@@ -1,0 +1,24 @@
+name: "TradeWinds"
+url: "https://www.tradewindsnews.com"
+region: "Global maritime trade"
+category: "trade-press"
+rss_feed: null
+sample_article_urls:
+  - "https://image.dngroup.com/global/nhst/binary/:key"
+  - "https://stc.dngroup.com/cpp/fonts/Erode/Erode-Variable.woff2"
+  - "https://stc.dngroup.com/cpp/fonts/Erode/Erode-VariableItalic.woff2"
+  - "https://stc.dngroup.com/cpp/fonts/Inter/InterVariable.woff2"
+  - "https://stc.dngroup.com/cpp/fonts/Sueca/suecatx-regular.woff"
+structured_data_available: false
+structured_data_type: "none"
+selectors:
+  headline: { primary: "", fallback: "" }
+  byline: { primary: "", fallback: "" }
+  date: { primary: "", fallback: "" }
+  body: { primary: "", fallback: "" }
+  section_tag: { primary: "", fallback: "" }
+structural_fingerprint: ""
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /forgotpw/*, /auth/user/login/*, /myprofile/*, /subscription/*, /test_frontpage, /front, /annonsorinnhold*, /sponsor-content*, /, / (+31 more). AI/scraping clauses found (2 lines). Blocked bots: GPTBot, ChatGPT-User, anthropic-ai, Claude-Web, ClaudeBot, Google-Extended, CCBot, PerplexityBot, FacebookBot, Omgili, Omgilibot, Bytespider, cohere-ai, Applebot-Extended, Amazonbot, Diffbot, UbiCrawler, DOC, Zao, Zealbot, MSIECrawler, SiteSnagger, WebStripper, WebCopier, Fetch, Offline Explorer, Teleport, TeleportPro, linko, Microsoft.URL.Control, wget, grub-client, WebReaper."
+access_status: "ok"
+last_checked: "2026-08-19"

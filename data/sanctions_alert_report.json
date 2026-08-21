@@ -1,0 +1,404 @@
+{
+  "generated_at": "2026-08-20T17:27:30.977Z",
+  "layer1": {
+    "total_entities": 1176742,
+    "by_schema": [
+      {
+        "schema": "Person",
+        "cnt": 1009644
+      },
+      {
+        "schema": "Company",
+        "cnt": 89075
+      },
+      {
+        "schema": "LegalEntity",
+        "cnt": 65814
+      },
+      {
+        "schema": "Organization",
+        "cnt": 12209
+      }
+    ]
+  },
+  "layer2": {
+    "total_articles": 1222,
+    "by_source": [
+      {
+        "source_name": "OCCRP",
+        "cnt": 694
+      },
+      {
+        "source_name": "Middle East Eye",
+        "cnt": 176
+      },
+      {
+        "source_name": "New York Times",
+        "cnt": 110
+      },
+      {
+        "source_name": "Balkan Insight",
+        "cnt": 72
+      },
+      {
+        "source_name": "Daily Maverick",
+        "cnt": 66
+      },
+      {
+        "source_name": "Rappler",
+        "cnt": 42
+      },
+      {
+        "source_name": "Al Jazeera",
+        "cnt": 26
+      },
+      {
+        "source_name": "Moscow Times",
+        "cnt": 19
+      },
+      {
+        "source_name": "InSight Crime",
+        "cnt": 17
+      }
+    ]
+  },
+  "matching": {
+    "total_matches": 1416,
+    "unique_entities_mentioned": 386,
+    "articles_with_matches": 481
+  },
+  "top_entities": [
+    {
+      "entity_name": "Donald Trump",
+      "type": "Person",
+      "countries": "us",
+      "lists": "\"\"",
+      "articles": 120,
+      "sources": "Al Jazeera,Balkan Insight,Moscow Times,Middle East Eye,OCCRP,InSight Crime,New York Times",
+      "top_score": 1.5
+    },
+    {
+      "entity_name": "Riad Hijazi",
+      "type": "Person",
+      "countries": "jo;us",
+      "lists": ";(UE) 2017/557 du 24/03/2017 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - (CE) 866/2003 du 19/05/2003 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - (CE) 881/2002 du 27/05/2002 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - (UE) 577/2011 du 16/06/2011 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - nom de son père : Mohammad Hijazi, nom de sa mère : Sakina;1267 (ISIL (Da'esh) and Al-Qaida) - 2026-02-20;2017/557 (OJ L80) - 577/2011 (OJ L159);2022-03-28;Al-Qaida - 2001-10-17;Al-Qaida - UN List - 2001-10-17;Council Decision concerning restrictive measures against ISIL (Da'esh) and Al-Qaeda and persons, groups, undertakings and entities associated with them and repealing Common Position 2002/402/CFSP;Decision concerning restrictive measures against ISIL (Da’esh) and Al-Qaeda and persons, groups, undertakings and entities associated with them;Isil (Da'esh) and Al-Qaeda (United Nations Sanctions) (EU Exit) Regulations 2019 - 2001-10-17;Lista persoanelor, entităţilor şi a altor grupuri asociate cu „ISIL” („Da’esh”) şi „Al-Qaida” menţinută de CCS al ONU, instituit prin Rezoluţiile 1267 (1999), 1989 (2011), 2253 (2015);Ordinance on measures against persons, groups, undertakings and entities associated with ISIL (Da'esh) and Al-Qaida - 2025-05-15 - 2025-10-06;Reciprocal - Active;Reciprocal - Active - 2025-03-28;SDGT - Unknown;TAQA - 2017/557 (OJ L80) - 2001-10-17;nom de son père : Mohammad Hijazi, nom de sa mère : Sakina;РБ ООН (Комітет 1267(1999),1989(2011), 2253(2015)) - 2025-02-06;\"מועבי\"\"ט - או\"\"ם - הכרזה על ארגון טרור על פי סעיף 2 לחוק איסור מימון טרור התשסה- 2005 - 2013-01-02\";タリバーン関係者等 （タリバーン、アル・カーイダ及びISIL（ダーイシュ）関係者等） / （注1）国連安保理決議第1267号、第1333号、第1390号、第1988号、第1989号、第2253号及び第2255号に加えて、国連安保理決議第1373号に基づく資産凍結措置の対象に指定されている個人及び団体については、告示番号の冒頭に＊印を付しています。 （注2）2021年5月28日以降の制裁対象者の追加指定につきましては、外務省告示を２回に分けて発出することとなりました。 （１回目：制裁対象者の氏名等を国連安保理が公表した英文の情報のまま発出する告示、２回目：制裁対象者の氏名等に仮名表記等を追加・修文する告示）２回目の告示発出につきましては、当シートの告示日付には反映しておりません。 - 2017-04-14 - 2001-10-27 - 2003-04-25 - 2017-03-21 - 2020-11-24 - 2001-10-17 - 2011-06-15 - 2003-04-10 - 2011-05-16 - 2021-04-30",
+      "articles": 48,
+      "sources": "Al Jazeera,Balkan Insight,Daily Maverick,Moscow Times,Middle East Eye,OCCRP,New York Times",
+      "top_score": 1
+    },
+    {
+      "entity_name": "Central Bank of the Democratic People's Republic of Korea",
+      "type": "Company",
+      "countries": "kp",
+      "lists": "DPRK3 - Executive Order 13722 (North Korea);Reciprocal - Active - 2017-09-26;国際平和のための国際的な努力に我が国として寄与するために講ずる資産凍結等の措置の対象となる - 2017-11-07",
+      "articles": 18,
+      "sources": "Middle East Eye,OCCRP,InSight Crime,Rappler",
+      "top_score": 1
+    },
+    {
+      "entity_name": "Islamic Revolutionary Guard Corps (IRGC)",
+      "type": "Company",
+      "countries": "ir;ly;sy;us",
+      "lists": ";(UE) 2026/456 du 26/02/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 267/2012 du 23/03/2012- (UE Iran prolifération - R (UE) 267/2012) - (UE) 2026/1878 du 30/07/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2026/420 du 19/02/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - responsable du programme nucléaire Iranien. Assure le contrôle opérationnel du programme de missiles balistiques de l'Iran. A tenté d'effectuer des acquisitions visant à soutenir le programme de missiles balistiques et le programme nucléaire de l'Iran;2018-10-23;2019-04-15;267/2012 (OJ L88) - 668/2010 (OJ L195);272/2011 (OJ L76);Autonomous (Iran) - 2024-01-12;Autonomous (Libya) - 2024-01-12;E.O. 13382 - Nonproliferation Sanctions (ISN) - State Department - 2007-10-25;Iran - 1, Part 1;LBY - 2016/44 (OJ L12) - 2011-03-21;NPWMD - Executive Order 13848 (Election) - Executive Order 13224 (Terrorism) - TRA;Ordinance of 12 December 2025 on measures against the Islamic Republic of Iran (SR 946.231.143.6), annexes 11-14;Ordinance of 30 March 2011 on measures against Libya (SR 946.231.149.82), annexes 2, 3, 4 and 5 - 2015-08-28;Reciprocal - Active;Reciprocal - Active - 2019-04-15;Reciprocal - Active - 2025-03-28;The Iran (Sanctions) (Nuclear) (EU Exit) Regulations 2019 - Responsible for Iran's nuclear programme. Has operational control for Iran's ballistic missile programme. Has undertaken procurement attempts to support Iran's ballistic missiles and nuclear programmes. - 2020-12-31;The Libya (Sanctions) (EU Exit) Regulations 2020 - Associated with Muammar Qadhafi, involved in activities carried out on behalf of the former regime of Muammar Qadhafi implementing or connected to the repressive policies of that regime, involved in violence against demonstrators. - 2020-12-31;Weapon Types: Missile, Nuclear, Conventional Weapons;description_identifier: disqualification under sanctions regulation - section: 3A - act: sanctions anti money laundering act 2018 - 2025-04-09;responsable du programme nucléaire Iranien. Assure le contrôle opérationnel du programme de missiles balistiques de l'Iran. A tenté d'effectuer des acquisitions visant à soutenir le programme de missiles balistiques et le programme nucléaire de l'Iran;הכרזה על ארגון טרור לפי חוק המאבק בטרור - התשע''ו-2016 - The Iranian Revolutionary Guard is a terrorist organization operating in the service of the Iranian regime. Over the past few years, it has been operating in order to harm the State of Israel and Israeli entities or those identified with Israel abroad, as well as commercial vessels that in its view are connected to Israel on the international shipping routes. All this in addition to the terrorist activities being perpetrated by 'Quds' Force, which is subordinate to the Revolutionary Guard. At the same time, the organization provides extensive and significant support to the terrorist organizations – Hezbollah, Hamas, Palestinian Islamic Jihad, Kata'ib Hezbollah, etc. Within this framework, the Revolutionary Guard provides economic support, transfers raw materials and technology, administers drills and training and provides advanced weapons to the terrorist organizations specified above. - 2024-01-15 - 2024-03-28",
+      "articles": 17,
+      "sources": "Al Jazeera,Middle East Eye,OCCRP,New York Times",
+      "top_score": 2
+    },
+    {
+      "entity_name": "Ministry of Interior",
+      "type": "Organization",
+      "countries": "sy",
+      "lists": "544/2012 (OJ L165);SYR - 2020/716 (OJ L168) - 2020-05-30;Syria / Syrie - Part 1;シリアのアル・アサド大統領及びその関係者等（団体） - 2012-11-27",
+      "articles": 16,
+      "sources": "Al Jazeera,Middle East Eye,OCCRP",
+      "top_score": 1.5
+    },
+    {
+      "entity_name": "MINISTRY OF INTERIOR",
+      "type": "Company",
+      "countries": "cu",
+      "lists": "2025-02-06;GLOMAG - Executive Order 14404 (Cuba) - Executive Order 13818 (Global Magnitsky);Reciprocal - Active - 2021-01-15",
+      "articles": 16,
+      "sources": "Al Jazeera,Middle East Eye,OCCRP",
+      "top_score": 1.5
+    },
+    {
+      "entity_name": "ISLAMIC STATE OF IRAQ AND THE LEVANT",
+      "type": "Company",
+      "countries": "iq;sy;us",
+      "lists": ";(CE) 1840/2004 du 21/10/2004 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - (UE) 583/2014 du 28/05/2014 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - (UE) 630/2014 du 12/06/2014 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - (CE) 1102/2009 du 16/11/2009 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - (UE) 632/2013 du 28/06/2013 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - (CE) 2145/2004 du 15/12/2004 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 );1267 (ISIL (Da'esh) and Al-Qaida) - 2026-02-20;1373 (2001) - 2026-03-12;1840/2004 (OJ L322) - 1102/2009 (OJ L303) - 632/2013 (OJ L179) - 2145/2004 (OJ L370);2004-12-17;2014-03-07;2017/998 (OJ L150) - 2018/855 (OJ L146) - 583/2014 (OJ L160);2022-03-28;2025-07-08;Al-Qaida - 2004-10-18;Al-Qaida - 2014-05-14;Asset freezes pursuant to Article 6 of Law No. 6415, targeting individuals and entities based on requests made by foreign governments.;Isil (Da'esh) and Al-Qaeda (United Nations Sanctions) (EU Exit) Regulations 2019 - 2004-10-18;Lista persoanelor, entităţilor şi a altor grupuri asociate cu „ISIL” („Da’esh”) şi „Al-Qaida” menţinută de CCS al ONU, instituit prin Rezoluţiile 1267 (1999), 1989 (2011), 2253 (2015);Listed as terrorist organisation under Criminal Code Act 1995 - 2014-07-11;Listed as terrorist organisation under Criminal Code Act 1995 - 2022-04-09;Ordinance on measures against persons, groups, undertakings and entities associated with ISIL (Da'esh) and Al-Qaida - 2025-05-15;Reciprocal - Active;Reciprocal - Active - 2019-03-21;SDGT - Executive Order 13224 (Terrorism);SDGT - Executive Order 13224 (Terrorism) - INA;TAQA - 2018/855 (OJ L146) - 2018-06-12;TAQA - 630/2014 (OJ L174) - 2014-06-13;TERRORIST ORGANISATIONS LISTED IN THE FIRST SCHEDULE OF THE UNLAWFUL ACTIVITIES (PREVENTION) ACT, 1967;Резолюція РБ ООН 1267 (1999) та 1989 (2011) - 2014-06-06;ביטול הכרזה על ארגו ן טרור על פי סעיף 2 לחוק איסור מימון טרור - התשס''ה- 2005 - 2014-09-30;הכרזה על ארגו ן טרור על פי סעיף 2 לחוק איסור מימון טרור - התשס''ה- 2005 - 2009-10-20;הכרזה על התאחדות בלתי מותרת לפי תקנות ההגנה (שעת חירום), 1945 - 2013-08-22;הכרזה על התאחדות בלתי מותרת לפי תקנות ההגנה (שעת חירום), 1945 - 2014-09-03;הכרזה על התאחדות בלתי מותרת לפי תקנות ההגנה (שעת חירום), 1945 - 2014-09-04 - 2017-09-18;مدرج بموجب قرار مجلس الوزراء رقم (41) لسنة 2014;タリバーン関係者等 （タリバーン、アル・カーイダ及びISIL（ダーイシュ）関係者等） / （注1）国連安保理決議第1267号、第1333号、第1390号、第1988号、第1989号、第2253号及び第2255号に加えて、国連安保理決議第1373号に基づく資産凍結措置の対象に指定されている個人及び団体については、告示番号の冒頭に＊印を付しています。 （注2）2021年5月28日以降の制裁対象者の追加指定につきましては、外務省告示を２回に分けて発出することとなりました。 （１回目：制裁対象者の氏名等を国連安保理が公表した英文の情報のまま発出する告示、２回目：制裁対象者の氏名等に仮名表記等を追加・修文する告示）２回目の告示発出につきましては、当シートの告示日付には反映しておりません。 - 2011-12-13 - 2004-10-26 - 2014-07-23 - 2013-07-04 - 2013-05-30 - 2004-12-02 - 2012-03-27 - 2020-11-24 - 2004-10-18 - 2014-05-13 - 2021-04-30 - 2009-03-05",
+      "articles": 15,
+      "sources": "Middle East Eye,Balkan Insight,OCCRP,New York Times",
+      "top_score": 1
+    },
+    {
+      "entity_name": "Ministry of National Defence",
+      "type": "Company",
+      "countries": "kp",
+      "lists": ";(UE) 2018/12 du 08/01/2018 (ONU Corée du Nord - RCSNU 1718 (2006) et R (UE) 2017/1509) - décision du comité des sanctions des Nations unies du 22/12/2017 (ONU Corée du Nord - RCSNU 1718 (2006) et R (UE) 2017/1509) - décision du comité des sanctions des Nations unies du 07/03/2024 (ONU Corée du Nord - RCSNU 1718 (2006) et R (UE) 2017/1509) - (UE) 2017/1859 du 16/10/2017 (ONU Corée du Nord - RCSNU 1718 (2006) et R (UE) 2017/1509) - (UE) 2024/2070 du 29/07/2024 (UE Corée du Nord - Règlement (UE) 2017/1509) - Le Ministère de la défense nationale gère les besoins logistiques et administratifs généraux de l'Armée populaire coréenne.;1718 (DPRK) - 2026-02-20;2018-07-12;2024/2070 (OJ L202402070);Asset freezes within the scope of Articles 3.A and 3.B of Law No. 7262, aimed at preventing the financing of the proliferation of weapons of mass destruction.;Comitetul Consiliului de Securitate al ONU instituit prin Rezoluția 1718 (2006) - RPDC;DPRK - 2017-12-22;DPRK3 - Executive Order 13722 (North Korea);Le Ministère de la défense nationale gère les besoins logistiques et administratifs généraux de l’Armée populaire coréenne.;Ordinance of 18 May 2016 on measures against North Korea (SR 946.231.127.6), annexes 1 et 6 - 2017-12-22 - 2025-04-15 - 2024-03-07;PRK - 2024/2070 (OJ L202402070) - 2017-12-22;Reciprocal - Active - 2017-06-01;The Democratic People's Republic of Korea (Sanctions) (EU Exit) Regulations 2019 - 2017-12-22;РБ ООН (Комітет 1718 (2006)) - 2024-03-11;北朝鮮に関連する国際連合安全保障理事会決議に基づく資産凍結等の措置の対象となる者（団体） - 2024-03-15 - 2017-12-28",
+      "articles": 13,
+      "sources": "Middle East Eye,Al Jazeera,OCCRP",
+      "top_score": 1.5
+    },
+    {
+      "entity_name": "Jose Adolfo Macias Villamar",
+      "type": "Person",
+      "countries": "ec",
+      "lists": "ILLICIT-DRUGS-EO14059 - Executive Order 14059 (Illicit Drugs);Reciprocal - Active - 2024-02-07",
+      "articles": 13,
+      "sources": "InSight Crime",
+      "top_score": 1
+    },
+    {
+      "entity_name": "NAFTNA INDUSTRIJA SRBIJE AD NOVI SAD",
+      "type": "Company",
+      "countries": "rs",
+      "lists": ";594/2025 - дії іноземної держави, іноземної юридичної чи фізичної особи, інших суб’єктів, які створюють реальні та/або потенційні загрози національним інтересам, національній безпеці, суверенітету і територіальній цілісності України, сприяють терористичній діяльності та/або порушують права і свободи людини і громадянина, інтереси суспільства та держави, призводять до окупації території, експропріації чи обмеження права власності, завдання майнових втрат, створення перешкод для сталого економічного розвитку, повноцінного здійснення громадянами України належних їм прав і свобод - active - 2025-08-08 - 2035-08-08;RUSSIA-EO14024 - Executive Order 14024 (Russia) - Executive Order 13662 (Ukraine);Reciprocal - Active - 2025-01-10",
+      "articles": 12,
+      "sources": "Balkan Insight,OCCRP",
+      "top_score": 1
+    },
+    {
+      "entity_name": "Ministry of Defense of Burma",
+      "type": "Company",
+      "countries": "mm",
+      "lists": "BURMA-EO14014 - Executive Order 14014;Entity List (EL) - Bureau of Industry and Security - For All Items Subject to the EAR (See §744.11 of the EAR). - 2021-03-08;Myanmar (Burma) / Myanmar (Birmanie) - Part 1;Reciprocal - Active - 2023-06-21",
+      "articles": 12,
+      "sources": "Al Jazeera,Middle East Eye,OCCRP",
+      "top_score": 1
+    },
+    {
+      "entity_name": "Itamar Ben-Gvir",
+      "type": "Person",
+      "countries": "il",
+      "lists": "Autonomous (Thematic - Human Rights) - 2025-06-11;Extremist Settler Violence / Violence extrémiste des colons - Part 1;The Global Human Rights Sanctions Regulations 2020 - Itamar BEN-GVIR (hereafter 'BEN-GVIR') is an involved person within the meaning of the Global Human Rights Sanctions Regulations 2020 on the basis of the following ground: BEN-GVIR is responsible for, engaging in, inciting, promoting and/or supporting  activity which amounts to a serious abuse of the right of individuals not to be subjected to cruel, inhuman or degrading treatment or punishment, in particular acts of aggression and violence against Palestinian individuals in the West Bank. - Itamar BEN-GVIR (hereafter “BEN-GVIR”) is an involved person within the meaning of the Global Human Rights Sanctions Regulations 2020 on the basis of the following ground: BEN-GVIR is responsible for, engaging in, inciting, promoting and/or supporting  activity which amounts to a serious abuse of the right of individuals not to be subjected to cruel, inhuman or degrading treatment or punishment, in particular acts of aggression and violence against Palestinian individuals in the West Bank. - 2025-06-10;description_identifier: disqualification under sanctions regulation - section: 3A - act: sanctions anti money laundering act 2018 - 2025-06-10",
+      "articles": 12,
+      "sources": "New York Times,Middle East Eye",
+      "top_score": 1.5
+    },
+    {
+      "entity_name": "Wilmer Geovanny Chavarria Barre",
+      "type": "Person",
+      "countries": "ec",
+      "lists": "ILLICIT-DRUGS-EO14059 - Executive Order 14059 (Illicit Drugs);Reciprocal - Active - 2024-06-06",
+      "articles": 12,
+      "sources": "InSight Crime",
+      "top_score": 1
+    },
+    {
+      "entity_name": "Celso Manuel Gamboa Sanchez",
+      "type": "Person",
+      "countries": "cr",
+      "lists": "ILLICIT-DRUGS-EO14059 - Executive Order 14059 (Illicit Drugs);Reciprocal - Active - 2025-08-18",
+      "articles": 12,
+      "sources": "InSight Crime",
+      "top_score": 1
+    },
+    {
+      "entity_name": "AL QAEDA (AQ)",
+      "type": "Company",
+      "countries": "af;us",
+      "lists": ";(CE) 881/2002 du 27/05/2002 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - (CE) 1102/2009 du 16/11/2009 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - (UE) 316/2012 du 12/04/2012 (ONU Al Qaeda Etat - Islamique - RCSNU 1267 (1999) et R (UE) 881/2002 ) - précédemment inscrite sous le nom Al Qa'ida/armée islamique;1102/2009 (OJ L303) - 316/2012 (OJ L103) - 881/2002 (OJ L139);1267 (ISIL (Da'esh) and Al-Qaida) - 2026-02-20;1999-10-08;2014-03-07;2022-06-20;Al-Qaida - 2001-10-06;FTO - Executive Order 13224 (Terrorism);Isil (Da'esh) and Al-Qaeda (United Nations Sanctions) (EU Exit) Regulations 2019 - 2001-10-06;Lista persoanelor, entităţilor şi a altor grupuri asociate cu „ISIL” („Da’esh”) şi „Al-Qaida” menţinută de CCS al ONU, instituit prin Rezoluţiile 1267 (1999), 1989 (2011), 2253 (2015);Listed as terrorist organisation under Criminal Code Act 1995 - 2002-10-21;Ordinance on measures against persons, groups, undertakings and entities associated with ISIL (Da'esh) and Al-Qaida - 2025-05-15;Reciprocal - Active;TAQA - 316/2012 (OJ L103) - 2012-04-12;Weapon Types: Biological, Chemical, Missile, Nuclear, Conventional Weapons;précédemment inscrite sous le nom Al Qa'ida/armée islamique;Резолюції РБ ООН 1267 (1999) та 1989 (2011) - 2012-03-28;הכרזה על ארגו ן טרור על פי סעיף 2 לחוק איסור מימון טרור - התשס''ה- 2005 - 2009-01-11;הכרזה על התאחדות בלתי מותרת לפי תקנות ההגנה (שעת חרום), 1945 - 2001-10-04 - 2001-10-23;مدرج بموجب قرار مجلس الوزراء رقم (41) لسنة 2014;タリバーン関係者等 （タリバーン、アル・カーイダ及びISIL（ダーイシュ）関係者等） / （注1）国連安保理決議第1267号、第1333号、第1390号、第1988号、第1989号、第2253号及び第2255号に加えて、国連安保理決議第1373号に基づく資産凍結措置の対象に指定されている個人及び団体については、告示番号の冒頭に＊印を付しています。 （注2）2021年5月28日以降の制裁対象者の追加指定につきましては、外務省告示を２回に分けて発出することとなりました。 （１回目：制裁対象者の氏名等を国連安保理が公表した英文の情報のまま発出する告示、２回目：制裁対象者の氏名等に仮名表記等を追加・修文する告示）２回目の告示発出につきましては、当シートの告示日付には反映しておりません。 - 2001-10-12 - 2020-11-24 - 2012-03-27 - 2012-04-24 - 2012-03-21 - 2001-10-06 - 2021-04-30 - 2009-03-05",
+      "articles": 11,
+      "sources": "Al Jazeera,Daily Maverick,Middle East Eye,OCCRP",
+      "top_score": 1
+    },
+    {
+      "entity_name": "Hizballah",
+      "type": "Company",
+      "countries": "lb;sy;us",
+      "lists": ";(UE) 2021/1188 du 19/07/2021 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2025/206 du 30/01/2025 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2026/1878 du 30/07/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2023/1505 du 20/07/2023 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2026/456 du 26/02/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 714/2013 du 25/07/2013 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2025/1578 du 29/07/2025 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2022/1230 du 18/07/2022 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2023/420 du 24/02/2023 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - Conseil du Djihad et toutes les unités placées sous son autorité, dont l'Organisation de la sécurité extérieure.;1373 (2001) - 2025-09-13;1997-10-08;2014-03-07;2015/1325 (OJ L206) - 2023/1505 (OJ L184) - 2024/329 (OJ L16012024) - 714/2013 (OJ L201) - 2020/19 (OJ L8I);2024-11-20;ARG List - UFI AMIA - 1994-07-18;FTO - Executive Order 13224 (Terrorism) - INA;Lista persoanelor, grupurilor și entităților cărora li se aplică măsurile menționate la articolele 2 și 3 din Poziția comună 2001/931/PESC;Listed as terrorist organisation under Criminal Code Act 1995 - 2021-12-10;Listed as terrorist organisation under Criminal Code Act 1995 - 2024-05-24;Reciprocal - Active;TERR - 2025/206 (L 202500206) - 2025-02-01;The Counter-Terrorism (International Sanctions) (EU Exit) Regulations 2019 - Hizballah has claimed responsibility for a number of terrorist attacks since the 1980s. It supports terrorism in Iraq and the Occupied Palestinian Territories. It also frequently incites violence against Israel and is behind a large number of rocket attacks into Israel. - 2020-12-31;U.I.F - ARG List - 2021-07-03;Unidad de Información Financiera - ARG List - 2019-07-18;Unidad de Información Financiera - ARG List - 2021-10-14;description_identifier: disqualification under sanctions regulation - section: 3A - act: sanctions anti money laundering act 2018 - 2025-04-09;\"הכרזה על ארגון טרור לפי סעיף 8 לפקודת מניעת טרור התש\"\"ח- 1948 - 2003-07-22 - 1989-06-22\"",
+      "articles": 11,
+      "sources": "Middle East Eye,OCCRP",
+      "top_score": 1
+    },
+    {
+      "entity_name": "Jared Kushner",
+      "type": "Person",
+      "countries": "us",
+      "lists": "\"\"",
+      "articles": 11,
+      "sources": "Al Jazeera,Balkan Insight,Middle East Eye,New York Times",
+      "top_score": 1.5
+    },
+    {
+      "entity_name": "Bashar Al-Assad",
+      "type": "Person",
+      "countries": "sy",
+      "lists": "\"(UE) 504/2011 du 23/05/2011 (UE Syrie - R (UE) 36/2012 ) - (UE) 2025/1094 du 27/05/2025 (UE Syrie - R (UE) 36/2012 ) - (UE) 2020/716 du 28/05/2020 (UE Syrie - R (UE) 36/2012 ) - Ancien président de la République; ordonnateur et maître d'œuvre de la répression contre les manifestants.\";163/2023 - active - 2023-03-18 - 2033-03-18;2020/716 (OJ L168);2025-03-07;\"Ancien président de la République ; ordonnateur et maître d’œuvre de la répression contre les manifestants.\";Autonomous (Syria) - 2024-01-12;Council Decision concerning restrictive measures against Syria;Ordinance of 8 June 2012 on measures against Syria (SR 946.231.172.7) - 2020-06-26 - 2016-01-19 - 2013-11-06 - 2025-06-20;PAARSSR-EO13894 - Executive Order 13894 (Syria-related);Reciprocal - Active;SYR - 2020/716 (OJ L168) - 2020-05-30;Syria / Syrie - Part 2;The Syria (Sanctions) (EU Exit) Regulations 2019 - There are reasonable grounds to suspect that they are an involved person under the Syria (Sanctions) (EU Exit) Regulations 2019 because they are or have been involved in activities carried out on behalf of the Assad regime, implementing or connected to the repressive police of that regime and/or involved in supporting or benefitting from the Assad regime. - 2020-12-31;description_identifier: disqualification under sanctions regulation - section: 3A - act: sanctions anti money laundering act 2018 - 2025-04-09;シリアのアル・アサド大統領及びその関係者等（個人） - 2011-09-09",
+      "articles": 11,
+      "sources": "Al Jazeera,Middle East Eye,OCCRP,New York Times",
+      "top_score": 2.5
+    },
+    {
+      "entity_name": "The Base",
+      "type": "Organization",
+      "countries": "us",
+      "lists": ";(UE) 2026/456 du 26/02/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2026/1878 du 30/07/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2025/206 du 30/01/2025 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2025/1578 du 29/07/2025 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001);1373 (2001) - 2025-02-03;2024/2055 (OJ L26072024);Listed as terrorist organisation under Criminal Code Act 1995 - 2021-12-10;TERR - 2025/206 (L 202500206) - 2024-07-26",
+      "articles": 10,
+      "sources": "Al Jazeera,Daily Maverick,Middle East Eye,OCCRP",
+      "top_score": 1.5
+    },
+    {
+      "entity_name": "Marco Rubio",
+      "type": "Person",
+      "countries": "us",
+      "lists": ";2020-08-10 - 2020-07-13",
+      "articles": 10,
+      "sources": "Balkan Insight,Middle East Eye,New York Times",
+      "top_score": 1.5
+    }
+  ],
+  "headline_alerts": [
+    {
+      "entity_name": "Sinaloa Cartel",
+      "entity_sanctions": ";2025-02-20;ILLICIT-DRUGS-EO14059 - Foreign Narcotics Kingpin Designation Act - Executive Order 13224 (Terrorism) - Executive Order 14059 (Illicit Drugs) - INA;Reciprocal - Active - 2009-04-15",
+      "article_source": "OCCRP",
+      "article_headline": "Inside the Sinaloa Cartel’s Move Toward Europe",
+      "article_date": "2020-12-15T00:00:00.000Z",
+      "article_url": "https://www.occrp.org/en/investigation/inside-the-sinaloa-cartels-move-toward-europe",
+      "match_name": "Sinaloa Cartel",
+      "score": 2.5
+    },
+    {
+      "entity_name": "Bashar Al-Assad",
+      "entity_sanctions": "\"(UE) 504/2011 du 23/05/2011 (UE Syrie - R (UE) 36/2012 ) - (UE) 2025/1094 du 27/05/2025 (UE Syrie - R (UE) 36/2012 ) - (UE) 2020/716 du 28/05/2020 (UE Syrie - R (UE) 36/2012 ) - Ancien président de la République; ordonnateur et maître d'œuvre de la répression contre les manifestants.\";163/2023 - active - 2023-03-18 - 2033-03-18;2020/716 (OJ L168);2025-03-07;\"Ancien président de la République ; ordonnateur et maître d’œuvre de la répression contre les manifestants.\";Autonomous (Syria) - 2024-01-12;Council Decision concerning restrictive measures against Syria;Ordinance of 8 June 2012 on measures against Syria (SR 946.231.172.7) - 2020-06-26 - 2016-01-19 - 2013-11-06 - 2025-06-20;PAARSSR-EO13894 - Executive Order 13894 (Syria-related);Reciprocal - Active;SYR - 2020/716 (OJ L168) - 2020-05-30;Syria / Syrie - Part 2;The Syria (Sanctions) (EU Exit) Regulations 2019 - There are reasonable grounds to suspect that they are an involved person under the Syria (Sanctions) (EU Exit) Regulations 2019 because they are or have been involved in activities carried out on behalf of the Assad regime, implementing or connected to the repressive police of that regime and/or involved in supporting or benefitting from the Assad regime. - 2020-12-31;description_identifier: disqualification under sanctions regulation - section: 3A - act: sanctions anti money laundering act 2018 - 2025-04-09;シリアのアル・アサド大統領及びその関係者等（個人） - 2011-09-09",
+      "article_source": "Middle East Eye",
+      "article_headline": "Syrian court sentences Bashar al-Assad to death in absentia in landmark trial",
+      "article_date": "Published date: 11 August 2026 09:50 BST | Last update: 1 week 1 day ago",
+      "article_url": "https://www.middleeasteye.net/news/syria-court-sentences-bashar-al-assad-death-absentia-landmark-trial",
+      "match_name": "Bashar Al-Assad",
+      "score": 2.5
+    },
+    {
+      "entity_name": "Kim Jong-un",
+      "entity_sanctions": "DPRK3 - Executive Order 13722 (North Korea);Reciprocal - Active - 2016-07-06",
+      "article_source": "New York Times",
+      "article_headline": "Trump’s Overture to Kim Jong-un Strains Alliance With South Korea",
+      "article_date": "Aug. 17, 2026",
+      "article_url": "https://www.nytimes.com/2026/08/17/world/asia/trump-korea-military-kim-jong-un.html",
+      "match_name": "Kim Jong-un",
+      "score": 2.5
+    },
+    {
+      "entity_name": "Kim Jong-un",
+      "entity_sanctions": "DPRK3 - Executive Order 13722 (North Korea);Reciprocal - Active - 2016-07-06",
+      "article_source": "New York Times",
+      "article_headline": "Trump se acerca a Kim Jong-un y tensa la alianza con Corea del Sur",
+      "article_date": "2026-08-17",
+      "article_url": "https://www.nytimes.com/es/2026/08/17/espanol/mundo/trump-kim-jong-corea-sur-ejercicios-militares.html",
+      "match_name": "Kim Jong-un",
+      "score": 2.5
+    },
+    {
+      "entity_name": "Naser Kelmendi",
+      "entity_sanctions": "Reciprocal - Active;SDNTK - Unknown",
+      "article_source": "OCCRP",
+      "article_headline": "US Blacklists Balkan Businessman Naser Kelmendi",
+      "article_date": "2012-06-04T00:00:00.000Z",
+      "article_url": "https://www.occrp.org/en/investigation/us-blacklists-balkan-businessman-naser-kelmendi",
+      "match_name": "Naser Kelmendi",
+      "score": 2.5
+    },
+    {
+      "entity_name": "Naser Kelmendi",
+      "entity_sanctions": "Reciprocal - Active;SDNTK - Unknown",
+      "article_source": "OCCRP",
+      "article_headline": "Naser Kelmendi: From Kosovo Inmate to Sarajevo Businessman",
+      "article_date": "2009-11-16T00:00:00.000Z",
+      "article_url": "https://www.occrp.org/en/investigation/naser-kelmendi-from-kosovo-inmate-to-sarajevo-businessman",
+      "match_name": "Naser Kelmendi",
+      "score": 2.5
+    },
+    {
+      "entity_name": "Marjorie Taylor Greene",
+      "entity_sanctions": "\"\"",
+      "article_source": "Middle East Eye",
+      "article_headline": "US considering nuclear weapons against Iran as war falters, claims Marjorie Taylor Greene",
+      "article_date": "Published date: 17 August 2026 12:04 BST | Last update: 2 days 13 hours ago",
+      "article_url": "https://www.middleeasteye.net/news/us-considering-nuclear-weapons-against-iran-war-falters-says-marjorie-taylor-greene",
+      "match_name": "Marjorie Taylor Greene",
+      "score": 2.5
+    },
+    {
+      "entity_name": "British American Tobacco p.l.c.",
+      "entity_sanctions": "Product-based - Production of tobacco;Settled",
+      "article_source": "OCCRP",
+      "article_headline": "British American Tobacco Fights Dirty In West Africa",
+      "article_date": "2021-02-26T00:00:00.000Z",
+      "article_url": "https://www.occrp.org/en/investigation/british-american-tobacco-fights-dirty-in-west-africa",
+      "match_name": "British American Tobacco",
+      "score": 2
+    },
+    {
+      "entity_name": "Sinaloa Cartel",
+      "entity_sanctions": ";2025-02-20;ILLICIT-DRUGS-EO14059 - Foreign Narcotics Kingpin Designation Act - Executive Order 13224 (Terrorism) - Executive Order 14059 (Illicit Drugs) - INA;Reciprocal - Active - 2009-04-15",
+      "article_source": "OCCRP",
+      "article_headline": "Inside the Sinaloa Cartel’s Move Toward Europe",
+      "article_date": "2020-12-15T00:00:00.000Z",
+      "article_url": "https://www.occrp.org/en/investigation/inside-the-sinaloa-cartels-move-toward-europe",
+      "match_name": "SINALOA CARTEL",
+      "score": 2
+    },
+    {
+      "entity_name": "Islamic Revolutionary Guard Corps (IRGC)",
+      "entity_sanctions": ";(UE) 2026/456 du 26/02/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 267/2012 du 23/03/2012- (UE Iran prolifération - R (UE) 267/2012) - (UE) 2026/1878 du 30/07/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2026/420 du 19/02/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - responsable du programme nucléaire Iranien. Assure le contrôle opérationnel du programme de missiles balistiques de l'Iran. A tenté d'effectuer des acquisitions visant à soutenir le programme de missiles balistiques et le programme nucléaire de l'Iran;2018-10-23;2019-04-15;267/2012 (OJ L88) - 668/2010 (OJ L195);272/2011 (OJ L76);Autonomous (Iran) - 2024-01-12;Autonomous (Libya) - 2024-01-12;E.O. 13382 - Nonproliferation Sanctions (ISN) - State Department - 2007-10-25;Iran - 1, Part 1;LBY - 2016/44 (OJ L12) - 2011-03-21;NPWMD - Executive Order 13848 (Election) - Executive Order 13224 (Terrorism) - TRA;Ordinance of 12 December 2025 on measures against the Islamic Republic of Iran (SR 946.231.143.6), annexes 11-14;Ordinance of 30 March 2011 on measures against Libya (SR 946.231.149.82), annexes 2, 3, 4 and 5 - 2015-08-28;Reciprocal - Active;Reciprocal - Active - 2019-04-15;Reciprocal - Active - 2025-03-28;The Iran (Sanctions) (Nuclear) (EU Exit) Regulations 2019 - Responsible for Iran's nuclear programme. Has operational control for Iran's ballistic missile programme. Has undertaken procurement attempts to support Iran's ballistic missiles and nuclear programmes. - 2020-12-31;The Libya (Sanctions) (EU Exit) Regulations 2020 - Associated with Muammar Qadhafi, involved in activities carried out on behalf of the former regime of Muammar Qadhafi implementing or connected to the repressive policies of that regime, involved in violence against demonstrators. - 2020-12-31;Weapon Types: Missile, Nuclear, Conventional Weapons;description_identifier: disqualification under sanctions regulation - section: 3A - act: sanctions anti money laundering act 2018 - 2025-04-09;responsable du programme nucléaire Iranien. Assure le contrôle opérationnel du programme de missiles balistiques de l'Iran. A tenté d'effectuer des acquisitions visant à soutenir le programme de missiles balistiques et le programme nucléaire de l'Iran;הכרזה על ארגון טרור לפי חוק המאבק בטרור - התשע''ו-2016 - The Iranian Revolutionary Guard is a terrorist organization operating in the service of the Iranian regime. Over the past few years, it has been operating in order to harm the State of Israel and Israeli entities or those identified with Israel abroad, as well as commercial vessels that in its view are connected to Israel on the international shipping routes. All this in addition to the terrorist activities being perpetrated by 'Quds' Force, which is subordinate to the Revolutionary Guard. At the same time, the organization provides extensive and significant support to the terrorist organizations – Hezbollah, Hamas, Palestinian Islamic Jihad, Kata'ib Hezbollah, etc. Within this framework, the Revolutionary Guard provides economic support, transfers raw materials and technology, administers drills and training and provides advanced weapons to the terrorist organizations specified above. - 2024-01-15 - 2024-03-28",
+      "article_source": "OCCRP",
+      "article_headline": "Syria’s Newest Mobile Operator Has A Hidden Link to Iran’s Revolutionary Guard",
+      "article_date": "2022-12-09T00:00:00.000Z",
+      "article_url": "https://www.occrp.org/en/investigation/syrias-newest-mobile-operator-has-a-hidden-link-to-irans-revolutionary-guard",
+      "match_name": "REVOLUTIONARY GUARD",
+      "score": 2
+    },
+    {
+      "entity_name": "Islamic Revolutionary Guard Corps (IRGC)",
+      "entity_sanctions": ";(UE) 2026/456 du 26/02/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 267/2012 du 23/03/2012- (UE Iran prolifération - R (UE) 267/2012) - (UE) 2026/1878 du 30/07/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - (UE) 2026/420 du 19/02/2026 (UE personnes impliquées dans des actes de terrorisme - R (UE) 2580/2001) - responsable du programme nucléaire Iranien. Assure le contrôle opérationnel du programme de missiles balistiques de l'Iran. A tenté d'effectuer des acquisitions visant à soutenir le programme de missiles balistiques et le programme nucléaire de l'Iran;2018-10-23;2019-04-15;267/2012 (OJ L88) - 668/2010 (OJ L195);272/2011 (OJ L76);Autonomous (Iran) - 2024-01-12;Autonomous (Libya) - 2024-01-12;E.O. 13382 - Nonproliferation Sanctions (ISN) - State Department - 2007-10-25;Iran - 1, Part 1;LBY - 2016/44 (OJ L12) - 2011-03-21;NPWMD - Executive Order 13848 (Election) - Executive Order 13224 (Terrorism) - TRA;Ordinance of 12 December 2025 on measures against the Islamic Republic of Iran (SR 946.231.143.6), annexes 11-14;Ordinance of 30 March 2011 on measures against Libya (SR 946.231.149.82), annexes 2, 3, 4 and 5 - 2015-08-28;Reciprocal - Active;Reciprocal - Active - 2019-04-15;Reciprocal - Active - 2025-03-28;The Iran (Sanctions) (Nuclear) (EU Exit) Regulations 2019 - Responsible for Iran's nuclear programme. Has operational control for Iran's ballistic missile programme. Has undertaken procurement attempts to support Iran's ballistic missiles and nuclear programmes. - 2020-12-31;The Libya (Sanctions) (EU Exit) Regulations 2020 - Associated with Muammar Qadhafi, involved in activities carried out on behalf of the former regime of Muammar Qadhafi implementing or connected to the repressive policies of that regime, involved in violence against demonstrators. - 2020-12-31;Weapon Types: Missile, Nuclear, Conventional Weapons;description_identifier: disqualification under sanctions regulation - section: 3A - act: sanctions anti money laundering act 2018 - 2025-04-09;responsable du programme nucléaire Iranien. Assure le contrôle opérationnel du programme de missiles balistiques de l'Iran. A tenté d'effectuer des acquisitions visant à soutenir le programme de missiles balistiques et le programme nucléaire de l'Iran;הכרזה על ארגון טרור לפי חוק המאבק בטרור - התשע''ו-2016 - The Iranian Revolutionary Guard is a terrorist organization operating in the service of the Iranian regime. Over the past few years, it has been operating in order to harm the State of Israel and Israeli entities or those identified with Israel abroad, as well as commercial vessels that in its view are connected to Israel on the international shipping routes. All this in addition to the terrorist activities being perpetrated by 'Quds' Force, which is subordinate to the Revolutionary Guard. At the same time, the organization provides extensive and significant support to the terrorist organizations – Hezbollah, Hamas, Palestinian Islamic Jihad, Kata'ib Hezbollah, etc. Within this framework, the Revolutionary Guard provides economic support, transfers raw materials and technology, administers drills and training and provides advanced weapons to the terrorist organizations specified above. - 2024-01-15 - 2024-03-28",
+      "article_source": "OCCRP",
+      "article_headline": "Syria’s Newest Mobile Operator Has A Hidden Link to Iran’s Revolutionary Guard",
+      "article_date": "2022-12-09T00:00:00.000Z",
+      "article_url": "https://www.occrp.org/en/investigation/syrias-newest-mobile-operator-has-a-hidden-link-to-irans-revolutionary-guard",
+      "match_name": "Revolutionary Guard",
+      "score": 2
+    },
+    {
+      "entity_name": "Taliban",
+      "entity_sanctions": ";1988 (Taliban) - 2021-03-17;Reciprocal - Active;SDGT - Unknown;הכרזה על ארגו ן טרור על פי סעיף 2 לחוק איסור מימון טרור - התשס''ה- 2005 - 2011-12-11",
+      "article_source": "New York Times",
+      "article_headline": "Entrenched, Embattled and Defiant, the Taliban Celebrate 5 Years in Power",
+      "article_date": "2026-08-15",
+      "article_url": "https://www.nytimes.com/2026/08/15/world/asia/entrenched-embattled-and-defiant-the-taliban-celebrate-5-years-in-power.html",
+      "match_name": "The Taliban",
+      "score": 2
+    },
+    {
+      "entity_name": "Alyaksandr Ryhorovich Lukashenka",
+      "entity_sanctions": ";(UE) 2020/1648 du 06/11/2020 (UE Biélorussie - R (CE) 765/2006 ) - (UE) 2021/339 du 25/02/2021 (UE Biélorussie - R (CE) 765/2006 ) - En tant que président de la Biélorussie disposant d'une autorité sur les organes de l'État, il est responsable de la violente répression menée par l'appareil d'État avant et après l'élection présidentielle de 2020, notamment du rejet des principales candidatures de l'opposition, des arrestations arbitraires et des mauvais traitements de manifestants pacifiques, ainsi que des intimidations et des violences à l'encontre de journalistes.;125/2026 - вчинення іноземною державою, іноземною юридичною особою, юридичною особою, яка знаходиться під контролем іноземної юридичної особи чи фізичної особи-нерезидента, іноземцем, особою без громадянства, а також суб’єктами, які здійснюють терористичну діяльність, дій, зазначених у пункті 1 частини першої цієї статті, стосовно іншої іноземної держави, громадян чи юридичних осіб останньої - дії іноземної держави, іноземної юридичної чи фізичної особи, інших суб’єктів, які створюють реальні та/або потенційні загрози національним інтересам, національній безпеці, суверенітету і територіальній цілісності України, сприяють терористичній діяльності та/або порушують права і свободи людини і громадянина, інтереси суспільства та держави, призводять до окупації території, експропріації чи обмеження права власності, завдання майнових втрат, створення перешкод для сталого економічного розвитку, повноцінного здійснення громадянами України належних їм прав і свобод - active - 2026-02-18 - 2036-02-18;2020/1648 (OJ L370I) - 2021/339 (OJ L68);Actions Taken Pursuant to Section 7031(c) since Previous Report for Involvement in both Significant Corruption and a Gross Violation of Human Rights - (1)(B) Public Designation.;Autonomous (Russia) - 2022-03-25;BELARUS - Executive Order 13405 (Belarus);BLR - 2021/339 (OJ L68) - 2020-11-06;Belarus / Bélarus - 1, Part 1;Council Decision concerning restrictive measures in view of the situation in Belarus and the involvement of Belarus in the Russian aggression against Ukraine;En tant que président de la Biélorussie disposant d’une autorité sur les organes de l’État, il est responsable de la violente répression menée par l’appareil d’État avant et après l’élection présidentielle de 2020, notamment du rejet des principales candidatures de l’opposition, des arrestations arbitraires et des mauvais traitements de manifestants pacifiques, ainsi que des intimidations et des violences à l’encontre de journalistes.;Linked to the leadership and governance of the Belarusian military, contributing to the undermining of Ukraine's sovereignty and territorial integrity - Sanctioned - 2022-05-17;Ordinance of 16 March 2022 on measures against Belarus (SR 946.231.116.9), annex 5, 13, 14 and 15 - 2020-12-11 - 2021-03-22;Reciprocal - Active;The Global Human Rights Sanctions Regulations 2020 - Alexander Lukashenko is the President of Belarus. He has held near absolute authority in his 26 years in power and maintains close control over the security apparatus of the State. This authority has remained in place since the 9 August Presidential election and he is ultimately responsible for the violence against protestors and journalists that have followed the disputed election result. Lukashenko has not called out violence and has expressed support for security services. President Lukashenko has therefore been responsible for serious violations of human rights in the weeks following 9 August and has been involved in promoting such violations - 2020-09-29;The Republic of Belarus (Sanctions) (EU Exit) Regulations 2019 - Alexander Lukashenko is the President of Belarus. He has held near absolute authority in his 26 years in power and maintains close control over the security apparatus of the State. This authority has remained in place since the 9 August 2020 Presidential election and he is ultimately responsible for the violence against protestors and journalists and the Lukashenko regime’s campaign to repress civil society and democratic opposition, and undermine the rule of law, that has followed the disputed election result in Belarus. Lukashenko has not called out violence and has expressed support for security services. Alexander Lukashenko has therefore been responsible for serious violations of human rights, the repression of civil society or democratic opposition in Belarus, or other actions, policies or activities which undermine democracy or the rule of law in Belarus following 9 August 2020, and has been involved in promoting such activities. - 2020-12-31;description_identifier: disqualification under sanctions regulation - section: 3A - act: sanctions anti money laundering act 2018 - 2025-04-09;資産凍結等の措置の対象となるベラルーシ共和国の個人及び団体（個人） - 2022-03-03",
+      "article_source": "OCCRP",
+      "article_headline": "Is This Luxurious ‘Hotel Complex’ a Future Residence for Belarusian Dictator Alexander Lukashenko?",
+      "article_date": "2025-11-07T00:00:00.000Z",
+      "article_url": "https://www.occrp.org/en/investigation/is-this-luxurious-hotel-complex-a-future-residence-for-belarusian-dictator-alexander-lukashenko",
+      "match_name": "Alexander Lukashenko",
+      "score": 2
+    },
+    {
+      "entity_name": "Viktor Anatolijevitch BOUT",
+      "entity_sanctions": "DRCONGO - Executive Order 13413 (DRC);Reciprocal - Active",
+      "article_source": "OCCRP",
+      "article_headline": "Wikileaks: Victor Bout Extradition was almost stopped",
+      "article_date": "2010-12-05T00:00:00.000Z",
+      "article_url": "https://www.occrp.org/en/investigation/wikileaks-victor-bout-extradition-was-almost-stopped",
+      "match_name": "Victor Bout",
+      "score": 2
+    },
+    {
+      "entity_name": "Bashar Al-Assad",
+      "entity_sanctions": "\"(UE) 504/2011 du 23/05/2011 (UE Syrie - R (UE) 36/2012 ) - (UE) 2025/1094 du 27/05/2025 (UE Syrie - R (UE) 36/2012 ) - (UE) 2020/716 du 28/05/2020 (UE Syrie - R (UE) 36/2012 ) - Ancien président de la République; ordonnateur et maître d'œuvre de la répression contre les manifestants.\";163/2023 - active - 2023-03-18 - 2033-03-18;2020/716 (OJ L168);2025-03-07;\"Ancien président de la République ; ordonnateur et maître d’œuvre de la répression contre les manifestants.\";Autonomous (Syria) - 2024-01-12;Council Decision concerning restrictive measures against Syria;Ordinance of 8 June 2012 on measures against Syria (SR 946.231.172.7) - 2020-06-26 - 2016-01-19 - 2013-11-06 - 2025-06-20;PAARSSR-EO13894 - Executive Order 13894 (Syria-related);Reciprocal - Active;SYR - 2020/716 (OJ L168) - 2020-05-30;Syria / Syrie - Part 2;The Syria (Sanctions) (EU Exit) Regulations 2019 - There are reasonable grounds to suspect that they are an involved person under the Syria (Sanctions) (EU Exit) Regulations 2019 because they are or have been involved in activities carried out on behalf of the Assad regime, implementing or connected to the repressive police of that regime and/or involved in supporting or benefitting from the Assad regime. - 2020-12-31;description_identifier: disqualification under sanctions regulation - section: 3A - act: sanctions anti money laundering act 2018 - 2025-04-09;シリアのアル・アサド大統領及びその関係者等（個人） - 2011-09-09",
+      "article_source": "Middle East Eye",
+      "article_headline": "Syrian court sentences Bashar al-Assad to death in absentia in landmark trial",
+      "article_date": "Published date: 11 August 2026 09:50 BST | Last update: 1 week 1 day ago",
+      "article_url": "https://www.middleeasteye.net/news/syria-court-sentences-bashar-al-assad-death-absentia-landmark-trial",
+      "match_name": "Bashar AL-ASSAD",
+      "score": 2
+    }
+  ]
+}

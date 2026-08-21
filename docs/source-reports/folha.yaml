@@ -1,0 +1,22 @@
+name: "Folha de S.Paulo"
+url: "https://www.folha.uol.com.br"
+region: "Brazil"
+category: "national-press"
+rss_feed: null
+sample_article_urls:
+  - "https://hotsites.folha.com.br/2026/07/14/clube-folha-gourmet-lp-default/?source=bannerfolha6x990"
+  - "https://cartum.folha.uol.com.br/quadrinhos/2026/08/19/niquel-nausea-fernando-gonsales.shtml"
+  - "https://aovivo.folha.uol.com.br/mercado/2026/07/01/6533-dolar-empresas-e-bolsas-acompanhe-ao-vivo-o-mercado.shtml"
+structured_data_available: false
+structured_data_type: "none"
+selectors:
+  headline: { primary: "", fallback: "" }
+  byline: { primary: "", fallback: "" }
+  date: { primary: "", fallback: "" }
+  body: { primary: "", fallback: "" }
+  section_tag: { primary: "", fallback: "" }
+structural_fingerprint: ""
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /cgi-bin/, /folha/, /guia/, /logs/, /simulador/, /virtual/, *, /, /, / (+147 more). AI/scraping clauses found (15 lines). Blocked bots: AI2Bot, Ai2Bot-Dolma, anthropic-ai, Big Sur AI, Claude-Code, Claude-SearchBot, Claude-User, ClaudeBot, cohere-ai, cohere-training-data-crawler, DeepSeekBot, DigitalOceanGenAICrawler, DuckAssistBot, Grok, GrokBot, img2dataset, LINER Bot, MistralAI-User, MistralAI-User, MyCentralAIScraperBot, PanguBot, Perplexity-User, Perplexity-User, PerplexityBot, quillbot.com, SBIntuitionsBot, YouBot, AliyunSecBot, Amazonbot, Amzn-User, peer39_crawler, TurnitinBot, ViennaTinyBot, Amazon Kendra, Arquivo-web-crawler, Barkrowler, BLEXBot, Bravest, Bytespider, CCBot, coccocbot-web, Cotoyogi, Crawl4AI, crawler4j, Crawlspace, Diffbot, Echobot Bot, EchoboxBot, Factset_spyderbot, Firecrawl, FriendlyCrawler, https://hada.news, iaskspider, iaskspider/2.0, ICC-Crawler, ImagesiftBot, https://www.imediaethics.org, imgproxy, ISSCyberRiskCrawler, JenkersBot, Kangaroo Bot, LivelapBot, magpie-crawler, MauiBot, MoodleBot, netEstate Imprint Crawler, news-please, NewsNow, NovaAct, omgili, omgilibot, Poseidon Research Crawler, QualifiedBot, Scrapy, SeekportBot, Seekr, SeekrBot, TaraGroup Intelligent Bot, Timpibot, Turnitin, VelenPublicWebCrawler, Webzio-Extended, yacy, yacybot, adidxbot, Amzn-SearchBot, Applebot, Applebot-Extended, AspiegelBot, baidu, Baiduspider, bingbot, BingPreview, BingVideoPreview, DuckDuckBot, MicrosoftPreview, Mojeek, MojeekBot, PetalBot, SeznamBot, SeznamHomepageCrawler, Slurp, Teoma, Yahoo-Blogs, Yahoo-FeedSeeker, Yahoo-MMCrawler, YahooSeeker, Yandex, YandexAdditional, YandexAdditionalBot, YandexBot, AhrefsBot, AudigentAdBot, AwarioRssBot, AwarioSmartBot, Brandwatch, Chrome-Lighthouse, DataForSeoBot, DotBot, Jetslide, Meltwater, MJ12bot, NeticleBot, Netvibes, peer39_crawler, Screaming Frog SEO Spider, SearchmetricsBot, SemrushBot, SemrushBot-OCOB, SemrushBotSwa, Sidetrade Indexer Bot, FacebookBot, LinkedInBot, meta-externalads, meta-externalads, meta-externalagent, meta-externalagent, meta-externalfetcher, meta-externalfetcher, meta-webindexer, meta-webindexer, Pinterestbot, Quora-Bot, Slackbot, Twitterbot, DeepSeek, Datenbank Crawler, Devin, Diffbot, Qwen."
+access_status: "ok"
+last_checked: "2026-08-19"

@@ -1,0 +1,24 @@
+name: "Dawn"
+url: "https://www.dawn.com"
+region: "Pakistan"
+category: "national-press"
+rss_feed: "https://www.dawn.com/feeds/home/"
+sample_article_urls:
+  - "https://www.dawn.com/"
+  - "https://www.dawn.com/news/2023924/pakistan-issues-demarche-to-us-over-kashmir-remarks-by-american-ambassador-to-india"
+  - "https://www.dawn.com/news/2023932/diesel-price-nose-dives-by-rs3263-petrol-registers-rs297-increase"
+  - "https://www.dawn.com/news/2023916/govt-announces-significant-decrease-of-rs30-32-in-diesel-price-after-talks-with-refineries"
+  - "https://www.dawn.com/news/2023920/mir-razas-parents-request-sindh-cm-for-direct-supervision-of-investigation"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "article", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > nav(13) > article(186) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: */print, */authors/*/1*, */authors/*/2*, */authors/*/3*, */authors/*/4*, */authors/*/5*, */authors/*/6*, */authors/*/7*, */authors/*/8*, */authors/*/9* (+4 more)."
+access_status: "ok"
+last_checked: "2026-08-19"

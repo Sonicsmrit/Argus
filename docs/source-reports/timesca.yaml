@@ -1,0 +1,24 @@
+name: "The Times of Central Asia"
+url: "https://timesca.com"
+region: "Central Asia"
+category: "national-press"
+rss_feed: "https://timesca.com/feed/"
+sample_article_urls:
+  - "https://timesca.com"
+  - "https://timesca.com"
+  - "https://timesca.com/tashkent-business-hub-central-asia/"
+  - "https://timesca.com/cerberus-cybersecurity-techcrunch-startup-battlefield/"
+  - "https://timesca.com/kazakh-ai-creator-alissa-kamorsskaya-ai-animation/"
+structured_data_available: true
+structured_data_type: "OpenGraph"
+selectors:
+  headline: { primary: "h1", fallback: "h1, meta[property="og:title"]" }
+  byline: { primary: "[class*="author"]", fallback: "a[href*="/author/"], [class*="byline"], meta[name="author"]" }
+  date: { primary: "[class*="date"]", fallback: "meta[property="article:published_time"], [class*="publish"], time" }
+  body: { primary: "[class*="post-content"]", fallback: "article, [role="article"], main, [class*="content"]" }
+  section_tag: { primary: "", fallback: "meta[property="article:section"], [class*="tag"], [class*="category"], nav[aria-label*="bread"]" }
+structural_fingerprint: "header(1) > article(1) > footer(1)"
+antibot_observed: "none"
+robots_txt_notes: "Disallows: /wp-content/uploads/wp-import-export-lite/."
+access_status: "ok"
+last_checked: "2026-08-19"
