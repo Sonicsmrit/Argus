@@ -40,9 +40,12 @@ export default function Dashboard() {
   const [doneOverrides, setDoneOverrides] = useState({});
 
   // Cached queries: survive tab switches, dedupe across pages sharing keys
+  // Full telemetry payload (?full=1) — separate key from the lightweight
+  // status endpoint other pages share, since this page needs health details
   const { data: statusData } = useQuery({
-    queryKey: ['system-status'],
-    queryFn: () => fetchJson('/api/system/status'),
+    queryKey: ['system-status-full'],
+    queryFn: () => fetchJson('/api/system/status?full=1'),
+    staleTime: 60 * 1000,
   });
 
   const { data: statsData } = useQuery({

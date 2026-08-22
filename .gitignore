@@ -5,4 +5,6 @@ frontend/dist/
 *.db.gz
 data/opensanctions_targets.csv
 scratch/temp_*.json
-data/country-stats.json
+# country-stats.json IS committed: hosts with ephemeral disks (Render free
+# tier) load the precomputed snapshot at boot instead of scanning 1M+ rows.
+!data/country-stats.json

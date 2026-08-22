@@ -20,36 +20,66 @@ app.use((req, res, next) => {
     next();
 });
 
-let db;
-try {
-    db = new Database(DB_PATH, { fileMustExist: false });
-} catch (err) {
-    console.error("Failed to connect to database:", err.message);
-    process.exit(1);
+// Cold-start architecture: the HTTP port binds immediately and health checks
+// are answered from memory with zero database work, so ephemeral hosts (Render
+// free tier kills instances when a check exceeds 5s) never see a blank window.
+// Heavy boot work (DB open, stats warmup) runs afterwards via initDatabase();
+// data routes gate behind a 503 "loading" response until it completes.
+let db = null;
+let dbReady = false;
+
+// Totals served by the lightweight status endpoint without touching SQLite.
+// Refreshed during initDatabase() and whenever a full status is requested.
+const systemStatusCache = { totalEntities: 0, totalArticles: 0, totalMatches: 0 };
+
+app.use((req, res, next) => {
+    if (dbReady || req.path === '/api/system/status' || req.path === '/api/status') return next();
+    res.status(503).json({ status: 'loading', error: 'Database is initializing' });
+});
+
+function initDatabase() {
+    try {
+        db = new Database(DB_PATH, { fileMustExist: false });
+    } catch (err) {
+        console.error("Failed to connect to database:", err.message);
+        process.exit(1);
+    }
+
+    // Compliance action audit trail (created on demand for existing databases)
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS audit_actions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            entity_id TEXT,
+            entity_name TEXT,
+            action TEXT NOT NULL,
+            created_at TEXT DEFAULT (datetime('now'))
+        )
+    `);
+
+    // Investigator watchlists: monitored entities for live adverse-media alerts
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS watchlist (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            owner TEXT DEFAULT 'local',
+            entity_id TEXT UNIQUE,
+            entity_name TEXT,
+            countries TEXT,
+            added_at TEXT DEFAULT (datetime('now'))
+        )
+    `);
+
+    // Cheap once-per-boot totals for the health endpoint's cached payload.
+    try {
+        systemStatusCache.totalEntities = db.prepare(`SELECT COUNT(*) as count FROM sanctioned_entities`).get().count;
+        systemStatusCache.totalMatches = db.prepare(`SELECT COUNT(*) as count FROM entity_matches`).get().count;
+    } catch (_) { /* tables may not exist in a fresh database */ }
+    try {
+        systemStatusCache.totalArticles = db.prepare(`SELECT COUNT(*) as count FROM articles`).get().count;
+    } catch (_) {}
+
+    dbReady = true;
+    console.log('[boot] Database ready');
 }
-
-// Compliance action audit trail (created on demand for existing databases)
-db.exec(`
-    CREATE TABLE IF NOT EXISTS audit_actions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        entity_id TEXT,
-        entity_name TEXT,
-        action TEXT NOT NULL,
-        created_at TEXT DEFAULT (datetime('now'))
-    )
-`);
-
-// Investigator watchlists: monitored entities for live adverse-media alerts
-db.exec(`
-    CREATE TABLE IF NOT EXISTS watchlist (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        owner TEXT DEFAULT 'local',
-        entity_id TEXT UNIQUE,
-        entity_name TEXT,
-        countries TEXT,
-        added_at TEXT DEFAULT (datetime('now'))
-    )
-`);
 
 // Scrapers capture raw page HTML in match/article snippets; strip tags and
 // decode entities once at the API layer so every consumer renders clean text.
@@ -122,7 +152,12 @@ function loadCountryStatsFromDisk(watermark) {
     return null;
 }
 
-function computeCountryStats() {
+// Chunked with periodic event-loop yields: a full aggregation over 1M+ rows
+// must never block health checks or concurrent requests for more than a few
+// hundred milliseconds at a time.
+const STATS_YIELD_BATCH = 50000;
+
+async function computeCountryStats() {
     const matchCountsMap = new Map();
     for (const row of db.prepare(`
         SELECT entity_id, COUNT(*) as matchCount
@@ -139,6 +174,7 @@ function computeCountryStats() {
         WHERE countries IS NOT NULL AND countries != ''
     `).iterate();
 
+    let processed = 0;
     for (const entity of iter) {
         const hasHit = matchCountsMap.has(entity.id) ? 1 : 0;
         const mc = matchCountsMap.get(entity.id) || 0;
@@ -155,6 +191,9 @@ function computeCountryStats() {
             bucket.mediaHitEntities += hasHit;
             bucket.mediaHitCount += mc;
         }
+        if (++processed % STATS_YIELD_BATCH === 0) {
+            await new Promise((resolve) => setImmediate(resolve));
+        }
     }
 
     return stats;
@@ -162,7 +201,7 @@ function computeCountryStats() {
 
 // Returns { stats, fromCache } — fromCache is false only when the heavy
 // computation actually ran.
-function getCountryStats() {
+async function getCountryStats() {
     const now = Date.now();
     if (countryStatsCache.data && now - countryStatsCache.timestamp < COUNTRY_STATS_TTL) {
         return { stats: countryStatsCache.data, fromCache: true };
@@ -176,7 +215,8 @@ function getCountryStats() {
         return { stats: fromDisk, fromCache: true };
     }
 
-    const stats = computeCountryStats();
+    console.log('[stats] country-stats cache cold - computing (chunked scan)');
+    const stats = await computeCountryStats();
     countryStatsCache.data = stats;
     countryStatsCache.timestamp = now;
 
@@ -194,9 +234,9 @@ function getCountryStats() {
 }
 
 // GET /api/countries/stats
-app.get('/api/countries/stats', (req, res) => {
+app.get('/api/countries/stats', async (req, res) => {
     try {
-        const { stats, fromCache } = getCountryStats();
+        const { stats, fromCache } = await getCountryStats();
         res.json({ stats, cached: fromCache });
     } catch (err) {
         console.error(err);
@@ -660,7 +700,7 @@ app.get('/api/media/signals', (req, res) => {
 // GET /api/checklists/:country — compliance tasks generated from live database
 // state for the selected target jurisdiction, framed for the investigator's
 // home regime (?home=XX). Nothing is ever pre-completed.
-app.get('/api/checklists/:country', (req, res) => {
+app.get('/api/checklists/:country', async (req, res) => {
     try {
         const country = (req.params.country || 'ru').toLowerCase();
         const home = (req.query.home || 'us').toLowerCase();
@@ -677,7 +717,7 @@ app.get('/api/checklists/:country', (req, res) => {
         // (no per-request scan of sanctioned_entities). Corroboration figures
         // come from entity_matches alone — it stores denormalized
         // entity_countries/entity_name, so no join is needed.
-        const { stats: allStats } = getCountryStats();
+        const { stats: allStats } = await getCountryStats();
         const entityCount = allStats[country]?.entityCount || 0;
 
         const whereMatches = buildWhere('em.entity_countries', country);
@@ -1016,7 +1056,23 @@ app.get('/api/audit-actions', (req, res) => {
 });
 
 // GET /api/system/status & /api/status
+// Light path (default): answers purely from memory so host health checks can
+// never time out, even mid-boot or under CPU throttling. Rich telemetry for
+// dashboards lives behind ?full=1.
 function getSystemStatusHandler(req, res) {
+    const wantsFull = req.query.full === '1';
+    if (!wantsFull) {
+        return res.json({
+            ok: true,
+            status: dbReady ? 'ready' : 'loading',
+            dbReady,
+            uptime: Math.round(process.uptime()),
+            totalEntities: systemStatusCache.totalEntities,
+            totalArticles: systemStatusCache.totalArticles,
+            totalMatches: systemStatusCache.totalMatches,
+        });
+    }
+
     try {
         let totalEntities = 0, totalArticles = 0, totalMatches = 0, totalSanctioned = 46293, scraperRuns = [];
         let lastUpdatedEntity = null, lastUpdatedArticle = null;
@@ -1083,7 +1139,16 @@ function getSystemStatusHandler(req, res) {
             );
         } catch (e) {}
 
+        // Keep the lightweight health payload's totals in sync with live data
+        systemStatusCache.totalEntities = totalEntities;
+        systemStatusCache.totalArticles = totalArticles;
+        systemStatusCache.totalMatches = totalMatches;
+
         res.json({
+            ok: true,
+            status: dbReady ? 'ready' : 'loading',
+            dbReady,
+            uptime: Math.round(process.uptime()),
             totalEntities,
             totalSanctioned,
             totalArticles,
@@ -1154,37 +1219,46 @@ if (SCHEDULER_ENABLED) {
 }
 
 app.listen(port, () => {
+    // Port is live and health checks are being answered from memory here.
     console.log(`=================================`);
-    console.log(`🚀 Sanctions API Server Started`);
+    console.log(`🚀 Sanctions API Server listening on port ${port}`);
     console.log(`=================================`);
-    console.log(`Port: ${port}`);
-    console.log(`Database: ${DB_PATH}`);
-    try {
-        const entities = db.prepare('SELECT COUNT(*) as count FROM sanctioned_entities').get().count;
-        const articles = db.prepare('SELECT COUNT(*) as count FROM articles').get().count;
-        console.log(`Stats: ${entities} Entities, ${articles} Articles loaded.`);
-    } catch(err) {
-        console.log(`Stats: Could not read stats on startup. Check database.`);
-    }
-    // Warm the country-stats cache immediately after bind so the first
-    // request never waits on the full-table aggregation.
-    setImmediate(() => {
-        const t0 = Date.now();
-        const { fromCache } = getCountryStats();
-        console.log(`Country stats ready (${fromCache ? 'from cache' : 'computed'} in ${Date.now() - t0}ms)`);
-    });
-    // Boot backfill: if the last scrape is over an hour old, refresh the
-    // hourly news sources right away instead of waiting for the next tick.
-    try {
-        const lastRunRow = db.prepare(`SELECT MAX(run_at) as t FROM scraper_runs`).get();
-        const lastRun = lastRunRow ? lastRunRow.t : null;
-        const ageHours = lastRun
-            ? (Date.now() - new Date(String(lastRun).replace(' ', 'T') + 'Z').getTime()) / 3600000
-            : Infinity;
-        if (SCHEDULER_ENABLED && ageHours > 1) {
-            console.log(`[scheduler] data stale (${Number.isFinite(ageHours) ? ageHours.toFixed(1) + 'h old' : 'no runs yet'}) - boot backfill starting`);
-            setImmediate(() => runScheduledScrape(HOURLY_SOURCES));
+
+    // Defer all heavy boot work until after bind so the health endpoint is
+    // already serving when Render's 5s-timeout checker starts probing.
+    setImmediate(async () => {
+        try {
+            initDatabase();
+
+            const entities = db.prepare('SELECT COUNT(*) as count FROM sanctioned_entities').get().count;
+            const articles = db.prepare('SELECT COUNT(*) as count FROM articles').get().count;
+            console.log(`[boot] Stats: ${entities} Entities, ${articles} Articles loaded.`);
+
+            // Warm the country-stats cache: with the committed disk snapshot
+            // this is instant; otherwise it falls back to the chunked scan.
+            const t0 = Date.now();
+            const { fromCache } = await getCountryStats();
+            console.log(`[boot] Country stats ready (${fromCache ? 'from cache' : 'computed'} in ${Date.now() - t0}ms)`);
+        } catch (err) {
+            console.error('[boot] Database initialization failed:', err.message);
+            process.exit(1);
         }
-    } catch (_) { /* scraper_runs table may not exist in a fresh database */ }
-    console.log(`=================================`);
+
+        // Boot backfill: if the last scrape is over an hour old, refresh the
+        // hourly news sources right away instead of waiting for the next tick.
+        try {
+            const lastRunRow = db.prepare(`SELECT MAX(run_at) as t FROM scraper_runs`).get();
+            const lastRun = lastRunRow ? lastRunRow.t : null;
+            const ageHours = lastRun
+                ? (Date.now() - new Date(String(lastRun).replace(' ', 'T') + 'Z').getTime()) / 3600000
+                : Infinity;
+            if (SCHEDULER_ENABLED && ageHours > 1) {
+                console.log(`[scheduler] data stale (${Number.isFinite(ageHours) ? ageHours.toFixed(1) + 'h old' : 'no runs yet'}) - boot backfill starting`);
+                setImmediate(() => runScheduledScrape(HOURLY_SOURCES));
+            }
+        } catch (_) { /* scraper_runs table may not exist in a fresh database */ }
+
+        console.log(`[boot] Ready — data routes unlocked`);
+        console.log(`=================================`);
+    });
 });
