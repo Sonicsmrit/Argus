@@ -218,6 +218,7 @@ app.get('/api/screen', (req, res) => {
             SELECT id, name, aliases, countries, sanctions, dataset
             FROM sanctioned_entities
             WHERE LOWER(name) LIKE ? OR LOWER(aliases) LIKE ?
+            LIMIT 20000
         `).all(`%${q}%`, `%${q}%`);
 
         const results = [];

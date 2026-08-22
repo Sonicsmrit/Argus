@@ -1,10 +1,13 @@
 // Boot-time database provisioning for ephemeral hosts (Render free tier).
-// If no SQLite database exists, download the gzipped snapshot from
-// DB_SNAPSHOT_URL and gunzip it into place. No-ops when a DB is already
-// present (e.g. container restart without disk wipe).
+// If no SQLite database exists, stream the gzipped snapshot from
+// DB_SNAPSHOT_URL through gunzip into place. Streaming keeps memory flat
+// (~64KB chunks) so a 500MB database decompresses inside a 512MB container.
+// No-ops when a DB is already present (e.g. restart without disk wipe).
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
+const { Readable } = require('stream');
+const { pipeline } = require('stream/promises');
 const { DB_PATH } = require('../src/lib/paths');
 
 async function main() {
@@ -21,6 +24,10 @@ async function main() {
 
   fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 
+  // Write to a temp file and rename on success, so an interrupted download
+  // never leaves a corrupt half-database that the exists-check would trust.
+  const tmpPath = `${DB_PATH}.tmp`;
+
   console.log(`[fetch_db] Downloading database snapshot from ${url.split('?')[0]} ...`);
   const t0 = Date.now();
   const res = await fetch(url, { redirect: 'follow' });
@@ -29,16 +36,19 @@ async function main() {
     process.exit(1);
   }
 
-  const buf = Buffer.from(await res.arrayBuffer());
-  console.log(`[fetch_db] Downloaded ${(buf.length / 1048576).toFixed(1)} MB in ${((Date.now() - t0) / 1000).toFixed(1)}s - decompressing...`);
+  await pipeline(
+    Readable.fromWeb(res.body),
+    zlib.createGunzip(),
+    fs.createWriteStream(tmpPath)
+  );
 
-  const isGzip = buf.length > 2 && buf[0] === 0x1f && buf[1] === 0x8b;
-  const out = isGzip ? zlib.gunzipSync(buf) : buf;
-  fs.writeFileSync(DB_PATH, out);
-  console.log(`[fetch_db] Database ready at ${DB_PATH} (${(out.length / 1048576).toFixed(1)} MB)`);
+  const sizeMb = (fs.statSync(tmpPath).size / 1048576).toFixed(1);
+  fs.renameSync(tmpPath, DB_PATH);
+  console.log(`[fetch_db] Database ready at ${DB_PATH} (${sizeMb} MB in ${((Date.now() - t0) / 1000).toFixed(1)}s)`);
 }
 
 main().catch((err) => {
+  try { fs.rmSync(`${DB_PATH}.tmp`, { force: true }); } catch (_) {}
   console.error(`[fetch_db] FATAL: ${err.message}`);
   process.exit(1);
 });
