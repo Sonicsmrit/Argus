@@ -3,7 +3,7 @@ const { DB_PATH } = require('../src/lib/paths');
 
 const db = new Database(DB_PATH);
 
-console.log('=== SCRAPE-VERSE DATABASE REPORT ===\n');
+console.log('=== ARGUS DATABASE REPORT ===\n');
 
 // 1. Show Collector Run Statuses
 console.log('--- Scraper Studio Run Log ---');

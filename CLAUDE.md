@@ -1,4 +1,4 @@
-# Scrape-Verse Adverse Media Pipeline Guidelines
+# Argus Adverse Media Pipeline Guidelines
 
 This project leverages Bright Data's **Scraper Studio** to manage Custom AI Collectors for adverse media tracking.
 

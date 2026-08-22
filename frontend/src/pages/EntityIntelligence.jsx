@@ -2,6 +2,8 @@
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { COUNTRY_NAMES } from '../data/bilateralRules';
+import ScreeningPlayground from '../components/ScreeningPlayground';
+import CountryCombobox from '../components/CountryCombobox';
 
 export default function EntityIntelligence() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -94,17 +96,12 @@ export default function EntityIntelligence() {
               Region Scope (240+ Nations)
             </label>
             <div className="flex items-center w-full h-12 bg-surface-container rounded-2xl px-3 transition-colors border border-outline-variant/15">
-              <select
+              <CountryCombobox
                 value={selectedCountry}
-                onChange={(e) => handleCountryChange(e.target.value)}
-                className="w-full bg-transparent border-none focus:outline-none font-headline-md text-xs text-on-surface font-bold cursor-pointer"
-              >
-                {allCountryList.map((c) => (
-                  <option key={c.code} value={c.code} className="bg-surface text-on-surface">
-                    {c.name} {c.entityCount > 0 ? `[${c.entityCount} entities]` : ''} {c.mediaCount > 0 ? `(${c.mediaCount} hits)` : ''}
-                  </option>
-                ))}
-              </select>
+                onChange={handleCountryChange}
+                countries={allCountryList}
+                placeholder="Select region scope"
+              />
             </div>
           </div>
 
@@ -151,6 +148,9 @@ export default function EntityIntelligence() {
           </div>
         </div>
       </section>
+
+      {/* Interactive Denied-Party Screening */}
+      <ScreeningPlayground />
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-gutter w-full relative z-20">

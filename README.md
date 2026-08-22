@@ -1,4 +1,4 @@
-# ScrapeVerse
+# Argus
 
 Bilateral sanctions & adverse media intelligence platform. Screen trade routes and counterparties by cross-referencing official sanctions lists (Layer 1) with investigative press coverage (Layer 2), then synthesize both layers into AI-powered threat assessments.
 

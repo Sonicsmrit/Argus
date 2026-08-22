@@ -1,5 +1,5 @@
 {
-  "name": "scrapeverse",
+  "name": "argus",
   "version": "1.0.0",
   "description": "Bilateral sanctions and adverse media intelligence platform",
   "main": "src/server.js",

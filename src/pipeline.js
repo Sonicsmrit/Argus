@@ -157,14 +157,33 @@ async function runPipeline() {
   console.log(`=== Scraper pipeline run completed: ${new Date().toISOString()} ===\n`);
 }
 
-// Check arguments
-if (process.argv.includes('--now')) {
-  runPipeline();
-} else {
-  // Schedule runs: every day at midnight (0 0 * * *)
-  console.log('Starting Scrape-Verse Pipeline Scheduler Daemon...');
-  console.log('Schedule: Every day at midnight (0 0 * * *)');
-  cron.schedule('0 0 * * *', () => {
+// News-heavy sources refresh hourly; the full roster sweeps nightly.
+const HOURLY_SOURCES = ['OCCRP', 'Al Jazeera', 'Middle East Eye', 'Balkan Insight'];
+
+function collectorsByNames(names) {
+  const wanted = new Set(names.map((n) => n.toLowerCase()));
+  return COLLECTORS.filter((c) => wanted.has(c.name.toLowerCase()));
+}
+
+async function runCollectors(list) {
+  for (const c of list) {
+    await runCollector(c);
+  }
+}
+
+module.exports = { COLLECTORS, HOURLY_SOURCES, runCollector, runPipeline, runCollectors, collectorsByNames };
+
+// CLI mode only when executed directly — importing this module from the API
+// server must not start a second scheduler or trigger runs.
+if (require.main === module) {
+  if (process.argv.includes('--now')) {
     runPipeline();
-  });
+  } else {
+    // Standalone daemon mode (kept for manual operation)
+    console.log('Starting Argus Pipeline Scheduler Daemon...');
+    console.log('Schedule: Every day at midnight (0 0 * * *)');
+    cron.schedule('0 0 * * *', () => {
+      runPipeline();
+    });
+  }
 }

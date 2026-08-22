@@ -1,5 +1,6 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { useInvestigator } from '../context/InvestigatorContext';
 import NotificationsDropdown from './NotificationsDropdown';
 
@@ -7,7 +8,18 @@ export default function Header() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showNotifs, setShowNotifs] = useState(false);
   const navigate = useNavigate();
-  const { profile, openModal, homeCountryName } = useInvestigator();
+  const { profile, openModal, homeCountryName, readNotificationIds } = useInvestigator();
+
+  // Same cached query the dropdown uses; drives the live unread badge
+  const { data: notifData } = useQuery({
+    queryKey: ['notifications', profile.homeCountry],
+    queryFn: () =>
+      fetch(`/api/notifications?homeCountry=${profile.homeCountry}`).then((res) => res.json()),
+    staleTime: 60 * 1000,
+  });
+  const unreadCount = (notifData?.notifications || []).filter(
+    (n) => Boolean(n.unread) && !readNotificationIds.has(n.id)
+  ).length;
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' && searchTerm.trim()) {
@@ -16,7 +28,7 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-72 right-0 h-20 bg-surface/85 backdrop-blur-xl z-40 flex items-center justify-between px-container-padding-desktop border-b border-outline-variant/15">
+    <header className="fixed top-0 left-72 right-0 h-20 bg-surface z-40 flex items-center justify-between px-container-padding-desktop border-b border-outline-variant/15">
       {/* Quick Search */}
       <div className="flex-1 max-w-xl">
         <div className="relative flex items-center group">
@@ -64,7 +76,11 @@ export default function Header() {
             }`}
           >
             <span className="material-symbols-outlined text-[22px]">notifications</span>
-            <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-error rounded-full ring-2 ring-surface"></span>
+            {unreadCount > 0 && (
+              <span className="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 flex items-center justify-center bg-error text-white rounded-full ring-2 ring-surface text-[9px] font-mono font-bold leading-none">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
           </button>
 
           {/* Interactive Notifications Dropdown */}

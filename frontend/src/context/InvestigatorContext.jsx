@@ -22,6 +22,28 @@ export function InvestigatorProvider({ children }) {
 
   const [showModal, setShowModal] = useState(false);
 
+  // Read-notification tracking, persisted across sessions so the bell dot
+  // reflects reality instead of resetting on every reload.
+  const [readNotificationIds, setReadNotificationIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('scrapeverse_read_notifications');
+      return new Set(saved ? JSON.parse(saved) : []);
+    } catch (e) {
+      return new Set();
+    }
+  });
+
+  const markNotificationsRead = (ids) => {
+    setReadNotificationIds((prev) => {
+      const next = new Set(prev);
+      (Array.isArray(ids) ? ids : [ids]).forEach((id) => next.add(id));
+      try {
+        localStorage.setItem('scrapeverse_read_notifications', JSON.stringify([...next]));
+      } catch (e) { /* storage unavailable */ }
+      return next;
+    });
+  };
+
   useEffect(() => {
     try {
       localStorage.setItem('scrapeverse_investigator', JSON.stringify(profile));
@@ -46,6 +68,8 @@ export function InvestigatorProvider({ children }) {
         openModal: () => setShowModal(true),
         closeModal: () => setShowModal(false),
         homeCountryName: COUNTRY_NAMES[profile.homeCountry] || profile.homeCountry,
+        readNotificationIds,
+        markNotificationsRead,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Globe from 'globe.gl';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -87,6 +87,12 @@ export default function GlobeWidget({ onSelectCountry }) {
 
     let isMounted = true;
     let myGlobe = null;
+    let resizeHandler = null;
+
+    // Defer the expensive polygon-mesh build one beat past first paint so
+    // page load and route transitions don't stutter.
+    const initTimer = setTimeout(() => {
+    if (!isMounted) return;
 
     const width = mountEl.clientWidth || 700;
     const height = mountEl.clientHeight || 420;
@@ -97,7 +103,7 @@ export default function GlobeWidget({ onSelectCountry }) {
       .backgroundColor('rgba(9, 13, 26, 1)')
       .showAtmosphere(true)
       .atmosphereColor('#2170e4')
-      .atmosphereAltitude(0.25)
+      .atmosphereAltitude(0.15)
       .polygonsData(countriesGeo.features)
       .polygonAltitude((d) => {
         const code = (d.properties.ISO_A2 || d.properties.POSTAL || '').toLowerCase();
@@ -154,6 +160,12 @@ export default function GlobeWidget({ onSelectCountry }) {
         }
       });
 
+    // Cap render resolution � full-retina DPR triples GPU cost with no
+    // visible benefit at this viewport size.
+    if (myGlobe.renderer && myGlobe.renderer()) {
+      myGlobe.renderer().setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    }
+
     // Corridors from the investigator's home jurisdiction
     const arcsData = homeCoords
       ? [
@@ -196,11 +208,14 @@ export default function GlobeWidget({ onSelectCountry }) {
       if (!mountRef.current || !myGlobe) return;
       myGlobe.width(mountRef.current.clientWidth).height(mountRef.current.clientHeight);
     };
-    window.addEventListener('resize', handleResize);
+    resizeHandler = handleResize;
+    window.addEventListener('resize', resizeHandler);
+    }, 60);
 
     return () => {
       isMounted = false;
-      window.removeEventListener('resize', handleResize);
+      clearTimeout(initTimer);
+      if (resizeHandler) window.removeEventListener('resize', resizeHandler);
       if (mountEl) {
         // Cleanly remove any canvas/DOM children appended by globe.gl
         while (mountEl.firstChild) {
@@ -233,7 +248,7 @@ export default function GlobeWidget({ onSelectCountry }) {
 
         {/* Top Header Pill */}
         <div className="absolute top-4 left-4 flex flex-col gap-1">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-lowest/85 backdrop-blur-md border border-outline-variant/30 text-[12px] text-on-surface shadow-sm">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-lowest/95 border border-outline-variant/30 text-[12px] text-on-surface shadow-sm">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span className="font-mono font-bold">GLOBAL MONITOR 3D</span>
             <span className="text-[11px] font-mono text-outline">&bull; 177 NATIONS</span>
@@ -241,7 +256,7 @@ export default function GlobeWidget({ onSelectCountry }) {
 
           {/* Corridor legend */}
           {corridorsVisible && (
-            <div className="mt-1 px-3 py-2 rounded-2xl bg-surface-container-lowest/85 backdrop-blur-md border border-outline-variant/30 shadow-sm flex flex-col gap-1 w-max">
+            <div className="mt-1 px-3 py-2 rounded-2xl bg-surface-container-lowest/95 border border-outline-variant/30 shadow-sm flex flex-col gap-1 w-max">
               <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-on-surface">
                 <span className="w-4 h-0.5 bg-error rounded-full"></span>
                 HIGH-RISK SANCTIONED CORRIDOR
@@ -254,18 +269,18 @@ export default function GlobeWidget({ onSelectCountry }) {
           )}
 
           {hoveredCountry && (
-            <div className="mt-2 p-3.5 bg-inverse-surface/95 backdrop-blur-md rounded-2xl text-inverse-on-surface border border-outline/30 shadow-xl text-xs animate-[fade-in_0.2s_ease-out]">
+            <div className="mt-2 p-3.5 bg-inverse-surface rounded-2xl text-inverse-on-surface border border-outline/30 shadow-xl text-xs animate-[fade-in_0.2s_ease-out]">
               <div className="font-bold text-sm text-primary-fixed">{hoveredCountry.name} ({hoveredCountry.code})</div>
               <div className="text-[10px] text-outline-variant mt-1 font-mono">Click country to screen targets</div>
             </div>
           )}
         </div>
 
-        {/* Interactive Corridor Buttons (pointer-events-auto) — targets from live media-hit ranking */}
+        {/* Interactive Corridor Buttons (pointer-events-auto) � targets from live media-hit ranking */}
         <div className="absolute bottom-4 right-4 flex items-center gap-2 pointer-events-auto">
           <button
             onClick={() => navigate(`/threat-briefing?from=${profile.homeCountry}&to=${corridorTarget.code}`)}
-            className="px-3.5 py-2 rounded-xl bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/30 hover:bg-primary hover:text-white transition-all text-xs font-mono font-bold shadow-md text-on-surface"
+            className="px-3.5 py-2 rounded-xl bg-surface-container-lowest/95 border border-outline-variant/30 hover:bg-primary hover:text-white transition-all text-xs font-mono font-bold shadow-md text-on-surface"
           >
             {profile.homeCountry} &rarr; {corridorTarget.code} Corridor
           </button>
@@ -273,7 +288,7 @@ export default function GlobeWidget({ onSelectCountry }) {
             <button
               key={t.code}
               onClick={() => navigate(`/entity-intelligence?country=${t.code.toLowerCase()}`)}
-              className="px-3.5 py-2 rounded-xl bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/30 hover:bg-primary hover:text-white transition-all text-xs font-mono font-bold shadow-md text-on-surface"
+              className="px-3.5 py-2 rounded-xl bg-surface-container-lowest/95 border border-outline-variant/30 hover:bg-primary hover:text-white transition-all text-xs font-mono font-bold shadow-md text-on-surface"
             >
               {t.name} ({t.hits} Hits)
             </button>

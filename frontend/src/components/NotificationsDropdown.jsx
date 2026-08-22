@@ -5,13 +5,12 @@ import { useInvestigator } from '../context/InvestigatorContext';
 
 export default function NotificationsDropdown({ isOpen, onClose }) {
   const navigate = useNavigate();
-  const { profile } = useInvestigator();
-  const [filter, setFilter] = useState('ALL');
-  const [readIds, setReadIds] = useState(new Set());
+  const { profile, readNotificationIds, markNotificationsRead } = useInvestigator();
+  const [filter, setFilter] = useState('all');
   const dropdownRef = useRef(null);
 
   // Cached per home country; refetched only when stale (5 min) or country changes
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['notifications', profile.homeCountry],
     queryFn: () =>
       fetch(`/api/notifications?homeCountry=${profile.homeCountry}`).then((res) => res.json()),
@@ -20,7 +19,7 @@ export default function NotificationsDropdown({ isOpen, onClose }) {
 
   const notifications = (data?.notifications || []).map((n) => ({
     ...n,
-    unread: n.unread && !readIds.has(n.id),
+    unread: Boolean(n.unread) && !readNotificationIds.has(n.id),
   }));
 
   // Click outside to close
@@ -47,11 +46,11 @@ export default function NotificationsDropdown({ isOpen, onClose }) {
   const unreadCount = notifications.filter((n) => n.unread).length;
 
   const markAllRead = () => {
-    setReadIds(new Set(notifications.filter((n) => n.unread).map((n) => n.id)));
+    markNotificationsRead(notifications.filter((n) => n.unread).map((n) => n.id));
   };
 
   const handleNotificationClick = (notif) => {
-    setReadIds((prev) => new Set(prev).add(notif.id));
+    markNotificationsRead([notif.id]);
     onClose();
     if (notif.link) {
       navigate(notif.link);
@@ -113,7 +112,11 @@ export default function NotificationsDropdown({ isOpen, onClose }) {
 
       {/* List */}
       <div className="max-h-96 overflow-y-auto divide-y divide-outline-variant/10">
-        {filteredNotifs.length === 0 ? (
+        {isLoading ? (
+          <div className="p-8 text-center text-xs text-on-surface-variant font-mono">
+            Loading alerts...
+          </div>
+        ) : filteredNotifs.length === 0 ? (
           <div className="p-8 text-center text-xs text-on-surface-variant font-mono">
             No alerts in this category.
           </div>

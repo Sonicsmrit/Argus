@@ -3,6 +3,7 @@ const cors = require('cors');
 const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
+const cron = require('node-cron');
 const { DB_PATH, DIST_DIR, DATA_DIR } = require('./lib/paths');
 
 const app = express();
@@ -36,6 +37,61 @@ db.exec(`
         created_at TEXT DEFAULT (datetime('now'))
     )
 `);
+
+// Investigator watchlists: monitored entities for live adverse-media alerts
+db.exec(`
+    CREATE TABLE IF NOT EXISTS watchlist (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        owner TEXT DEFAULT 'local',
+        entity_id TEXT UNIQUE,
+        entity_name TEXT,
+        countries TEXT,
+        added_at TEXT DEFAULT (datetime('now'))
+    )
+`);
+
+// Scrapers capture raw page HTML in match/article snippets; strip tags and
+// decode entities once at the API layer so every consumer renders clean text.
+const HTML_ENTITIES = {
+    amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+    mdash: '\u2014', ndash: '\u2013', rsquo: '\u2019', lsquo: '\u2018',
+    ldquo: '\u201C', rdquo: '\u201D', hellip: '\u2026',
+};
+
+function cleanSnippet(raw) {
+    if (!raw || typeof raw !== 'string') return raw;
+    return raw
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/&([a-zA-Z]+|#\d+);/g, (match, name) => {
+            const key = name.toLowerCase();
+            if (HTML_ENTITIES[key]) return HTML_ENTITIES[key];
+            if (/^#\d+$/.test(name)) {
+                try { return String.fromCodePoint(parseInt(name.slice(1), 10)); } catch (_) { return match; }
+            }
+            return match;
+        })
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+// Collectors emit mixed date formats (ISO timestamps from some sources,
+// display strings like "Published date: 17 August 2026 ..." from others).
+// Normalize everything to ISO so sorting and client rendering are reliable;
+// returns null when no date can be extracted.
+const MONTHS = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+
+function normalizeArticleDate(raw) {
+    if (!raw) return null;
+    const str = String(raw).trim();
+    const direct = Date.parse(str);
+    if (!Number.isNaN(direct)) return new Date(direct).toISOString();
+    const m = str.match(/(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{4})/i);
+    if (m) {
+        const d = new Date(Date.UTC(parseInt(m[3], 10), MONTHS[m[2].toLowerCase()], parseInt(m[1], 10)));
+        if (!Number.isNaN(d.getTime())) return d.toISOString();
+    }
+    return null;
+}
 
 // Country stats: in-memory cache over a disk-persisted snapshot.
 // The full aggregation scans 1.1M+ rows, so it must never run per-request.
@@ -144,6 +200,66 @@ app.get('/api/countries/stats', (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// GET /api/screen?q=<name> — interactive denied-party screening against the
+// full registry (1.17M entities). Tiered scoring: exact > starts-with >
+// contains > alias hit. A full scan measures ~50ms on the current dataset.
+app.get('/api/screen', (req, res) => {
+    try {
+        const q = String(req.query.q || '').trim().toLowerCase();
+        if (q.length < 2) {
+            return res.json({ query: q, total: 0, results: [] });
+        }
+
+        const rows = db.prepare(`
+            SELECT id, name, aliases, countries, sanctions, dataset
+            FROM sanctioned_entities
+            WHERE LOWER(name) LIKE ? OR LOWER(aliases) LIKE ?
+        `).all(`%${q}%`, `%${q}%`);
+
+        const results = [];
+        for (const r of rows) {
+            const name = String(r.name || '').toLowerCase();
+            let score = 0;
+            let matchedVia = 'name';
+            if (name === q) {
+                score = 100;
+            } else if (name.startsWith(q)) {
+                score = 90;
+            } else if (name.includes(q)) {
+                score = 75;
+            } else {
+                const aliases = String(r.aliases || '').toLowerCase();
+                const aliasList = aliases.split(';').map((a) => a.trim()).filter(Boolean);
+                if (aliasList.includes(q)) {
+                    score = 85;
+                    matchedVia = 'alias';
+                } else if (aliases.includes(q)) {
+                    score = 60;
+                    matchedVia = 'alias';
+                } else {
+                    continue;
+                }
+            }
+            results.push({
+                id: r.id,
+                name: r.name,
+                countries: r.countries,
+                sanctions: r.sanctions,
+                dataset: r.dataset,
+                score,
+                matchedVia,
+            });
+        }
+
+        results.sort((a, b) => b.score - a.score || String(a.name).localeCompare(String(b.name)));
+
+        res.json({ query: q, total: results.length, results: results.slice(0, 10) });
+    } catch (err) {
+        console.error('Screen Error:', err);
+        res.status(500).json({ error: 'Screening failed' });
     }
 });
 
@@ -335,7 +451,7 @@ app.get('/api/ai/entity-analysis/:id', async (req, res) => {
             return res.status(404).json({ error: 'Entity not found' });
         }
 
-        const articles = db.prepare(`
+        const aiArticles = db.prepare(`
             SELECT article_id as id, article_headline as headline, article_source as source, 
                    article_url as url, article_date as date, match_name as matchName, 
                    match_location as matchLocation, score, context_snippet as context
@@ -343,9 +459,9 @@ app.get('/api/ai/entity-analysis/:id', async (req, res) => {
             WHERE entity_id = ?
             ORDER BY score DESC
             LIMIT 6
-        `).all(entityId);
+        `).all(entityId).map((a) => ({ ...a, context: cleanSnippet(a.context) }));
 
-        const aiAnalysis = await analyzeEntity({ entity, articles });
+        const aiAnalysis = await analyzeEntity({ entity, articles: aiArticles });
 
         res.json({ analysis: aiAnalysis });
     } catch (err) {
@@ -380,7 +496,11 @@ app.get('/api/entities/:id/articles', (req, res) => {
         
         res.json({
             entity,
-            articles
+            articles: articles.map((a) => ({
+                ...a,
+                context: cleanSnippet(a.context),
+                date: normalizeArticleDate(a.date) || a.date,
+            }))
         });
     } catch (err) {
         console.error(err);
@@ -409,10 +529,18 @@ app.get('/api/media/signals', (req, res) => {
             params = [country, `${country};%`, `%;${country};%`, `%;${country}`];
         }
 
-        query += ` ORDER BY em.score DESC, em.created_at DESC LIMIT ?`;
-        params.push(limit);
-
-        const signals = db.prepare(query).all(...params);
+        // entity_matches is small, so ranking happens in JS after normalizing
+        // the mixed date formats collectors emit — SQL string ORDER BY would
+        // mis-sort display strings like "17 August 2026".
+        const allSignals = db.prepare(query).all(...params);
+        const signals = allSignals
+            .map((s) => ({ ...s, context: cleanSnippet(s.context), date: normalizeArticleDate(s.date) }))
+            .sort((a, b) => {
+                const ta = a.date ? Date.parse(a.date) : 0;
+                const tb = b.date ? Date.parse(b.date) : 0;
+                return tb - ta || b.score - a.score;
+            })
+            .slice(0, limit);
 
         // Real 12-month publication histogram, normalized to peak activity.
         // When a country is provided, only articles corroborating entities from
@@ -774,6 +902,76 @@ app.get('/api/notifications', (req, res) => {
     }
 });
 
+// GET /api/watchlist — monitored entities enriched with live hit detection.
+// "Fresh" = matches whose article_date falls within the last 7 days.
+app.get('/api/watchlist', (req, res) => {
+    try {
+        const rows = db.prepare(`
+            SELECT id, entity_id, entity_name, countries, added_at
+            FROM watchlist
+            ORDER BY added_at DESC
+        `).all();
+
+        const freshStmt = db.prepare(`
+            SELECT COUNT(*) as c
+            FROM entity_matches
+            WHERE entity_id = ? AND article_date >= datetime('now', '-7 days')
+        `);
+        const latestStmt = db.prepare(`
+            SELECT article_headline as headline, article_source as source,
+                   article_url as url, article_date as date, score
+            FROM entity_matches
+            WHERE entity_id = ?
+            ORDER BY (article_date IS NULL) ASC, article_date DESC
+            LIMIT 1
+        `);
+
+        const items = rows.map((w) => ({
+            ...w,
+            freshHits: freshStmt.get(w.entity_id).c,
+            latestMatch: (() => {
+                const m = latestStmt.get(w.entity_id);
+                return m ? { ...m, date: normalizeArticleDate(m.date) } : null;
+            })(),
+        }));
+
+        res.json({ items });
+    } catch (err) {
+        console.error('Watchlist Error:', err);
+        res.status(500).json({ error: 'Failed to fetch watchlist' });
+    }
+});
+
+// POST /api/watchlist — monitor an entity (idempotent)
+app.post('/api/watchlist', (req, res) => {
+    try {
+        const { entityId, entityName, countries } = req.body || {};
+        if (!entityId) {
+            return res.status(400).json({ error: 'entityId is required' });
+        }
+        db.prepare(`
+            INSERT INTO watchlist (entity_id, entity_name, countries)
+            VALUES (?, ?, ?)
+            ON CONFLICT(entity_id) DO NOTHING
+        `).run(String(entityId), entityName || null, countries || null);
+        res.status(201).json({ ok: true });
+    } catch (err) {
+        console.error('Watchlist Add Error:', err);
+        res.status(500).json({ error: 'Failed to add to watchlist' });
+    }
+});
+
+// DELETE /api/watchlist/:entityId — stop monitoring an entity
+app.delete('/api/watchlist/:entityId', (req, res) => {
+    try {
+        const result = db.prepare('DELETE FROM watchlist WHERE entity_id = ?').run(req.params.entityId);
+        res.json({ removed: result.changes });
+    } catch (err) {
+        console.error('Watchlist Remove Error:', err);
+        res.status(500).json({ error: 'Failed to remove from watchlist' });
+    }
+});
+
 // POST /api/audit-actions — record a compliance decision from an entity profile
 app.post('/api/audit-actions', (req, res) => {
     try {
@@ -915,6 +1113,38 @@ if (fs.existsSync(distPath)) {
     });
 }
 
+// ---- Adverse-media scraping schedule -------------------------------------
+// Hybrid cadence owned by the API process: news-heavy sources refresh hourly,
+// the full roster sweeps nightly. A single in-flight guard prevents overlap.
+const {
+    COLLECTORS: ALL_COLLECTORS,
+    HOURLY_SOURCES,
+    runCollectors,
+    collectorsByNames,
+} = require('./pipeline');
+
+let scrapeInFlight = false;
+
+async function runScheduledScrape(sourceNames) {
+    if (scrapeInFlight) {
+        console.log('[scheduler] scrape already in flight - skipping');
+        return;
+    }
+    scrapeInFlight = true;
+    try {
+        const list = sourceNames ? collectorsByNames(sourceNames) : ALL_COLLECTORS;
+        console.log(`[scheduler] starting run for ${list.length} collector(s): ${list.map((c) => c.name).join(', ')}`);
+        await runCollectors(list);
+    } catch (err) {
+        console.error('[scheduler] scrape failed:', err.message);
+    } finally {
+        scrapeInFlight = false;
+    }
+}
+
+cron.schedule('15 * * * *', () => runScheduledScrape(HOURLY_SOURCES)); // hourly at :15
+cron.schedule('30 3 * * *', () => runScheduledScrape(null));           // nightly full sweep 03:30
+
 app.listen(port, () => {
     console.log(`=================================`);
     console.log(`🚀 Sanctions API Server Started`);
@@ -935,5 +1165,18 @@ app.listen(port, () => {
         const { fromCache } = getCountryStats();
         console.log(`Country stats ready (${fromCache ? 'from cache' : 'computed'} in ${Date.now() - t0}ms)`);
     });
+    // Boot backfill: if the last scrape is over an hour old, refresh the
+    // hourly news sources right away instead of waiting for the next tick.
+    try {
+        const lastRunRow = db.prepare(`SELECT MAX(run_at) as t FROM scraper_runs`).get();
+        const lastRun = lastRunRow ? lastRunRow.t : null;
+        const ageHours = lastRun
+            ? (Date.now() - new Date(String(lastRun).replace(' ', 'T') + 'Z').getTime()) / 3600000
+            : Infinity;
+        if (ageHours > 1) {
+            console.log(`[scheduler] data stale (${Number.isFinite(ageHours) ? ageHours.toFixed(1) + 'h old' : 'no runs yet'}) - boot backfill starting`);
+            setImmediate(() => runScheduledScrape(HOURLY_SOURCES));
+        }
+    } catch (_) { /* scraper_runs table may not exist in a fresh database */ }
     console.log(`=================================`);
 });

@@ -1,6 +1,6 @@
 ﻿import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { exportAuditDossier } from '../utils/auditDossier';
 import { useInvestigator } from '../context/InvestigatorContext';
 
@@ -12,6 +12,8 @@ export default function InvestigativeProfile() {
 
   const [actionDone, setActionDone] = useState(null);
   const [submittingAction, setSubmittingAction] = useState(false);
+  // Sensitive identifiers (aliases / sanctions programs) stay masked until revealed
+  const [revealed, setRevealed] = useState(false);
 
   // Persists the decision to the backend audit trail (rendered live on the
   // Dashboard's Compliance Audit Ledger) and surfaces the ticket ID here.
@@ -75,6 +77,35 @@ export default function InvestigativeProfile() {
     enabled: !!id,
   });
 
+  // Shared watchlist cache (Dashboard panel + Watchlist tab use the same key)
+  const { data: watchData } = useQuery({
+    queryKey: ['watchlist'],
+    queryFn: () => fetch('/api/watchlist').then((r) => r.json()),
+    refetchOnMount: 'always',
+  });
+  const isWatched = (watchData?.items || []).some((i) => i.entity_id === id);
+
+  const toggleWatch = useMutation({
+    mutationFn: ({ action, ent }) => {
+      if (action === 'remove') {
+        return fetch(`/api/watchlist/${id}`, { method: 'DELETE' }).then((res) => res.json());
+      }
+      return fetch('/api/watchlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          entityId: id,
+          entityName: ent.name,
+          countries: ent.countries || null,
+        }),
+      }).then((res) => {
+        if (!res.ok) throw new Error('Failed');
+        return res.json();
+      });
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['watchlist'] }),
+  });
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
@@ -123,32 +154,82 @@ export default function InvestigativeProfile() {
           </div>
 
           <h1 className="font-display-lg text-display-lg text-on-surface mb-2 font-bold">{entity.name}</h1>
-          <p className="font-body-lg text-body-lg text-on-surface-variant text-sm leading-relaxed">
-            {entity.aliases ? `Aliases: ${entity.aliases.replace(/;/g, ', ')}. ` : ''}
-            Target record registered under {entity.sanctions || 'Multilateral Sanctions Framework'}. Entity Schema: {entity.schema}.
-          </p>
+          <div className="relative">
+            <p
+              className={`font-body-lg text-body-lg text-on-surface-variant text-sm leading-relaxed transition-all ${
+                !revealed && (entity.aliases || entity.sanctions)
+                  ? 'blur-[5px] select-none pointer-events-none'
+                  : ''
+              }`}
+            >
+              {entity.aliases ? `Aliases: ${entity.aliases.replace(/;/g, ', ')}. ` : ''}
+              Target record registered under {entity.sanctions || 'Multilateral Sanctions Framework'}. Entity Schema: {entity.schema}.
+            </p>
+            {!revealed && (entity.aliases || entity.sanctions) && (
+              <span className="absolute inset-x-0 bottom-0 flex justify-center">
+                <span className="font-mono text-[10px] text-outline uppercase tracking-wider bg-background/60 rounded-full px-2 py-0.5 backdrop-blur-none">
+                  Sensitive identifiers masked
+                </span>
+              </span>
+            )}
+          </div>
         </div>
 
-        {/* Risk Score Radial */}
-        <div className="relative flex-shrink-0 w-44 h-44 bg-surface rounded-full shadow-md flex items-center justify-center z-10 group border border-outline-variant/20">
-          <div className="absolute inset-2 rounded-full border-8 border-surface-container-highest"></div>
-          <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
-            <circle
-              className="stroke-error transition-all duration-1000 ease-out"
-              cx="50"
-              cy="50"
-              fill="none"
-              r="44"
-              stroke="currentColor"
-              strokeDasharray="276.4"
-              strokeDashoffset={276.4 * (1 - riskScore / 100)}
-              strokeLinecap="round"
-              strokeWidth="8"
-            ></circle>
-          </svg>
-          <div className="flex flex-col items-center text-center">
-            <span className="font-display-lg text-4xl text-error font-bold leading-none mb-0.5">{riskScore}</span>
-            <span className="font-mono text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold">Risk Score</span>
+        {/* Profile Actions & Risk Score Radial */}
+        <div className="flex flex-col items-center gap-3 z-10 shrink-0">
+          <button
+            onClick={() => toggleWatch.mutate({ action: isWatched ? 'remove' : 'add', ent: entity })}
+            disabled={toggleWatch.isPending}
+            title={
+              isWatched
+                ? 'Remove from continuous monitoring'
+                : 'Monitor this entity for fresh adverse-media hits'
+            }
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-mono text-[10px] font-bold tracking-wider transition-all ${
+              isWatched
+                ? 'bg-secondary-container text-on-secondary-container hover:brightness-105'
+                : 'bg-primary text-white shadow-md hover:brightness-110'
+            }`}
+          >
+            <span className={`material-symbols-outlined text-[15px] ${toggleWatch.isPending ? 'animate-spin' : ''}`}>
+              {toggleWatch.isPending ? 'progress_activity' : isWatched ? 'notifications_active' : 'add_alert'}
+            </span>
+            {isWatched ? 'WATCHING — TAP TO REMOVE' : 'ADD TO WATCHLIST'}
+          </button>
+          <button
+            onClick={() => setRevealed((r) => !r)}
+            title={revealed ? 'Mask sensitive identifiers' : 'Reveal sensitive identifiers'}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-mono text-[10px] font-bold tracking-wider transition-all ${
+              revealed
+                ? 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'
+                : 'bg-primary text-white shadow-md hover:brightness-110'
+            }`}
+          >
+            <span className="material-symbols-outlined text-[15px]">
+              {revealed ? 'visibility_off' : 'visibility'}
+            </span>
+            {revealed ? 'MASK IDENTIFIERS' : 'REVEAL IDENTIFIERS'}
+          </button>
+          <div className="relative w-44 h-44 bg-surface rounded-full shadow-md flex items-center justify-center group border border-outline-variant/20">
+            <div className="absolute inset-2 rounded-full border-8 border-surface-container-highest"></div>
+            <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+              <circle
+                className="stroke-error transition-all duration-1000 ease-out"
+                cx="50"
+                cy="50"
+                fill="none"
+                r="44"
+                stroke="currentColor"
+                strokeDasharray="276.4"
+                strokeDashoffset={276.4 * (1 - riskScore / 100)}
+                strokeLinecap="round"
+                strokeWidth="8"
+              ></circle>
+            </svg>
+            <div className="flex flex-col items-center text-center">
+              <span className="font-display-lg text-4xl text-error font-bold leading-none mb-0.5">{riskScore}</span>
+              <span className="font-mono text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold">Risk Score</span>
+            </div>
           </div>
         </div>
       </div>

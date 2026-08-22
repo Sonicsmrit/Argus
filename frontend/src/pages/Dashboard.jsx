@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import GlobeWidget from '../components/GlobeWidget';
 import AuditLedgerPanel from '../components/AuditLedgerPanel';
+import WatchlistPanel from '../components/WatchlistPanel';
 import { COUNTRY_NAMES, getShortName } from '../data/bilateralRules';
 import { useInvestigator } from '../context/InvestigatorContext';
 
@@ -22,6 +23,14 @@ const CHECKLIST_TAB_FALLBACK = [
 ];
 
 const fetchJson = (url) => fetch(url).then((res) => res.json());
+
+const formatSignalDate = (iso) => {
+  if (!iso) return 'Recent';
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime())
+    ? iso
+    : d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+};
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -244,6 +253,9 @@ export default function Dashboard() {
 
           {/* Compliance Audit Ledger — persistent record of enforcement decisions */}
           <AuditLedgerPanel />
+
+          {/* Continuous Monitoring Watchlist — live fresh-hit detection */}
+          <WatchlistPanel />
         </div>
 
         {/* Right: AI Insights Sidebar & Dynamic Checklist (4 Cols) */}
@@ -271,7 +283,7 @@ export default function Dashboard() {
                       <span className="font-mono text-[10px] font-bold text-error uppercase tracking-wider px-2 py-0.5 rounded bg-error-container/20">
                         {sig.source} &bull; SCORE {sig.score}
                       </span>
-                      <span className="text-[11px] text-outline font-mono">{sig.date || 'Recent'}</span>
+                      <span className="text-[11px] text-outline font-mono">{formatSignalDate(sig.date)}</span>
                     </div>
                     <h4 className="font-bold text-on-surface text-xs mb-1 line-clamp-2 leading-snug">
                       {sig.headline}

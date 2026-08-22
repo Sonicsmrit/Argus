@@ -7,7 +7,7 @@ const db = new Database(DB_PATH);
 
 // ─── Generate Sanctions Alert Report ───
 console.log('╔══════════════════════════════════════════════════════════════╗');
-console.log('║         SCRAPE-VERSE SANCTIONS TRACKER — ALERT REPORT      ║');
+console.log('║           ARGUS SANCTIONS TRACKER — ALERT REPORT           ║');
 console.log('╚══════════════════════════════════════════════════════════════╝\n');
 
 // 1. Database overview

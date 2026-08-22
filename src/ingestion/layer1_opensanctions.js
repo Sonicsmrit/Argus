@@ -22,7 +22,7 @@ function download(url, dest) {
 
     const follow = (u) => {
       const mod = u.startsWith('https') ? https : http;
-      mod.get(u, { headers: { 'User-Agent': 'ScrapeVerse-SanctionsTracker/1.0' } }, (res) => {
+      mod.get(u, { headers: { 'User-Agent': 'Argus-SanctionsTracker/1.0' } }, (res) => {
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
           console.log(`  Redirect → ${res.headers.location}`);
           follow(res.headers.location);

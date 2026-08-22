@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { COUNTRY_NAMES, getBilateralRisk } from '../data/bilateralRules';
 import { useInvestigator } from '../context/InvestigatorContext';
+import CountryCombobox from '../components/CountryCombobox';
 
 const AI_STAGES = [
   'Querying OpenSanctions registry...',
@@ -18,10 +19,6 @@ export default function ThreatBriefing() {
 
   const [fromCountry, setFromCountry] = useState(searchParams.get('from') || profile.homeCountry || 'US');
   const [toCountry, setToCountry] = useState(searchParams.get('to') || 'RU');
-
-  // Search filter for dropdowns
-  const [fromSearch, setFromSearch] = useState('');
-  const [toSearch, setToSearch] = useState('');
 
   // All 240+ countries sorted alphabetically
   const allCountries = Object.entries(COUNTRY_NAMES).map(([code, name]) => ({
@@ -160,17 +157,12 @@ export default function ThreatBriefing() {
                 <div className="w-10 h-10 rounded-xl bg-primary-container/20 flex items-center justify-center mr-3 shrink-0 text-primary">
                   <span className="material-symbols-outlined text-[20px]">flag</span>
                 </div>
-                <select
+                <CountryCombobox
                   value={fromCountry}
-                  onChange={(e) => handleCountryChange('from', e.target.value)}
-                  className="w-full bg-transparent border-none focus:outline-none font-headline-md text-headline-md text-on-surface h-12 cursor-pointer font-bold"
-                >
-                  {allCountries.map((c) => (
-                    <option key={c.code} value={c.code} className="text-on-surface bg-surface font-normal">
-                      {c.name} ({c.code})
-                    </option>
-                  ))}
-                </select>
+                  onChange={(code) => handleCountryChange('from', code)}
+                  countries={allCountries}
+                  triggerClassName="w-full bg-transparent border-none focus:outline-none font-headline-md text-headline-md text-on-surface h-12 cursor-pointer font-bold flex items-center justify-between"
+                />
               </div>
             </div>
 
@@ -195,17 +187,12 @@ export default function ThreatBriefing() {
                 <div className="w-10 h-10 rounded-xl bg-error-container/40 flex items-center justify-center mr-3 shrink-0 text-error">
                   <span className="material-symbols-outlined text-[20px]">flag</span>
                 </div>
-                <select
+                <CountryCombobox
                   value={toCountry}
-                  onChange={(e) => handleCountryChange('to', e.target.value)}
-                  className="w-full bg-transparent border-none focus:outline-none font-headline-md text-headline-md text-on-surface h-12 cursor-pointer font-bold"
-                >
-                  {allCountries.map((c) => (
-                    <option key={c.code} value={c.code} className="text-on-surface bg-surface font-normal">
-                      {c.name} ({c.code})
-                    </option>
-                  ))}
-                </select>
+                  onChange={(code) => handleCountryChange('to', code)}
+                  countries={allCountries}
+                  triggerClassName="w-full bg-transparent border-none focus:outline-none font-headline-md text-headline-md text-on-surface h-12 cursor-pointer font-bold flex items-center justify-between"
+                />
               </div>
             </div>
           </div>

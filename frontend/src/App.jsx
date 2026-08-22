@@ -7,12 +7,15 @@ import ThreatBriefing from './pages/ThreatBriefing';
 import EntityIntelligence from './pages/EntityIntelligence';
 import InvestigativeProfile from './pages/InvestigativeProfile';
 import SystemStatus from './pages/SystemStatus';
+import WatchlistPage from './pages/WatchlistPage';
 import { InvestigatorProvider } from './context/InvestigatorContext';
 import InvestigatorModal from './components/InvestigatorModal';
+import ScrollToHash from './components/ScrollToHash';
 
 export default function App() {
   return (
     <InvestigatorProvider>
+      <ScrollToHash />
       <div className="bg-background font-body-md text-on-background min-h-screen">
         {/* Fixed Sidebar */}
         <Sidebar />
@@ -27,6 +30,7 @@ export default function App() {
               <Route path="/threat-briefing/:from/:to" element={<ThreatBriefing />} />
               <Route path="/entity-intelligence" element={<EntityIntelligence />} />
               <Route path="/entity-intelligence/:country" element={<EntityIntelligence />} />
+              <Route path="/watchlist" element={<WatchlistPage />} />
               <Route path="/profile/:id" element={<InvestigativeProfile />} />
               <Route path="/system-status" element={<SystemStatus />} />
               {/* Backward compatibility routes */}

@@ -1,6 +1,7 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useInvestigator } from '../context/InvestigatorContext';
 import { COUNTRY_NAMES } from '../data/bilateralRules';
+import CountryCombobox from './CountryCombobox';
 
 export default function InvestigatorModal() {
   const { profile, updateProfile, showModal, closeModal } = useInvestigator();
@@ -9,15 +10,24 @@ export default function InvestigatorModal() {
   const [role, setRole] = useState(profile.role);
   const [organization, setOrganization] = useState(profile.organization);
   const [homeCountry, setHomeCountry] = useState(profile.homeCountry);
-  const [searchCountry, setSearchCountry] = useState('');
+
+  // The modal stays mounted (returns null when hidden), so local state would
+  // go stale after the profile changes elsewhere. Re-sync on every open.
+  useEffect(() => {
+    if (showModal) {
+      setName(profile.name);
+      setRole(profile.role);
+      setOrganization(profile.organization);
+      setHomeCountry(profile.homeCountry);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showModal]);
 
   if (!showModal) return null;
 
-  const countryEntries = Object.entries(COUNTRY_NAMES)
-    .filter(([code, cName]) =>
-      cName.toLowerCase().includes(searchCountry.toLowerCase()) || code.toLowerCase().includes(searchCountry.toLowerCase())
-    )
-    .sort((a, b) => a[1].localeCompare(b[1]));
+  const allCountries = Object.entries(COUNTRY_NAMES)
+    .map(([code, cName]) => ({ code, name: cName }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -111,35 +121,12 @@ export default function InvestigatorModal() {
             </div>
 
             <div className="p-3 bg-surface rounded-2xl border border-outline-variant/30 flex flex-col gap-2">
-              <div className="relative">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">
-                  search
-                </span>
-                <input
-                  type="text"
-                  value={searchCountry}
-                  onChange={(e) => setSearchCountry(e.target.value)}
-                  placeholder="Filter countries..."
-                  className="w-full h-9 pl-9 pr-3 bg-surface-container rounded-lg text-xs text-on-surface outline-none border-none"
-                />
-              </div>
-
-              <select
+              <CountryCombobox
                 value={homeCountry}
-                onChange={(e) => setHomeCountry(e.target.value)}
-                size={5}
-                className="w-full bg-transparent text-xs text-on-surface outline-none divide-y divide-outline-variant/10 cursor-pointer overflow-y-auto"
-              >
-                {countryEntries.map(([code, cName]) => (
-                  <option
-                    key={code}
-                    value={code}
-                    className="py-1.5 px-2 rounded hover:bg-primary-container hover:text-white"
-                  >
-                    {cName} ({code})
-                  </option>
-                ))}
-              </select>
+                onChange={setHomeCountry}
+                countries={allCountries}
+                placeholder="Select your jurisdiction"
+              />
             </div>
             <p className="text-[11px] text-on-surface-variant/80 mt-1.5 leading-relaxed">
               Your home jurisdiction sets applicable trade embargoes (OFAC, EU, UK OFSI) and secondary sanctions exposure on outbound shipments.

@@ -1,14 +1,25 @@
 ﻿import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { useInvestigator } from '../context/InvestigatorContext';
 
 export default function Sidebar() {
   const { profile, openModal, homeCountryName } = useInvestigator();
 
+  // Shares the ['system-status'] cache with the SystemStatus page — no extra fetch
+  const { data: status } = useQuery({
+    queryKey: ['system-status'],
+    queryFn: () => fetch('/api/system/status').then((res) => res.json()),
+    staleTime: 5 * 60 * 1000,
+  });
+  const sanctionedCount = status ? (status.totalSanctioned ?? 0).toLocaleString() : '—';
+  const articleCount = status ? (status.totalArticles ?? 0).toLocaleString() : '—';
+
   const navItems = [
     { path: '/', label: 'Dashboard', icon: 'dashboard' },
     { path: '/threat-briefing', label: 'Threat Briefing', icon: 'security' },
     { path: '/entity-intelligence', label: 'Entity Intelligence', icon: 'travel_explore' },
+    { path: '/watchlist', label: 'Watchlist', icon: 'notifications_active' },
     { path: '/system-status', label: 'System Status', icon: 'sensors' },
   ];
 
@@ -24,11 +35,11 @@ export default function Sidebar() {
     <aside className="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col border-r border-outline-variant/30 select-none">
       {/* Brand Header */}
       <div className="p-6 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary to-tertiary flex items-center justify-center shadow-md text-white">
-          <span className="material-symbols-outlined text-[24px]">radar</span>
+        <div className="w-[52px] h-[52px] rounded-2xl overflow-hidden shadow-md shrink-0">
+          <img src="/argus-logo.png" alt="Argus logo" className="w-full h-full object-cover" />
         </div>
         <div className="flex flex-col">
-          <span className="font-headline-md text-headline-md tracking-tight text-primary font-bold">ScrapeVerse</span>
+          <span className="font-headline-md text-headline-md tracking-tight text-primary font-bold">Argus</span>
           <span className="text-[11px] font-mono text-outline tracking-wider uppercase">AI Sanctions Intel</span>
         </div>
       </div>
@@ -64,7 +75,7 @@ export default function Sidebar() {
           </span>
         </div>
         <div className="text-[12px] text-on-surface-variant">
-          <span className="font-bold text-on-surface">46,293</span> Sanctioned &bull; <span className="font-bold text-on-surface">1,222</span> Articles
+          <span className="font-bold text-on-surface">{sanctionedCount}</span> Sanctioned &bull; <span className="font-bold text-on-surface">{articleCount}</span> Articles
         </div>
       </div>
 
