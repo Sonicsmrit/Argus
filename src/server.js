@@ -1214,8 +1214,10 @@ async function runScheduledScrape(sourceNames) {
 const SCHEDULER_ENABLED = process.env.SCHEDULER_ENABLED !== '0';
 
 if (SCHEDULER_ENABLED) {
-    cron.schedule('15 * * * *', () => runScheduledScrape(HOURLY_SOURCES)); // hourly at :15
-    cron.schedule('30 3 * * *', () => runScheduledScrape(null));           // nightly full sweep 03:30
+    // Full-roster sweep every 5 hours at :15 (00:15, 05:15, ... UTC).
+    // Cadence tuned for the demo window against Bright Data credits;
+    // boot backfill still guarantees fresh data on every deploy/wake.
+    cron.schedule('15 */5 * * *', () => runScheduledScrape(null));
 }
 
 app.listen(port, () => {

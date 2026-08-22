@@ -15,9 +15,10 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 22
-      # Collectors/backfill are pointless churn on an ephemeral host
+      # Live collectors enabled for the demo window (Bright Data credits):
+      # boot-backfill scrapes on every deploy/wake; full sweep every 5h at :15.
       - key: SCHEDULER_ENABLED
-        value: "0"
+        value: "1"
       # Set these two in the Render dashboard (secret/linked values):
       - key: GEMINI_API_KEY
         sync: false
