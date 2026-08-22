@@ -2,6 +2,7 @@
 node_modules/
 frontend/dist/
 *.db
+*.db.gz
 data/opensanctions_targets.csv
 scratch/temp_*.json
 data/country-stats.json

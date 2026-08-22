@@ -7,7 +7,8 @@ const cron = require('node-cron');
 const { DB_PATH, DIST_DIR, DATA_DIR } = require('./lib/paths');
 
 const app = express();
-const port = 3001;
+// Render injects PORT; fall back to 3001 for local dev
+const port = Number(process.env.PORT) || 3001;
 
 // Middleware
 app.use(cors({ origin: 'http://localhost:5173' }));
@@ -1142,8 +1143,14 @@ async function runScheduledScrape(sourceNames) {
     }
 }
 
-cron.schedule('15 * * * *', () => runScheduledScrape(HOURLY_SOURCES)); // hourly at :15
-cron.schedule('30 3 * * *', () => runScheduledScrape(null));           // nightly full sweep 03:30
+// Scheduler kill-switch: set SCHEDULER_ENABLED=0 on ephemeral hosts (Render
+// free tier) where collector runs and boot backfills are pointless churn.
+const SCHEDULER_ENABLED = process.env.SCHEDULER_ENABLED !== '0';
+
+if (SCHEDULER_ENABLED) {
+    cron.schedule('15 * * * *', () => runScheduledScrape(HOURLY_SOURCES)); // hourly at :15
+    cron.schedule('30 3 * * *', () => runScheduledScrape(null));           // nightly full sweep 03:30
+}
 
 app.listen(port, () => {
     console.log(`=================================`);
@@ -1173,7 +1180,7 @@ app.listen(port, () => {
         const ageHours = lastRun
             ? (Date.now() - new Date(String(lastRun).replace(' ', 'T') + 'Z').getTime()) / 3600000
             : Infinity;
-        if (ageHours > 1) {
+        if (SCHEDULER_ENABLED && ageHours > 1) {
             console.log(`[scheduler] data stale (${Number.isFinite(ageHours) ? ageHours.toFixed(1) + 'h old' : 'no runs yet'}) - boot backfill starting`);
             setImmediate(() => runScheduledScrape(HOURLY_SOURCES));
         }

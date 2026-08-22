@@ -1,0 +1,25 @@
+# Render Blueprint — Argus
+# Deploys the full stack as one free web service:
+# Express serves both /api and the built React frontend.
+# The 508MB SQLite database is boot-strapped from a gzipped snapshot
+# hosted as a GitHub Release asset (DB_SNAPSHOT_URL), because free-tier
+# disks are ephemeral and wiped on every wake/deploy.
+services:
+  - type: web
+    name: argus
+    runtime: node
+    plan: free
+    healthCheckPath: /api/system/status
+    buildCommand: npm install && cd frontend && npm install && npm run build
+    startCommand: node scripts/fetch_db.js && node src/server.js
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      # Collectors/backfill are pointless churn on an ephemeral host
+      - key: SCHEDULER_ENABLED
+        value: "0"
+      # Set these two in the Render dashboard (secret/linked values):
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DB_SNAPSHOT_URL
+        sync: false
