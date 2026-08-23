@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { actionLabel, exportAuditDossier, formatTicket } from '../utils/auditDossier';
 import { useInvestigator } from '../context/InvestigatorContext';
 
@@ -23,6 +23,7 @@ const formatLoggedAt = (utc) => {
 
 export default function AuditLedgerPanel() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { profile } = useInvestigator();
 
   // Polls lightly so decisions logged on entity profiles appear here live
@@ -31,6 +32,18 @@ export default function AuditLedgerPanel() {
     queryFn: () => fetchJson('/api/audit-actions?limit=25'),
     refetchInterval: 10000,
   });
+
+  const clearAll = useMutation({
+    mutationFn: () => fetch('/api/audit-actions', { method: 'DELETE' }).then((res) => res.json()),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['audit-actions'] }),
+  });
+
+  const handleClearAll = () => {
+    const n = data?.total ?? 0;
+    if (n > 0 && window.confirm(`Clear all ${n} recorded decisions? This cannot be undone.`)) {
+      clearAll.mutate();
+    }
+  };
 
   const actions = data?.actions || [];
   const total = data?.total ?? actions.length;
@@ -50,6 +63,14 @@ export default function AuditLedgerPanel() {
           <span className="text-xs font-mono text-outline font-bold uppercase tracking-wider">
             {total} Decision{total === 1 ? '' : 's'} on file
           </span>
+          <button
+            onClick={handleClearAll}
+            disabled={!actions.length || clearAll.isPending}
+            className="bg-surface px-3.5 py-2 rounded-xl border border-outline-variant/25 hover:bg-error hover:text-white hover:border-error transition-all text-xs font-mono font-bold flex items-center gap-1.5 disabled:opacity-50 disabled:pointer-events-none shadow-sm"
+          >
+            <span className="material-symbols-outlined text-[16px]">delete_sweep</span>
+            {clearAll.isPending ? 'Clearing...' : 'Clear'}
+          </button>
           <button
             onClick={handleExport}
             disabled={!actions.length}

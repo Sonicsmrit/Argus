@@ -15,10 +15,12 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 22
-      # Live collectors enabled for the demo window (Bright Data credits):
-      # boot-backfill scrapes on every deploy/wake; full sweep every 5h at :15.
+      # Collectors disabled on the ephemeral host: no Bright Data credentials
+      # there and scraped data wouldn't survive restarts anyway. Local runs
+      # still work (bdata login). The deployed site serves the shipped
+      # db-snapshot-v2 release data (Aug 23 sweep).
       - key: SCHEDULER_ENABLED
-        value: "1"
+        value: "0"
       # Set these two in the Render dashboard (secret/linked values):
       - key: GEMINI_API_KEY
         sync: false

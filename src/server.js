@@ -1055,6 +1055,17 @@ app.get('/api/audit-actions', (req, res) => {
     }
 });
 
+// DELETE /api/audit-actions — clear the entire compliance audit ledger
+app.delete('/api/audit-actions', (req, res) => {
+    try {
+        const result = db.prepare('DELETE FROM audit_actions').run();
+        res.json({ ok: true, deleted: result.changes });
+    } catch (err) {
+        console.error('Audit Actions Clear Error:', err);
+        res.status(500).json({ error: 'Failed to clear audit actions' });
+    }
+});
+
 // GET /api/system/status & /api/status
 // Light path (default): answers purely from memory so host health checks can
 // never time out, even mid-boot or under CPU throttling. Rich telemetry for
