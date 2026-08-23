@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { actionLabel, exportAuditDossier, formatTicket } from '../utils/auditDossier';
@@ -38,11 +38,24 @@ export default function AuditLedgerPanel() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['audit-actions'] }),
   });
 
-  const handleClearAll = () => {
-    const n = data?.total ?? 0;
-    if (n > 0 && window.confirm(`Clear all ${n} recorded decisions? This cannot be undone.`)) {
-      clearAll.mutate();
-    }
+  // Two-step armed clear: first click arms, second confirms — no native
+  // browser dialog, auto-disarms so an abandoned click can't linger live.
+  const [armClear, setArmClear] = useState(false);
+
+  useEffect(() => {
+    if (!armClear) return;
+    const t = setTimeout(() => setArmClear(false), 4000);
+    return () => clearTimeout(t);
+  }, [armClear]);
+
+  const handleArmClear = () => {
+    if (!actions.length || clearAll.isPending) return;
+    setArmClear(true);
+  };
+
+  const handleConfirmClear = () => {
+    setArmClear(false);
+    clearAll.mutate();
   };
 
   const actions = data?.actions || [];
@@ -63,14 +76,33 @@ export default function AuditLedgerPanel() {
           <span className="text-xs font-mono text-outline font-bold uppercase tracking-wider">
             {total} Decision{total === 1 ? '' : 's'} on file
           </span>
-          <button
-            onClick={handleClearAll}
-            disabled={!actions.length || clearAll.isPending}
-            className="bg-surface px-3.5 py-2 rounded-xl border border-outline-variant/25 hover:bg-error hover:text-white hover:border-error transition-all text-xs font-mono font-bold flex items-center gap-1.5 disabled:opacity-50 disabled:pointer-events-none shadow-sm"
-          >
-            <span className="material-symbols-outlined text-[16px]">delete_sweep</span>
-            {clearAll.isPending ? 'Clearing...' : 'Clear'}
-          </button>
+          {armClear ? (
+            <>
+              <button
+                onClick={() => setArmClear(false)}
+                className="bg-surface px-3.5 py-2 rounded-xl border border-outline-variant/25 hover:bg-surface-container-high transition-all text-xs font-mono font-bold flex items-center gap-1.5 shadow-sm"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmClear}
+                disabled={clearAll.isPending}
+                className="bg-error text-white px-3.5 py-2 rounded-xl border border-error hover:bg-error/90 transition-all text-xs font-mono font-bold flex items-center gap-1.5 disabled:opacity-50 shadow-sm animate-[fade-in_0.15s_ease-out]"
+              >
+                <span className="material-symbols-outlined text-[16px]">delete_forever</span>
+                {clearAll.isPending ? 'Clearing...' : `Clear ${total}?`}
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={handleArmClear}
+              disabled={!actions.length || clearAll.isPending}
+              className="bg-surface px-3.5 py-2 rounded-xl border border-outline-variant/25 hover:bg-error hover:text-white hover:border-error transition-all text-xs font-mono font-bold flex items-center gap-1.5 disabled:opacity-50 disabled:pointer-events-none shadow-sm"
+            >
+              <span className="material-symbols-outlined text-[16px]">delete_sweep</span>
+              Clear
+            </button>
+          )}
           <button
             onClick={handleExport}
             disabled={!actions.length}
