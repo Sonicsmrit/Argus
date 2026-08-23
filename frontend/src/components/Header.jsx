@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useInvestigator } from '../context/InvestigatorContext';
 import NotificationsDropdown from './NotificationsDropdown';
 
-export default function Header() {
+export default function Header({ onMenuClick = () => {} }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [showNotifs, setShowNotifs] = useState(false);
   const navigate = useNavigate();
@@ -28,9 +28,18 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-72 right-0 h-20 bg-surface z-40 flex items-center justify-between px-container-padding-desktop border-b border-outline-variant/15">
-      {/* Quick Search */}
-      <div className="flex-1 max-w-xl">
+    <header className="fixed top-0 left-0 right-0 md:left-72 h-20 bg-surface z-40 flex items-center justify-between px-container-padding-mobile md:px-container-padding-desktop border-b border-outline-variant/15 gap-2">
+      {/* Mobile Menu Trigger */}
+      <button
+        onClick={onMenuClick}
+        title="Open navigation"
+        className="md:hidden w-10 h-10 shrink-0 flex items-center justify-center rounded-full hover:bg-surface-container-highest text-on-surface-variant transition-colors"
+      >
+        <span className="material-symbols-outlined text-[24px]">menu</span>
+      </button>
+
+      {/* Quick Search (desktop) */}
+      <div className="flex-1 max-w-xl hidden md:block">
         <div className="relative flex items-center group">
           <span className="material-symbols-outlined absolute left-4 text-outline group-focus-within:text-primary transition-colors text-[20px]">
             search

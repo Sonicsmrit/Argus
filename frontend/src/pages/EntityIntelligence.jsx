@@ -123,7 +123,7 @@ export default function EntityIntelligence() {
           </div>
 
           {/* Regime Filter Chips */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {[
               { id: '', label: 'ALL LISTS' },
               { id: 'ofac', label: 'OFAC SDN' },
@@ -156,11 +156,11 @@ export default function EntityIntelligence() {
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-gutter w-full relative z-20">
         {/* Left Panel: Entity List (8 cols) */}
         <div className="xl:col-span-8 flex flex-col gap-4">
-          <div className="flex items-center justify-between px-2">
-            <h2 className="font-mono text-xs text-outline font-bold uppercase tracking-wider">
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-2">
+            <h2 className="font-mono text-xs text-outline font-bold uppercase tracking-wider min-w-0">
               Screened Entities ({total.toLocaleString()} total in {selectedCountry.toUpperCase()})
             </h2>
-            <div className="flex items-center gap-2 text-xs font-mono text-primary font-bold">
+            <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-primary font-bold">
               <span>PRIORITIZING DUAL-LAYER CORROBORATION</span>
               <span className="material-symbols-outlined text-[16px]">arrow_downward</span>
             </div>

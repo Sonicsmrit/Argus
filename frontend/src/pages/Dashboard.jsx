@@ -236,10 +236,10 @@ export default function Dashboard() {
 
           {/* Embedded 3D Global Monitor with Real Country Polygons */}
           <div className="bg-surface-container rounded-3xl shadow-sm overflow-hidden flex flex-col h-[440px] border border-outline-variant/15">
-            <div className="p-stack-md px-6 flex justify-between items-center bg-surface-container-low border-b border-outline-variant/10">
-              <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-primary text-[22px]">public</span>
-                <h3 className="font-headline-md text-headline-md text-on-surface font-bold">Global 3D Threat Monitor</h3>
+            <div className="p-stack-md px-4 sm:px-6 flex flex-wrap justify-between items-center gap-2 bg-surface-container-low border-b border-outline-variant/10">
+              <div className="flex items-center gap-3 min-w-0">
+                <span className="material-symbols-outlined text-primary text-[22px] shrink-0">public</span>
+                <h3 className="font-headline-md text-headline-md text-on-surface font-bold truncate">Global 3D Threat Monitor</h3>
               </div>
               <button
                 onClick={() => navigate(`/threat-briefing?from=${profile.homeCountry}&to=RU`)}

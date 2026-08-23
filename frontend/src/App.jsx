@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
@@ -13,17 +13,20 @@ import InvestigatorModal from './components/InvestigatorModal';
 import ScrollToHash from './components/ScrollToHash';
 
 export default function App() {
+  // Mobile drawer state: below md: the sidebar slides over the content
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
   return (
     <InvestigatorProvider>
       <ScrollToHash />
       <div className="bg-background font-body-md text-on-background min-h-screen">
-        {/* Fixed Sidebar */}
-        <Sidebar />
+        {/* Fixed Sidebar (desktop) / Slide-over Drawer (mobile) */}
+        <Sidebar isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
 
         {/* Main Content Area */}
-        <div className="pl-72">
-          <Header />
-          <main className="relative pt-24 bg-background min-h-screen px-container-padding-desktop py-stack-lg">
+        <div className="md:pl-72">
+          <Header onMenuClick={() => setMobileNavOpen(true)} />
+          <main className="relative pt-20 md:pt-24 bg-background min-h-screen px-container-padding-mobile md:px-container-padding-desktop py-stack-lg">
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/threat-briefing" element={<ThreatBriefing />} />

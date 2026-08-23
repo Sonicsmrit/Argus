@@ -277,7 +277,7 @@ export default function GlobeWidget({ onSelectCountry }) {
         </div>
 
         {/* Interactive Corridor Buttons (pointer-events-auto) � targets from live media-hit ranking */}
-        <div className="absolute bottom-4 right-4 flex items-center gap-2 pointer-events-auto">
+        <div className="absolute bottom-4 right-4 left-4 flex flex-wrap items-center justify-end gap-2 pointer-events-auto">
           <button
             onClick={() => navigate(`/threat-briefing?from=${profile.homeCountry}&to=${corridorTarget.code}`)}
             className="px-3.5 py-2 rounded-xl bg-surface-container-lowest/95 border border-outline-variant/30 hover:bg-primary hover:text-white transition-all text-xs font-mono font-bold shadow-md text-on-surface"

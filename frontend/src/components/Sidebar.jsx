@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useInvestigator } from '../context/InvestigatorContext';
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen = false, onClose = () => {} }) {
   const { profile, openModal, homeCountryName } = useInvestigator();
 
   // Shares the ['system-status'] cache with the SystemStatus page — no extra fetch
@@ -32,7 +32,19 @@ export default function Sidebar() {
     .toUpperCase() || 'AR';
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col border-r border-outline-variant/30 select-none">
+    <>
+      {/* Mobile backdrop: tap to dismiss the drawer */}
+      <div
+        onClick={onClose}
+        className={`fixed inset-0 bg-black/50 z-[60] transition-opacity duration-300 md:hidden ${
+          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+      />
+      <aside
+        className={`fixed left-0 top-0 h-full w-72 bg-surface-container-low z-[70] flex flex-col border-r border-outline-variant/30 select-none transform transition-transform duration-300 ease-out ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0`}
+      >
       {/* Brand Header */}
       <div className="p-6 flex items-center gap-3">
         <div className="w-[52px] h-[52px] rounded-2xl overflow-hidden shadow-md shrink-0">
@@ -51,6 +63,7 @@ export default function Sidebar() {
             key={item.path}
             to={item.path}
             end={item.path === '/'}
+            onClick={onClose}
             className={({ isActive }) =>
               `flex items-center px-4 py-3 rounded-xl transition-all duration-200 ${
                 isActive
@@ -100,6 +113,7 @@ export default function Sidebar() {
           settings
         </span>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }
